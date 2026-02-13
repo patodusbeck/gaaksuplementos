@@ -1,0 +1,243 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GAAK SUPLEMENTOS | Loja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="container">
+        <span>Frete gratis e entrega rapida para toda a cidade</span>
+        <div class="topbar-actions">
+          <button class="link" id="open-tracking">Rastrear pedido</button>
+          <button class="link" id="open-support">Atendimento</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="container header-row">
+        <div class="logo">
+          <div class="logo-mark">GS</div>
+          <div>
+            <strong>GAAK SUPLEMENTOS</strong>
+            <small>Suplementos</small>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item" data-menu="categorias">Categorias</button>
+          <button class="nav-item" data-menu="proteinas">Proteinas</button>
+          <button class="nav-item" data-menu="pretreino">Pre-Treino</button>
+          <button class="nav-item" data-scroll="launches-section">Kits</button>
+        </nav>
+
+        <div class="header-actions">
+          <button class="icon-btn" id="open-search" aria-label="Buscar">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+          <button class="icon-btn" id="open-account" aria-label="Conta">
+            <ion-icon name="person-outline"></ion-icon>
+          </button>
+          <button class="cart-btn" id="open-cart" aria-label="Carrinho">
+            <ion-icon name="bag-handle-outline"></ion-icon>
+            <span>R$</span>
+            <strong id="cart-total">0,00</strong>
+            <em id="cart-count">0</em>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="tag">Alta performance - Resultados de Verdade</p>
+          <h1>OS MELHORES PRODUTOS COM OS MENORES PREÇOS</h1>
+          <p class="lead">Linha completa de creatinas, wheys, pre-treinos e kits. Compra rapida e segura com parcelamento em ate 3x.</p>
+          <div class="hero-actions">
+            <button class="primary" data-scroll="best-sellers-section">Ver ofertas</button>
+          </div>
+          <div class="hero-metrics">
+            
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-banner">
+            <span>Destaque</span>
+            <strong>Creatina 500g</strong>
+            <small>R$ 59,90</small>
+          </div>
+          <div class="hero-image">
+            <div class="product-mock"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="best-sellers-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Mais vendidos</h2>
+          <button class="link" data-scroll="best-sellers-section">Ver todos</button>
+        </div>
+        <div class="product-grid" id="best-sellers"></div>
+      </div>
+    </section>
+
+    <section class="section objective" id="objective">
+      <div class="container">
+        <div class="section-header">
+          <h2>Compre por objetivo</h2>
+        </div>
+        <div class="objective-grid">
+          <div class="objective-card">
+            <strong>Massa muscular</strong>
+            <span>Whey + Creatina + Hipercaloricos</span>
+          </div>
+          <div class="objective-card">
+            <strong>Alta performance</strong>
+            <span>Pre-treinos, termogenicos e stacks</span>
+          </div>
+          <div class="objective-card">
+            <strong>Energia e emagrecimento</strong>
+            <span>Termogenicos, cafeina e blends</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="launches-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Lancamentos GAAK SUPLEMENTOS</h2>
+          <button class="link" data-scroll="launches-section">Ver colecao</button>
+        </div>
+        <div class="product-grid" id="launches"></div>
+      </div>
+    </section>
+
+    <section class="section testimonials" id="testimonials-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>O que falam da nossa loja</h2>
+        </div>
+        <div class="testimonial-grid" id="testimonials"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <div class="logo">
+          <div class="logo-mark">GS</div>
+            <div>
+              <strong>GAAK SUPLEMENTOS</strong>
+              <small>Suplementos</small>
+            </div>
+          </div>
+          <p>GAAK Suplementos trabalha com os melhores produtos do mercado para quem leva o treino, saúde e performance a sério. <br> Cada produto é escolhido com critério. <br> Nada de promessas vazias.</p>
+        </div>
+        <div>
+          <h4>Institucionais</h4>
+          <ul>
+            <li><button class="link">Quem somos</button></li>
+            <li><button class="link">Politica de privacidade</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Atendimento</h4>
+          <p>Segunda a sexta, 07h30 as 18h</p>
+          <p>+55 (99) 98406-5730</p>
+          <p>gaaksuplementos@gmail.com</p>
+        </div>
+        <div>
+          <h4>Pagamentos</h4>
+          <div class="payment-grid">
+            <span>Cartões de Débito/Crédito</span>
+            <span>Dinheiro em espécie</span>
+            <span>Pix</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>(c)2026 GAAK SUPLEMENTOS. Todos os direitos reservados.</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="search-overlay" id="search-overlay" aria-hidden="true">
+    <div class="search-card">
+      <div class="search-header">
+        <strong>O que voce procura?</strong>
+        <button class="icon-btn" id="close-search">x</button>
+      </div>
+      <input id="search-input" type="search" placeholder="Busque por creatina, whey, pre-treino..." />
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+    <div class="cart-header">
+      <strong>Meu carrinho</strong>
+      <button class="icon-btn" id="close-cart">x</button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-form">
+        <input class="cart-input" id="customer-name" type="text" placeholder="Seu nome" required />
+        <input class="cart-input" id="customer-phone" type="text" placeholder="Telefone (opcional)" />
+        <input class="cart-input" id="customer-notes" type="text" placeholder="Observacoes (opcional)" />
+      </div>
+      <div class="cart-summary">
+        <div>
+          <span>Subtotal</span>
+          <strong id="cart-subtotal">R$ 0,00</strong>
+        </div>
+        <div>
+          <span>Desconto cupom</span>
+          <strong id="cart-coupon">R$ 0,00</strong>
+        </div>
+        <div>
+          <span>Total</span>
+          <strong id="cart-total-final">R$ 0,00</strong>
+        </div>
+      </div>
+      <div class="cart-coupon">
+        <input class="cart-input" id="coupon-code" type="text" placeholder="Cupom (ex: GAAK)" />
+        <button class="ghost" id="apply-coupon">Aplicar</button>
+      </div>
+      <button class="primary" id="checkout-btn">Finalizar compra</button>
+      <button class="ghost" id="continue-shopping">Continuar comprando</button>
+    </div>
+  </aside>
+
+  <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="modal-icon" id="modal-icon">
+            <ion-icon name="information-circle"></ion-icon>
+          </span>
+          <strong id="modal-title">Mensagem</strong>
+        </div>
+        <button class="icon-btn" id="close-modal" aria-label="Fechar">x</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button class="primary" id="modal-ok">Entendi</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
