@@ -1,4 +1,4 @@
-const express = require("express");
+﻿const express = require("express");
 const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Coupon = require("../models/Coupon");
@@ -10,11 +10,32 @@ const router = express.Router();
 const formatCurrency = (value) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+const normalizeText = (value) => String(value || "").trim();
+
+const buildAddressLine = (source) => {
+  const street = normalizeText(source.customerStreet || source.street);
+  const number = normalizeText(source.customerNumber || source.number);
+  const neighborhood = normalizeText(source.customerNeighborhood || source.neighborhood);
+  const city = normalizeText(source.customerCity || source.city);
+  const complement = normalizeText(source.customerComplement || source.complement);
+
+  const parts = [];
+  if (street) parts.push(number ? `${street}, ${number}` : street);
+  if (neighborhood) parts.push(`Bairro: ${neighborhood}`);
+  if (city) parts.push(`Cidade: ${city}`);
+  if (complement) parts.push(`Complemento: ${complement}`);
+  return parts.join(" | ");
+};
+
 const buildWhatsAppMessage = (order) => {
   const lines = [];
   lines.push("Pedido GAAK SUPLEMENTOS");
   lines.push(`Cliente: ${order.customerName}`);
   if (order.customerPhone) lines.push(`Telefone: ${order.customerPhone}`);
+
+  const address = buildAddressLine(order);
+  if (address) lines.push(`Endereco: ${address}`);
+
   if (order.couponCode) lines.push(`Cupom: ${order.couponCode} (${order.couponPercent}%)`);
   lines.push("Itens:");
   order.items.forEach((item) => {
@@ -23,7 +44,6 @@ const buildWhatsAppMessage = (order) => {
   lines.push(`Subtotal: ${formatCurrency(order.subtotal)}`);
   if (order.discountCoupon > 0) lines.push(`Desconto cupom: ${formatCurrency(order.discountCoupon)}`);
   lines.push(`Total: ${formatCurrency(order.total)}`);
-  if (order.notes) lines.push(`Observacoes: ${order.notes}`);
   return lines.join("\n");
 };
 
@@ -48,7 +68,6 @@ const resolveItems = async (itemsPayload) => {
       }
     }
 
-    // Fallback para manter compatibilidade com payload antigo
     resolved.push({
       name: String(item.name || "Produto"),
       price: Number(item.price || 0),
@@ -60,7 +79,18 @@ const resolveItems = async (itemsPayload) => {
 };
 
 router.post("/", async (req, res) => {
-  const { customerName, customerPhone, customerEmail, notes, items, couponCode } = req.body;
+  const {
+    customerName,
+    customerPhone,
+    customerEmail,
+    customerStreet,
+    customerNumber,
+    customerNeighborhood,
+    customerCity,
+    customerComplement,
+    items,
+    couponCode,
+  } = req.body;
 
   if (!customerName || !Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: "Dados do pedido invalidos" });
@@ -93,16 +123,24 @@ router.post("/", async (req, res) => {
 
   const total = Math.max(0, subtotal - discountCoupon);
 
-  const phone = String(customerPhone || "").trim();
-  const customerQuery = phone ? { phone } : { name: String(customerName).trim() };
+  const phone = normalizeText(customerPhone);
+  const customerQuery = phone ? { phone } : { name: normalizeText(customerName) };
+
+  const addressPayload = {
+    street: normalizeText(customerStreet),
+    number: normalizeText(customerNumber),
+    neighborhood: normalizeText(customerNeighborhood),
+    city: normalizeText(customerCity),
+    complement: normalizeText(customerComplement),
+  };
 
   let customer = await Customer.findOne(customerQuery);
   if (!customer) {
     customer = await Customer.create({
-      name: String(customerName).trim(),
+      name: normalizeText(customerName),
       phone,
-      email: String(customerEmail || "").trim(),
-      notes: String(notes || "").trim(),
+      email: normalizeText(customerEmail),
+      ...addressPayload,
       ordersCount: 0,
       totalSpent: 0,
     });
@@ -110,9 +148,13 @@ router.post("/", async (req, res) => {
 
   const order = await Order.create({
     customerId: customer._id,
-    customerName: String(customerName).trim(),
+    customerName: normalizeText(customerName),
     customerPhone: phone,
-    notes: String(notes || "").trim(),
+    customerStreet: addressPayload.street,
+    customerNumber: addressPayload.number,
+    customerNeighborhood: addressPayload.neighborhood,
+    customerCity: addressPayload.city,
+    customerComplement: addressPayload.complement,
     items: resolvedItems,
     subtotal,
     discountCoupon,
@@ -124,21 +166,29 @@ router.post("/", async (req, res) => {
   customer.ordersCount += 1;
   customer.totalSpent += total;
   customer.lastOrderAt = new Date();
-  if (customerEmail && !customer.email) customer.email = String(customerEmail).trim();
+  if (customerEmail && !customer.email) customer.email = normalizeText(customerEmail);
+  if (addressPayload.street) customer.street = addressPayload.street;
+  if (addressPayload.number) customer.number = addressPayload.number;
+  if (addressPayload.neighborhood) customer.neighborhood = addressPayload.neighborhood;
+  if (addressPayload.city) customer.city = addressPayload.city;
+  if (addressPayload.complement) customer.complement = addressPayload.complement;
   await customer.save();
 
   if (couponPercent) {
     await Coupon.updateOne({ code: normalizedCode }, { $inc: { usedCount: 1 } });
   }
 
-  const whatsappNumber = process.env.WHATSAPP_NUMBER || "5599984065730";
+  const whatsappNumber = String(process.env.WHATSAPP_NUMBER || "5599984065730").replace(/\D/g, "");
   const message = buildWhatsAppMessage(order);
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const encoded = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encoded}`;
+  const whatsappDeepLink = `whatsapp://send?phone=${whatsappNumber}&text=${encoded}`;
 
   return res.status(201).json({
     orderId: order._id,
     customerId: customer._id,
     whatsappUrl,
+    whatsappDeepLink,
   });
 });
 

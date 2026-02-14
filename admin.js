@@ -1,4 +1,4 @@
-const API_BASE = "/api";
+﻿const API_BASE = "/api";
 
 const productList = document.getElementById("product-list");
 const ordersList = document.getElementById("orders-list");
@@ -9,6 +9,8 @@ const orderFrom = document.getElementById("order-from");
 const orderTo = document.getElementById("order-to");
 const clearFiltersBtn = document.getElementById("clear-filters");
 const exportCsvBtn = document.getElementById("export-csv");
+const customersList = document.getElementById("customers-list");
+const customersSearch = document.getElementById("customers-search");
 
 const sidebarLinks = document.querySelectorAll(".sidebar-link");
 const sectionPanels = document.querySelectorAll(".section-panel");
@@ -226,13 +228,67 @@ const renderOrders = (items) => {
         </div>
         <div class="order-meta">
           <span>${order.customerPhone || "Sem telefone"}</span>
-          <span>${order.notes || "Sem observacoes"}</span>
+          <span>${formatAddress(order)}</span>
         </div>
         <div class="order-items">${itemsHtml}</div>
         <div class="order-total">Total: ${Number(order.total || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</div>
       </div>
       `;
     })
+    .join("");
+};
+
+const formatAddress = (entry) => {
+  const street = String(entry.customerStreet || entry.street || "").trim();
+  const number = String(entry.customerNumber || entry.number || "").trim();
+  const neighborhood = String(entry.customerNeighborhood || entry.neighborhood || "").trim();
+  const city = String(entry.customerCity || entry.city || "").trim();
+  const complement = String(entry.customerComplement || entry.complement || "").trim();
+
+  const parts = [];
+  if (street) parts.push(number ? `${street}, ${number}` : street);
+  if (neighborhood) parts.push(`Bairro: ${neighborhood}`);
+  if (city) parts.push(`Cidade: ${city}`);
+  if (complement) parts.push(`Comp.: ${complement}`);
+  return parts.join(" | ") || "Endereco nao informado";
+};
+
+const renderCustomers = (items) => {
+  cachedCustomers = Array.isArray(items) ? items : [];
+  if (!customersList) return;
+
+  const query = String(customersSearch?.value || "").trim().toLowerCase();
+  const filtered = query
+    ? cachedCustomers.filter((customer) => {
+        const address = formatAddress(customer).toLowerCase();
+        return (
+          String(customer.name || "").toLowerCase().includes(query) ||
+          String(customer.phone || "").toLowerCase().includes(query) ||
+          address.includes(query)
+        );
+      })
+    : cachedCustomers;
+
+  if (!filtered.length) {
+    customersList.innerHTML = '<p class="admin-muted">Nenhum cliente cadastrado.</p>';
+    return;
+  }
+
+  customersList.innerHTML = filtered
+    .map(
+      (customer) => `
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h4>${customer.name || "Cliente"}</h4>
+          <span class="admin-chip">${customer.ordersCount || 0} pedidos</span>
+        </div>
+        <div class="order-meta">
+          <span>${customer.phone || "Sem telefone"}</span>
+          <span>${formatAddress(customer)}</span>
+        </div>
+      </div>
+      `
+    )
     .join("");
 };
 
@@ -437,10 +493,10 @@ const loadCoupons = async () => {
 const loadCustomers = async () => {
   try {
     const items = await fetchCustomers();
-    cachedCustomers = Array.isArray(items) ? items : [];
+    renderCustomers(items);
     renderMetrics();
   } catch (err) {
-    cachedCustomers = [];
+    renderCustomers([]);
   }
 };
 
@@ -538,7 +594,7 @@ if (couponList) {
 }
 
 const exportCsv = () => {
-  const rows = [["Cliente", "Telefone", "Total", "Data", "Itens", "Observacoes"]];
+  const rows = [["Cliente", "Telefone", "Endereco", "Total", "Data", "Itens"]];
 
   const query = (orderSearch?.value || "").trim().toLowerCase();
   const fromValue = orderFrom?.value;
@@ -569,10 +625,10 @@ const exportCsv = () => {
     rows.push([
       order.customerName || "",
       order.customerPhone || "",
+      formatAddress(order),
       Number(order.total || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }),
       order.createdAt ? new Date(order.createdAt).toLocaleString("pt-BR") : "",
       itemsText,
-      order.notes || "",
     ]);
   });
 
@@ -604,6 +660,11 @@ if (clearFiltersBtn) {
   });
 }
 if (exportCsvBtn) exportCsvBtn.addEventListener("click", exportCsv);
+if (customersSearch) {
+  customersSearch.addEventListener("input", () => {
+    renderCustomers(cachedCustomers);
+  });
+}
 if (salesRange) salesRange.addEventListener("change", renderCharts);
 
 sidebarLinks.forEach((btn) => {
@@ -622,3 +683,9 @@ const init = async () => {
 };
 
 init();
+
+
+
+
+
+

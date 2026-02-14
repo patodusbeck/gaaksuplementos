@@ -1,4 +1,4 @@
-const fallbackProducts = [
+﻿const fallbackProducts = [
   {
     id: 1,
     name: "Creatina Monohidratada 500g",
@@ -84,21 +84,24 @@ const fallbackLaunches = [
   },
 ];
 
-const testimonials = [
+const instagramPosts = [
   {
-    name: "Carla M.",
-    text: "Entrega rapida e atendimento impecavel. A creatina chegou lacrada e com otimo custo-beneficio.",
-    rating: 5,
+    title: "Novidades e ofertas",
+    text: "Confira os posts mais recentes da GAAK no Instagram.",
+    image: "/data/images/gaaklogo.png",
+    url: "https://instagram.com/gaak_suplementos",
   },
   {
-    name: "Rafael S.",
-    text: "O pre-treino tem uma energia limpa e sem crash. Recomendo para quem treina pesado.",
-    rating: 5,
+    title: "Produtos em destaque",
+    text: "Veja os lançamentos e conteúdos da loja.",
+    image: "/data/images/gaaklogo.png",
+    url: "https://instagram.com/gaak_suplementos",
   },
   {
-    name: "Juliana P.",
-    text: "Gostei dos kits montados. Facilita a compra e tem muita variedade.",
-    rating: 4,
+    title: "Resultados de verdade",
+    text: "Acompanhe dicas, reposição e promoções.",
+    image: "/data/images/gaaklogo.png",
+    url: "https://instagram.com/gaak_suplementos",
   },
 ];
 
@@ -113,16 +116,40 @@ let appliedDiscount = 0;
 const formatCurrency = (value) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+const normalizeDigits = (value) => String(value || "").replace(/\D/g, "");
+
+const formatPhoneInput = (value) => {
+  const digits = normalizeDigits(value).slice(0, 11);
+  if (!digits) return "";
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+};
+
+const openWhatsAppDirect = (payload) => {
+  if (!payload) return;
+  const deepLink = payload.whatsappDeepLink;
+  const webLink = payload.whatsappUrl;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+
+  if (isMobile && deepLink) {
+    window.location.href = deepLink;
+    return;
+  }
+
+  if (webLink) {
+    window.location.href = webLink;
+  }
+};
+
 const renderProducts = (items, targetId) => {
   const container = document.getElementById(targetId);
   container.innerHTML = items
-    .map(
-      (item) => `
-      <article class="product-card">
-        <span class="badge">${item.badge}</span>
-        <div class="product-image ${item.imageUrl ? "has-image" : ""}" style="${item.imageUrl ? `background-image:url('${item.imageUrl}')` : ""}">
-          ${item.imageUrl ? "" : item.category}
-        </div>
+    .map((item) => {
+      const imageUrl = String(item.imageUrl || "").trim() || "/data/images/gaaklogo.png";
+      return `
+      <article class="product-card">        <div class="product-image has-image" style="background-image:url('${imageUrl}')"></div>
         <h3>${item.name}</h3>
         <div class="price">
           <strong>${formatCurrency(item.price)}</strong>
@@ -130,21 +157,26 @@ const renderProducts = (items, targetId) => {
         <div class="installments">3x de ${formatCurrency(item.price / 3)} sem juros</div>
         <button class="primary" data-add="${item.id}">Adicionar ao carrinho</button>
       </article>
-    `
-    )
+    `;
+    })
     .join("");
 };
 
-const renderTestimonials = () => {
-  const container = document.getElementById("testimonials");
-  container.innerHTML = testimonials
+const renderInstagram = () => {
+  const container = document.getElementById("instagram-feed");
+  if (!container) return;
+
+  container.innerHTML = instagramPosts
     .map(
-      (item) => `
-      <div class="testimonial-card">
-        <strong>${item.name}</strong>
-        <span>${"*".repeat(item.rating)}${"-".repeat(5 - item.rating)}</span>
-        <p>${item.text}</p>
-      </div>
+      (post) => `
+      <article class="instagram-card">
+        <a href="${post.url}" target="_blank" rel="noopener noreferrer">
+          <img src="${post.image}" alt="Post Instagram GAAK" loading="lazy" />
+        </a>
+        <strong>${post.title}</strong>
+        <p>${post.text}</p>
+        <a class="link" href="${post.url}" target="_blank" rel="noopener noreferrer">Ver no Instagram</a>
+      </article>
     `
     )
     .join("");
@@ -409,7 +441,7 @@ const init = async () => {
   await loadProducts();
   renderProducts(products, "best-sellers");
   renderProducts(launches, "launches");
-  renderTestimonials();
+  renderInstagram();
   updateCartUI();
 
   const openCart = document.getElementById("open-cart");
@@ -429,9 +461,25 @@ const init = async () => {
   const modalOk = document.getElementById("modal-ok");
   const customerName = document.getElementById("customer-name");
   const customerPhone = document.getElementById("customer-phone");
-  const customerNotes = document.getElementById("customer-notes");
+  const customerStreet = document.getElementById("customer-street");
+  const customerNumber = document.getElementById("customer-number");
+  const customerNeighborhood = document.getElementById("customer-neighborhood");
+  const customerCity = document.getElementById("customer-city");
+  const customerComplement = document.getElementById("customer-complement");
   const couponInput = document.getElementById("coupon-code");
   const applyCouponBtn = document.getElementById("apply-coupon");
+
+  if (customerPhone) {
+    customerPhone.addEventListener("input", (event) => {
+      event.target.value = formatPhoneInput(event.target.value);
+    });
+  }
+
+  if (couponInput) {
+    couponInput.addEventListener("input", (event) => {
+      event.target.value = String(event.target.value || "").toUpperCase();
+    });
+  }
 
   if (openCart) openCart.addEventListener("click", () => toggleDrawer(true));
   if (closeCart) closeCart.addEventListener("click", () => toggleDrawer(false));
@@ -478,8 +526,20 @@ const init = async () => {
         return;
       }
       const nameValue = customerName ? customerName.value.trim() : "";
+      const phoneValue = customerPhone ? customerPhone.value.trim() : "";
+      const streetValue = customerStreet ? customerStreet.value.trim() : "";
+      const numberValue = customerNumber ? customerNumber.value.trim() : "";
+      const neighborhoodValue = customerNeighborhood ? customerNeighborhood.value.trim() : "";
+      const cityValue = customerCity ? customerCity.value.trim() : "";
+      const complementValue = customerComplement ? customerComplement.value.trim() : "";
+
       if (!nameValue) {
         showInfo("Seu nome", "Informe seu nome para concluir o pedido.", "person-outline");
+        return;
+      }
+
+      if (!streetValue || !neighborhoodValue || !cityValue) {
+        showInfo("Endereco", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
         return;
       }
 
@@ -499,8 +559,12 @@ const init = async () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             customerName: nameValue,
-            customerPhone: customerPhone ? customerPhone.value.trim() : "",
-            notes: customerNotes ? customerNotes.value.trim() : "",
+            customerPhone: phoneValue,
+            customerStreet: streetValue,
+            customerNumber: numberValue,
+            customerNeighborhood: neighborhoodValue,
+            customerCity: cityValue,
+            customerComplement: complementValue,
             items,
             couponCode: appliedCoupon ? appliedCoupon.code : "",
           }),
@@ -512,10 +576,7 @@ const init = async () => {
         appliedDiscount = 0;
         updateCartUI();
         toggleDrawer(false);
-        if (data.whatsappUrl) {
-          window.open(data.whatsappUrl, "_blank");
-        }
-        showInfo("Pedido pronto", "Seu pedido foi gerado. Confirme o envio no WhatsApp.", "logo-whatsapp");
+        openWhatsAppDirect(data);
       } catch (err) {
         showInfo("Erro", "Nao foi possivel enviar o pedido agora.", "alert-circle-outline");
       }
@@ -561,3 +622,13 @@ const init = async () => {
 };
 
 init();
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-const express = require("express");
+﻿const express = require("express");
 const Customer = require("../models/Customer");
 
 const router = express.Router();
@@ -11,6 +11,9 @@ router.get("/", async (req, res) => {
       { name: { $regex: String(q), $options: "i" } },
       { phone: { $regex: String(q), $options: "i" } },
       { email: { $regex: String(q), $options: "i" } },
+      { street: { $regex: String(q), $options: "i" } },
+      { neighborhood: { $regex: String(q), $options: "i" } },
+      { city: { $regex: String(q), $options: "i" } },
     ];
   }
 

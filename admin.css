@@ -1,4 +1,4 @@
-.admin-muted {
+﻿.admin-muted {
   color: var(--muted);
   margin-top: 0.4rem;
 }
@@ -27,8 +27,12 @@
 }
 
 .sidebar-brand .logo-mark {
-  background: #0f0f0f;
-  color: #fff;
+  background: center / cover no-repeat url("/data/images/gs-icon.svg");
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  text-indent: -9999px;
+  overflow: hidden;
 }
 
 .sidebar-nav {
@@ -583,3 +587,9 @@ select {
 html {
   -webkit-text-size-adjust: 100%;
 }
+
+#coupon-code-input {
+  text-transform: uppercase;
+}
+
+

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
@@ -27,6 +27,10 @@
         <button class="sidebar-link active" data-section="dashboard-section">
           <ion-icon name="grid-outline"></ion-icon>
           Dashboard
+        </button>
+        <button class="sidebar-link" data-section="clientes-section">
+          <ion-icon name="people-outline"></ion-icon>
+          Clientes
         </button>
         <button class="sidebar-link" data-section="catalogo-section">
           <ion-icon name="bag-outline"></ion-icon>
@@ -102,6 +106,15 @@
         </div>
       </section>
 
+      <section class="section-panel" id="clientes-section">
+        <div class="admin-list-card">
+          <div class="section-header">
+            <h3>Clientes cadastrados</h3>
+            <input class="cart-input" id="customers-search" type="text" placeholder="Buscar por nome, telefone ou endereco" />
+          </div>
+          <div class="admin-list" id="customers-list"></div>
+        </div>
+      </section>
                   <section class="section-panel" id="catalogo-section">
         <div class="admin-grid">
           <div class="admin-form-card">
@@ -212,6 +225,9 @@
   <script src="admin.js"></script>
 </body>
 </html>
+
+
+
 
 
 

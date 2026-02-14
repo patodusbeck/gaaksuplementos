@@ -1,13 +1,37 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta charset="UTF-8" />
+  <meta name="Language" content="pt" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <meta name="description" content="Gaak Suplementos: suplementos originais com preços especiais. Creatina, Whey, Pré-Workout e muito mais para seus resultados." />
+  <meta name="theme-color" content="#b10000" />
+  <link rel="icon" href="/data/images/gaaklogo.png" type="image/png" />
+  <link rel="canonical" href="https://gaaksuplementos.vercel.app/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Gaak Suplementos | Resultados de Verdade" />
+  <meta property="og:description" content="Suplementos originais com preços especiais. Creatina, Whey, Pré-Workout e mais." />
+  <meta property="og:url" content="https://gaaksuplementos.vercel.app/" />
+  <meta property="og:image" content="https://gaaksuplementos.vercel.app/data/images/og-image-1200x630.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="pt_BR" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gaak Suplementos | Resultados de Verdade" />
+  <meta name="twitter:description" content="Suplementos originais com preços especiais. Creatina, Whey, Pré-Workout e mais." />
+  <meta name="twitter:image" content="https://gaaksuplementos.vercel.app/data/images/og-image-1200x630.jpg" />
+
   <title>GAAK SUPLEMENTOS | Loja</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
@@ -17,7 +41,6 @@
       <div class="container">
         <span>Frete gratis e entrega rapida para toda a cidade</span>
         <div class="topbar-actions">
-          <button class="link" id="open-tracking">Rastrear pedido</button>
           <button class="link" id="open-support">Atendimento</button>
         </div>
       </div>
@@ -73,14 +96,14 @@
         <div class="hero-card">
           <div class="hero-banner">
             <span>Destaque</span>
-            <strong>Creatina 500g</strong>
+            <strong>Camisa DarkLab</strong>
             <small>R$ 59,90</small>
           </div>
           <div class="hero-image">
-            <div class="product-mock"></div>
+            <img class="hero-product" src="/data/products/camdark.png" alt="Camisa DarkLab destaque" loading="eager" decoding="async" />
+          </div>
           </div>
         </div>
-      </div>
     </section>
 
     <section class="section" id="best-sellers-section">
@@ -112,7 +135,6 @@
             <span>Termogenicos, cafeina e blends</span>
           </div>
         </div>
-      </div>
     </section>
 
     <section class="section" id="launches-section">
@@ -125,12 +147,13 @@
       </div>
     </section>
 
-    <section class="section testimonials" id="testimonials-section">
+        <section class="section testimonials" id="instagram-section">
       <div class="container">
         <div class="section-header">
-          <h2>O que falam da nossa loja</h2>
+          <h2>Siga a gente em nossas redes</h2>
+          <a class="ghost" href="https://instagram.com/gaak_suplementos" target="_blank" rel="noopener noreferrer">@gaak_suplementos</a>
         </div>
-        <div class="testimonial-grid" id="testimonials"></div>
+        <div class="instagram-grid" id="instagram-feed"></div>
       </div>
     </section>
 
@@ -194,8 +217,12 @@
     <div class="cart-footer">
       <div class="cart-form">
         <input class="cart-input" id="customer-name" type="text" placeholder="Seu nome" required />
-        <input class="cart-input" id="customer-phone" type="text" placeholder="Telefone (opcional)" />
-        <input class="cart-input" id="customer-notes" type="text" placeholder="Observacoes (opcional)" />
+        <input class="cart-input" id="customer-phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="Telefone (99 99999-9999)" />
+        <input class="cart-input" id="customer-street" type="text" placeholder="Rua" />
+        <input class="cart-input" id="customer-number" type="text" placeholder="Numero" />
+        <input class="cart-input" id="customer-neighborhood" type="text" placeholder="Bairro" />
+        <input class="cart-input" id="customer-city" type="text" placeholder="Cidade" />
+        <input class="cart-input" id="customer-complement" type="text" placeholder="Complemento (opcional)" />
       </div>
       <div class="cart-summary">
         <div>
@@ -212,7 +239,7 @@
         </div>
       </div>
       <div class="cart-coupon">
-        <input class="cart-input" id="coupon-code" type="text" placeholder="Cupom (ex: GAAK)" />
+        <input class="cart-input" id="coupon-code" type="text" placeholder="Cupom (ex: GAAK)" autocapitalize="characters" />
         <button class="ghost" id="apply-coupon">Aplicar</button>
       </div>
       <button class="primary" id="checkout-btn">Finalizar compra</button>
@@ -241,4 +268,15 @@
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
