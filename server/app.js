@@ -14,22 +14,22 @@ app.use(express.json({ limit: "1mb" }));
 
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-app.use(async (req, res, next) => {
+const requireDb = async (req, res, next) => {
   try {
     await connectDb();
-    next();
+    return next();
   } catch (err) {
-    res.status(500).json({ error: err.message || "Erro ao conectar no banco" });
+    return res.status(500).json({ error: err.message || "Erro ao conectar no banco" });
   }
-});
+};
 
 app.get("/", (req, res) => {
   res.json({ status: "ok" });
 });
 
 app.use(["/api/products", "/products"], productsRouter);
-app.use(["/api/orders", "/orders"], ordersRouter);
-app.use(["/api/coupons", "/coupons"], couponsRouter);
+app.use(["/api/orders", "/orders"], requireDb, ordersRouter);
+app.use(["/api/coupons", "/coupons"], requireDb, couponsRouter);
 app.use(["/api/uploads", "/uploads-api"], uploadsRouter);
 
 app.use((err, req, res, next) => {
