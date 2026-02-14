@@ -1,4 +1,4 @@
-# GAAK SUPLEMENTOS - Backend
+﻿# GAAK SUPLEMENTOS - Backend
 
 ## Rodando local
 
@@ -11,9 +11,6 @@
 - `MONGODB_URI` - string de conexao do MongoDB (obrigatoria para pedidos/cupons/clientes)
 - `WHATSAPP_NUMBER` - numero do WhatsApp (ex: 5599984065730)
 - `CORS_ORIGIN` - origens permitidas (ex: https://seusite.com). Use `*` para liberar tudo.
-- `CLOUDINARY_CLOUD_NAME` - nome da cloud (upload)
-- `CLOUDINARY_API_KEY` - chave da API (upload)
-- `CLOUDINARY_API_SECRET` - segredo da API (upload)
 
 ## Persistencia no MongoDB
 
@@ -45,7 +42,7 @@ Catalogo de produtos:
 - `PUT /api/customers/:id` - atualiza cliente
 - `GET /api/orders` - lista pedidos
 - `POST /api/orders` - cria pedido e retorna link do WhatsApp
-- `POST /api/uploads` - upload de imagem (Cloudinary ou fallback local)
+- `POST /api/uploads` - upload de imagem local (`/uploads`) com limite de 5MB
 
 ## Vercel
 
