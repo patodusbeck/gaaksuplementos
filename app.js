@@ -87,21 +87,18 @@ const fallbackLaunches = [
 const instagramPosts = [
   {
     title: "Novidades e ofertas",
-    text: "Confira os posts mais recentes da GAAK no Instagram.",
-    image: "/data/images/gaaklogo.png",
-    url: "https://instagram.com/gaak_suplementos",
+    url: "https://www.instagram.com/p/DSX9dDYDV0Q/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    embed: "https://www.instagram.com/p/DSX9dDYDV0Q/embed",
   },
   {
     title: "Produtos em destaque",
-    text: "Veja os lançamentos e conteúdos da loja.",
-    image: "/data/images/gaaklogo.png",
-    url: "https://instagram.com/gaak_suplementos",
+    url: "https://www.instagram.com/p/DTBRZOklLwn/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    embed: "https://www.instagram.com/p/DTBRZOklLwn/embed",
   },
   {
     title: "Resultados de verdade",
-    text: "Acompanhe dicas, reposição e promoções.",
-    image: "/data/images/gaaklogo.png",
-    url: "https://instagram.com/gaak_suplementos",
+    url: "https://www.instagram.com/p/DUtBWAGjWm4/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    embed: "https://www.instagram.com/p/DUtBWAGjWm4/embed",
   },
 ];
 
@@ -170,12 +167,17 @@ const renderInstagram = () => {
     .map(
       (post) => `
       <article class="instagram-card">
-        <a href="${post.url}" target="_blank" rel="noopener noreferrer">
-          <img src="${post.image}" alt="Post Instagram GAAK" loading="lazy" />
-        </a>
         <strong>${post.title}</strong>
-        <p>${post.text}</p>
-        <a class="link" href="${post.url}" target="_blank" rel="noopener noreferrer">Ver no Instagram</a>
+        <iframe
+          class="instagram-embed"
+          src="${post.embed}"
+          title="${post.title}"
+          loading="lazy"
+          allowtransparency="true"
+          frameborder="0"
+          scrolling="no"
+        ></iframe>
+        <a class="link" href="${post.url}" target="_blank" rel="noopener noreferrer">Ver post no Instagram</a>
       </article>
     `
     )
@@ -285,10 +287,42 @@ const handleSearch = (query) => {
     .join("");
 };
 
+const lockBodyScroll = () => {
+  if (document.body.classList.contains("cart-open")) return;
+  scrollLockTop = window.scrollY || window.pageYOffset || 0;
+  document.body.classList.add("cart-open");
+  document.body.style.top = `-${scrollLockTop}px`;
+  document.body.style.position = "fixed";
+  document.body.style.width = "100%";
+};
+
+const unlockBodyScroll = () => {
+  if (!document.body.classList.contains("cart-open")) return;
+  document.body.classList.remove("cart-open");
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+  window.scrollTo(0, scrollLockTop);
+};
+
 const toggleDrawer = (open) => {
   const drawer = document.getElementById("cart-drawer");
+  const backdrop = document.getElementById("cart-backdrop");
+  if (!drawer) return;
+
   drawer.classList.toggle("active", open);
   drawer.setAttribute("aria-hidden", String(!open));
+
+  if (backdrop) {
+    backdrop.classList.toggle("active", open);
+    backdrop.setAttribute("aria-hidden", String(!open));
+  }
+
+  if (open) {
+    lockBodyScroll();
+  } else {
+    unlockBodyScroll();
+  }
 };
 
 const toggleSearch = (open) => {
@@ -447,6 +481,7 @@ const init = async () => {
   const openCart = document.getElementById("open-cart");
   const closeCart = document.getElementById("close-cart");
   const continueShopping = document.getElementById("continue-shopping");
+  const cartBackdrop = document.getElementById("cart-backdrop");
   const openSearch = document.getElementById("open-search");
   const closeSearch = document.getElementById("close-search");
   const searchInput = document.getElementById("search-input");
@@ -455,6 +490,10 @@ const init = async () => {
   const openSupport = document.getElementById("open-support");
   const openAccount = document.getElementById("open-account");
   const checkoutBtn = document.getElementById("checkout-btn");
+  const checkoutOverlay = document.getElementById("checkout-overlay");
+  const closeCheckout = document.getElementById("close-checkout");
+  const cancelCheckout = document.getElementById("cancel-checkout");
+  const confirmCheckout = document.getElementById("confirm-checkout");
   const newsletterForm = document.getElementById("newsletter-form");
   const modalOverlay = document.getElementById("modal-overlay");
   const closeModalBtn = document.getElementById("close-modal");
@@ -468,6 +507,86 @@ const init = async () => {
   const customerComplement = document.getElementById("customer-complement");
   const couponInput = document.getElementById("coupon-code");
   const applyCouponBtn = document.getElementById("apply-coupon");
+
+  const closeCheckoutModal = () => {
+    if (!checkoutOverlay) return;
+    checkoutOverlay.classList.remove("active");
+    checkoutOverlay.setAttribute("aria-hidden", "true");
+  };
+
+  const openCheckoutModal = () => {
+    if (!checkoutOverlay) return;
+    checkoutOverlay.classList.add("active");
+    checkoutOverlay.setAttribute("aria-hidden", "false");
+    if (customerName) customerName.focus();
+  };
+
+  const submitCheckout = async () => {
+    if (cart.size === 0) {
+      showInfo("Carrinho vazio", "Adicione produtos antes de finalizar o pedido.", "alert-circle-outline");
+      closeCheckoutModal();
+      return;
+    }
+
+    const nameValue = customerName ? customerName.value.trim() : "";
+    const phoneValue = customerPhone ? customerPhone.value.trim() : "";
+    const streetValue = customerStreet ? customerStreet.value.trim() : "";
+    const numberValue = customerNumber ? customerNumber.value.trim() : "";
+    const neighborhoodValue = customerNeighborhood ? customerNeighborhood.value.trim() : "";
+    const cityValue = customerCity ? customerCity.value.trim() : "";
+    const complementValue = customerComplement ? customerComplement.value.trim() : "";
+
+    if (!nameValue) {
+      showInfo("Seu nome", "Informe seu nome para concluir o pedido.", "person-outline");
+      return;
+    }
+
+    if (!streetValue || !neighborhoodValue || !cityValue) {
+      showInfo("Endereco", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
+      return;
+    }
+
+    const items = Array.from(cart.values()).map((entry) => {
+      const payload = {
+        name: entry.item.name,
+        price: entry.item.price,
+        quantity: entry.qty,
+      };
+      if (entry.item._id) payload.productId = entry.item._id;
+      return payload;
+    });
+
+    try {
+      const response = await fetch(`${API_BASE}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerName: nameValue,
+          customerPhone: phoneValue,
+          customerStreet: streetValue,
+          customerNumber: numberValue,
+          customerNeighborhood: neighborhoodValue,
+          customerCity: cityValue,
+          customerComplement: complementValue,
+          items,
+          couponCode: appliedCoupon ? appliedCoupon.code : "",
+        }),
+      });
+
+      if (!response.ok) throw new Error("Falha ao enviar pedido");
+      const data = await response.json();
+      cart.clear();
+      appliedCoupon = null;
+      appliedDiscount = 0;
+      if (couponInput) couponInput.value = "";
+      updateCartUI();
+      closeCheckoutModal();
+      toggleDrawer(false);
+      openWhatsAppDirect(data);
+    } catch (err) {
+      showInfo("Erro", "Nao foi possivel enviar o pedido agora.", "alert-circle-outline");
+    }
+  };
 
   if (customerPhone) {
     customerPhone.addEventListener("input", (event) => {
@@ -484,6 +603,26 @@ const init = async () => {
   if (openCart) openCart.addEventListener("click", () => toggleDrawer(true));
   if (closeCart) closeCart.addEventListener("click", () => toggleDrawer(false));
   if (continueShopping) continueShopping.addEventListener("click", () => toggleDrawer(false));
+  if (cartBackdrop) cartBackdrop.addEventListener("click", () => toggleDrawer(false));
+
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+      if (cart.size === 0) {
+        showInfo("Carrinho vazio", "Adicione produtos antes de finalizar o pedido.", "alert-circle-outline");
+        return;
+      }
+      openCheckoutModal();
+    });
+  }
+
+  if (confirmCheckout) confirmCheckout.addEventListener("click", submitCheckout);
+  if (closeCheckout) closeCheckout.addEventListener("click", closeCheckoutModal);
+  if (cancelCheckout) cancelCheckout.addEventListener("click", closeCheckoutModal);
+  if (checkoutOverlay) {
+    checkoutOverlay.addEventListener("click", (event) => {
+      if (event.target === checkoutOverlay) closeCheckoutModal();
+    });
+  }
 
   if (openSearch) openSearch.addEventListener("click", () => toggleSearch(true));
   if (closeSearch) closeSearch.addEventListener("click", () => toggleSearch(false));
@@ -519,69 +658,6 @@ const init = async () => {
       showInfo("Minha conta", "Area de login em breve. Entre em contato para suporte.", "person-outline");
     });
   }
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", async () => {
-      if (cart.size === 0) {
-        showInfo("Carrinho vazio", "Adicione produtos antes de finalizar o pedido.", "alert-circle-outline");
-        return;
-      }
-      const nameValue = customerName ? customerName.value.trim() : "";
-      const phoneValue = customerPhone ? customerPhone.value.trim() : "";
-      const streetValue = customerStreet ? customerStreet.value.trim() : "";
-      const numberValue = customerNumber ? customerNumber.value.trim() : "";
-      const neighborhoodValue = customerNeighborhood ? customerNeighborhood.value.trim() : "";
-      const cityValue = customerCity ? customerCity.value.trim() : "";
-      const complementValue = customerComplement ? customerComplement.value.trim() : "";
-
-      if (!nameValue) {
-        showInfo("Seu nome", "Informe seu nome para concluir o pedido.", "person-outline");
-        return;
-      }
-
-      if (!streetValue || !neighborhoodValue || !cityValue) {
-        showInfo("Endereco", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
-        return;
-      }
-
-      const items = Array.from(cart.values()).map((entry) => {
-        const payload = {
-          name: entry.item.name,
-          price: entry.item.price,
-          quantity: entry.qty,
-        };
-        if (entry.item._id) payload.productId = entry.item._id;
-        return payload;
-      });
-
-      try {
-        const response = await fetch(`${API_BASE}/orders`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            customerName: nameValue,
-            customerPhone: phoneValue,
-            customerStreet: streetValue,
-            customerNumber: numberValue,
-            customerNeighborhood: neighborhoodValue,
-            customerCity: cityValue,
-            customerComplement: complementValue,
-            items,
-            couponCode: appliedCoupon ? appliedCoupon.code : "",
-          }),
-        });
-        if (!response.ok) throw new Error("Falha ao enviar pedido");
-        const data = await response.json();
-        cart.clear();
-        appliedCoupon = null;
-        appliedDiscount = 0;
-        updateCartUI();
-        toggleDrawer(false);
-        openWhatsAppDirect(data);
-      } catch (err) {
-        showInfo("Erro", "Nao foi possivel enviar o pedido agora.", "alert-circle-outline");
-      }
-    });
-  }
 
   if (applyCouponBtn) {
     applyCouponBtn.addEventListener("click", async () => {
@@ -604,6 +680,13 @@ const init = async () => {
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
+      const checkoutOverlay = document.getElementById("checkout-overlay");
+      if (checkoutOverlay && checkoutOverlay.classList.contains("active")) {
+        checkoutOverlay.classList.remove("active");
+        checkoutOverlay.setAttribute("aria-hidden", "true");
+        return;
+      }
+
       toggleDrawer(false);
       toggleSearch(false);
       closeModal();
@@ -622,6 +705,10 @@ const init = async () => {
 };
 
 init();
+
+
+
+
 
 
 

@@ -41,7 +41,6 @@
       <div class="container">
         <span>Frete gratis e entrega rapida para toda a cidade</span>
         <div class="topbar-actions">
-          <button class="link" id="open-support">Atendimento</button>
         </div>
       </div>
     </div>
@@ -151,7 +150,7 @@
       <div class="container">
         <div class="section-header">
           <h2>Siga a gente em nossas redes</h2>
-          <a class="ghost" href="https://instagram.com/gaak_suplementos" target="_blank" rel="noopener noreferrer">@gaak_suplementos</a>
+          <a class="ghost" href="https://instagram.com/gaak_suplements" target="_blank" rel="noopener noreferrer">@gaak_suplementos</a>
         </div>
         <div class="instagram-grid" id="instagram-feed"></div>
       </div>
@@ -208,6 +207,8 @@
     </div>
   </div>
 
+  <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+
   <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
     <div class="cart-header">
       <strong>Meu carrinho</strong>
@@ -215,15 +216,6 @@
     </div>
     <div class="cart-body" id="cart-body"></div>
     <div class="cart-footer">
-      <div class="cart-form">
-        <input class="cart-input" id="customer-name" type="text" placeholder="Seu nome" required />
-        <input class="cart-input" id="customer-phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="Telefone (99 99999-9999)" />
-        <input class="cart-input" id="customer-street" type="text" placeholder="Rua" />
-        <input class="cart-input" id="customer-number" type="text" placeholder="Numero" />
-        <input class="cart-input" id="customer-neighborhood" type="text" placeholder="Bairro" />
-        <input class="cart-input" id="customer-city" type="text" placeholder="Cidade" />
-        <input class="cart-input" id="customer-complement" type="text" placeholder="Complemento (opcional)" />
-      </div>
       <div class="cart-summary">
         <div>
           <span>Subtotal</span>
@@ -242,7 +234,7 @@
         <input class="cart-input" id="coupon-code" type="text" placeholder="Cupom (ex: GAAK)" autocapitalize="characters" />
         <button class="ghost" id="apply-coupon">Aplicar</button>
       </div>
-      <button class="primary" id="checkout-btn">Finalizar compra</button>
+      <button class="primary" id="checkout-btn">Finalizar carrinho</button>
       <button class="ghost" id="continue-shopping">Continuar comprando</button>
     </div>
   </aside>
@@ -265,9 +257,41 @@
     </div>
   </div>
 
+
+  <div class="modal-overlay" id="checkout-overlay" aria-hidden="true">
+    <div class="modal-card checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="modal-icon">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </span>
+          <strong id="checkout-title">Dados para entrega</strong>
+        </div>
+        <button class="icon-btn" id="close-checkout" aria-label="Fechar">x</button>
+      </div>
+      <div class="modal-body">
+        <div class="cart-form">
+          <input class="cart-input" id="customer-name" type="text" placeholder="Seu nome" required />
+          <input class="cart-input" id="customer-phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="Telefone (99 99999-9999)" />
+          <input class="cart-input" id="customer-street" type="text" placeholder="Rua" />
+          <input class="cart-input" id="customer-number" type="text" placeholder="Numero" />
+          <input class="cart-input" id="customer-neighborhood" type="text" placeholder="Bairro" />
+          <input class="cart-input" id="customer-city" type="text" placeholder="Cidade" />
+          <input class="cart-input" id="customer-complement" type="text" placeholder="Complemento (opcional)" />
+        </div>
+      </div>
+      <div class="modal-footer checkout-actions">
+        <button class="ghost" id="cancel-checkout">Cancelar</button>
+        <button class="primary" id="confirm-checkout">Finalizar compra</button>
+      </div>
+    </div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
 
 
 
