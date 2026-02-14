@@ -15,12 +15,25 @@
 - `CLOUDINARY_API_KEY` - chave da API
 - `CLOUDINARY_API_SECRET` - segredo da API
 
+## Catalogo de produtos (por commit)
+
+O catalogo e somente leitura no painel admin.
+
+- Arquivo fonte: `data/products.json`
+- Fluxo: editar JSON, commitar, publicar deploy
+- Cada produto usa campos: `id`, `name`, `description`, `price`, `original`, `category`, `badge`, `imageUrl`, `collection`, `active`
+
 ## Endpoints
 
-- `GET /api/products` - lista produtos
-- `POST /api/products` - cria produto
-- `PUT /api/products/:id` - atualiza produto
-- `DELETE /api/products/:id` - remove produto
+- `GET /api/products` - lista produtos do `data/products.json`
+- `GET /api/products/:id` - detalhes de produto por `id`
+- `POST /api/products` - bloqueado (405)
+- `PUT /api/products/:id` - bloqueado (405)
+- `DELETE /api/products/:id` - bloqueado (405)
+- `GET /api/coupons` - lista cupons
+- `POST /api/coupons` - cria cupom
+- `PUT /api/coupons/:id` - atualiza cupom
+- `DELETE /api/coupons/:id` - remove cupom
 - `POST /api/orders` - cria pedido e retorna link do WhatsApp
 
 ## Vercel

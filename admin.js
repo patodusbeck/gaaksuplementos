@@ -1,10 +1,6 @@
 ﻿const API_BASE = "/api";
 
-const form = document.getElementById("product-form");
-const formTitle = document.getElementById("form-title");
-const formStatus = document.getElementById("form-status");
 const productList = document.getElementById("product-list");
-const newProductBtn = document.getElementById("new-product");
 const ordersList = document.getElementById("orders-list");
 const ordersStatus = document.getElementById("orders-status");
 const ordersTotals = document.getElementById("orders-totals");
@@ -22,6 +18,7 @@ const metricRevenueToday = document.getElementById("metric-revenue-today");
 const salesRange = document.getElementById("sales-range");
 const salesChartCanvas = document.getElementById("sales-chart");
 const topProductsCanvas = document.getElementById("top-products-chart");
+
 const couponForm = document.getElementById("coupon-form");
 const couponFormTitle = document.getElementById("coupon-form-title");
 const couponStatus = document.getElementById("coupon-status");
@@ -46,31 +43,11 @@ const modal = {
   close: document.getElementById("admin-modal-close"),
 };
 
-const fields = {
-  id: document.getElementById("product-id"),
-  name: document.getElementById("name"),
-  description: document.getElementById("description"),
-  price: document.getElementById("price"),
-  original: document.getElementById("original"),
-  category: document.getElementById("category"),
-  badge: document.getElementById("badge"),
-  imageUrl: document.getElementById("imageUrl"),
-  imageFile: document.getElementById("imageFile"),
-  collection: document.getElementById("collection"),
-  active: document.getElementById("active"),
-};
-
-const imagePreview = document.getElementById("imagePreview");
 let cachedOrders = [];
 let cachedProducts = [];
 let cachedCoupons = [];
 let salesChart = null;
 let topProductsChart = null;
-
-const setStatus = (text, isError = false) => {
-  formStatus.textContent = text;
-  formStatus.style.color = isError ? "#f43f5e" : "var(--accent)";
-};
 
 const setCouponStatus = (text, isError = false) => {
   if (!couponStatus) return;
@@ -124,26 +101,6 @@ const openModal = ({ title, message, icon = "information-circle", showCancel = t
   });
 };
 
-const clearForm = () => {
-  fields.id.value = "";
-  fields.name.value = "";
-  fields.description.value = "";
-  fields.price.value = "";
-  fields.original.value = "";
-  fields.category.value = "";
-  fields.badge.value = "";
-  fields.imageUrl.value = "";
-  if (fields.imageFile) fields.imageFile.value = "";
-  if (imagePreview) {
-    imagePreview.src = "";
-    imagePreview.classList.remove("active");
-  }
-  fields.collection.value = "best-sellers";
-  fields.active.checked = true;
-  formTitle.textContent = "Catalogo de Produtos";
-  setStatus("");
-};
-
 const clearCouponForm = () => {
   if (!couponFields.id) return;
   couponFields.id.value = "";
@@ -170,29 +127,6 @@ const fillCouponForm = (coupon) => {
   setCouponStatus("");
 };
 
-const fillForm = (product) => {
-  fields.id.value = product._id || product.id || "";
-  fields.name.value = product.name || "";
-  fields.description.value = product.description || "";
-  fields.price.value = product.price || "";
-  fields.original.value = product.original || "";
-  fields.category.value = product.category || "";
-  fields.badge.value = product.badge || "";
-  fields.imageUrl.value = product.imageUrl || "";
-  if (fields.imageFile) fields.imageFile.value = "";
-  if (imagePreview && product.imageUrl) {
-    imagePreview.src = product.imageUrl;
-    imagePreview.classList.add("active");
-  } else if (imagePreview) {
-    imagePreview.src = "";
-    imagePreview.classList.remove("active");
-  }
-  fields.collection.value = product.collection || "best-sellers";
-  fields.active.checked = product.active !== false;
-  formTitle.textContent = "Editar produto";
-  setStatus("");
-};
-
 const fetchProducts = async () => {
   const response = await fetch(`${API_BASE}/products`);
   if (!response.ok) throw new Error("Erro ao carregar produtos");
@@ -213,6 +147,7 @@ const fetchOrders = async () => {
 
 const renderProducts = (items) => {
   cachedProducts = items;
+  if (!productList) return;
   if (!items.length) {
     productList.innerHTML = "<p class=\"admin-muted\">Nenhum produto cadastrado.</p>";
     return;
@@ -224,10 +159,6 @@ const renderProducts = (items) => {
       <div class="admin-card">
         <div class="admin-card-header">
           <strong>${item.name}</strong>
-          <div class="admin-card-actions">
-            <button class="icon-btn" data-edit="${item._id}"><ion-icon name="create-outline"></ion-icon></button>
-            <button class="icon-btn" data-delete="${item._id}"><ion-icon name="trash-outline"></ion-icon></button>
-          </div>
         </div>
         <div class="admin-chip">${item.collection || "best-sellers"}</div>
         <div class="admin-chip">${item.category || "Sem categoria"}</div>
@@ -247,15 +178,14 @@ const renderCoupons = (items) => {
   }
 
   couponList.innerHTML = items
-    .map(
-      (coupon) => {
-        const now = new Date();
-        const isExpired = coupon.expiresAt && new Date(coupon.expiresAt) < now;
-        const isLimitReached = coupon.usageLimit > 0 && coupon.usedCount >= coupon.usageLimit;
-        const status = coupon.active ? "Ativo" : "Inativo";
-        const warning = isExpired ? "Expirado" : isLimitReached ? "Limite atingido" : "";
+    .map((coupon) => {
+      const now = new Date();
+      const isExpired = coupon.expiresAt && new Date(coupon.expiresAt) < now;
+      const isLimitReached = coupon.usageLimit > 0 && coupon.usedCount >= coupon.usageLimit;
+      const status = coupon.active ? "Ativo" : "Inativo";
+      const warning = isExpired ? "Expirado" : isLimitReached ? "Limite atingido" : "";
 
-        return `
+      return `
       <div class="admin-card">
         <div class="admin-card-header">
           <strong>${coupon.code}</strong>
@@ -271,8 +201,7 @@ const renderCoupons = (items) => {
         <div class="admin-chip">Validade: ${coupon.expiresAt ? coupon.expiresAt.slice(0, 10) : "Sem validade"}</div>
       </div>
     `;
-      }
-    )
+    })
     .join("");
 };
 
@@ -285,12 +214,8 @@ const renderOrders = (items) => {
 
   ordersList.innerHTML = items
     .map((order) => {
-      const itemsHtml = order.items
-        .map((item) => `- ${item.name} x${item.quantity}`)
-        .join("<br>");
-      const createdAt = order.createdAt
-        ? new Date(order.createdAt).toLocaleString("pt-BR")
-        : "";
+      const itemsHtml = order.items.map((item) => `- ${item.name} x${item.quantity}`).join("<br>");
+      const createdAt = order.createdAt ? new Date(order.createdAt).toLocaleString("pt-BR") : "";
 
       return `
         <div class="admin-card">
@@ -501,7 +426,6 @@ const loadProducts = async () => {
     renderMetrics();
   } catch (err) {
     renderProducts([]);
-    setStatus("Falha ao carregar produtos.", true);
   }
 };
 
@@ -546,126 +470,6 @@ const startSmartPolling = () => {
 
   poll();
 };
-
-const uploadImage = async (file) => {
-  const formData = new FormData();
-  formData.append("image", file);
-
-  const response = await fetch(`${API_BASE}/uploads`, {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response.ok) throw new Error("Falha no upload");
-  return response.json();
-};
-
-if (fields.imageFile) {
-  fields.imageFile.addEventListener("change", async (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    if (imagePreview) {
-      imagePreview.src = URL.createObjectURL(file);
-      imagePreview.classList.add("active");
-    }
-    setStatus("Enviando imagem...");
-    try {
-      const result = await uploadImage(file);
-      fields.imageUrl.value = result.url || "";
-      setStatus("Imagem enviada com sucesso.");
-    } catch (err) {
-      setStatus("Erro ao enviar imagem.", true);
-    }
-  });
-}
-
-if (fields.imageUrl) {
-  fields.imageUrl.addEventListener("input", () => {
-    const value = fields.imageUrl.value.trim();
-    if (!imagePreview) return;
-    if (value) {
-      imagePreview.src = value;
-      imagePreview.classList.add("active");
-    } else {
-      imagePreview.src = "";
-      imagePreview.classList.remove("active");
-    }
-  });
-}
-
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  setStatus("Salvando...");
-
-  const payload = {
-    name: fields.name.value.trim(),
-    description: fields.description.value.trim(),
-    price: Number(fields.price.value || 0),
-    original: Number(fields.original.value || 0),
-    category: fields.category.value.trim(),
-    badge: fields.badge.value.trim(),
-    imageUrl: fields.imageUrl.value.trim(),
-    collection: fields.collection.value,
-    active: fields.active.checked,
-  };
-
-  const id = fields.id.value;
-  const method = id ? "PUT" : "POST";
-  const url = id ? `${API_BASE}/products/${id}` : `${API_BASE}/products`;
-
-  try {
-    const response = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) throw new Error("Erro ao salvar");
-    setStatus("Produto salvo com sucesso.");
-    clearForm();
-    await loadProducts();
-  } catch (err) {
-    setStatus("Erro ao salvar produto.", true);
-  }
-});
-
-productList.addEventListener("click", async (event) => {
-  const editBtn = event.target.closest("[data-edit]");
-  const deleteBtn = event.target.closest("[data-delete]");
-
-  if (editBtn) {
-    const id = editBtn.dataset.edit;
-    const response = await fetch(`${API_BASE}/products/${id}`);
-    if (response.ok) {
-      const product = await response.json();
-      fillForm(product);
-    }
-  }
-
-  if (deleteBtn) {
-    const id = deleteBtn.dataset.delete;
-    const confirmed = await openModal({
-      title: "Remover produto",
-      message: "Tem certeza que deseja remover este produto?",
-      icon: "trash-outline",
-    });
-    if (!confirmed) return;
-    const response = await fetch(`${API_BASE}/products/${id}`, { method: "DELETE" });
-    if (response.ok) {
-      setStatus("Produto removido.");
-      await loadProducts();
-    } else {
-      setStatus("Erro ao remover produto.", true);
-    }
-  }
-});
-
-newProductBtn.addEventListener("click", clearForm);
-
-document.getElementById("reset-form").addEventListener("click", clearForm);
-
-loadProducts();
-loadOrders();
-startSmartPolling();
 
 if (orderSearch) orderSearch.addEventListener("input", applyFilters);
 if (orderFrom) orderFrom.addEventListener("change", applyFilters);
@@ -738,7 +542,6 @@ const exportCsv = () => {
 };
 
 if (exportCsvBtn) exportCsvBtn.addEventListener("click", exportCsv);
-
 if (salesRange) salesRange.addEventListener("change", renderCharts);
 
 sidebarLinks.forEach((btn) => {
@@ -814,4 +617,7 @@ if (couponList) {
 
 if (resetCouponBtn) resetCouponBtn.addEventListener("click", clearCouponForm);
 
+loadProducts();
+loadOrders();
+startSmartPolling();
 loadCoupons();

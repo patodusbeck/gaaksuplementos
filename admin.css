@@ -380,3 +380,183 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Universal responsive overrides */
+.dashboard {
+  min-height: 100dvh;
+}
+
+.main {
+  min-width: 0;
+}
+
+.section-panel,
+.admin-list-card,
+.admin-form-card,
+.metric-card,
+.total-card,
+.admin-card {
+  min-width: 0;
+}
+
+@media (min-width: 1536px) {
+  .dashboard {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .main {
+    padding: 2.4rem 3rem 3rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+  }
+
+  .admin-grid {
+    grid-template-columns: minmax(320px, 430px) 1fr;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .main {
+    padding: 1.5rem;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 980px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 25;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .sidebar-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .sidebar-link {
+    justify-content: center;
+    padding: 0.6rem 0.4rem;
+    font-size: 0.82rem;
+  }
+
+  .sidebar-link ion-icon {
+    font-size: 1rem;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+
+  .main-header {
+    margin-bottom: 1.2rem;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-wrapper {
+    min-height: 190px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar-nav {
+    overflow-x: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 0.3rem;
+  }
+
+  .sidebar-link {
+    min-width: 120px;
+  }
+
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-row {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-actions {
+    flex-direction: column;
+  }
+
+  .admin-actions .primary,
+  .admin-actions .ghost {
+    width: 100%;
+  }
+
+  .modal-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 0.75rem;
+  }
+
+  .sidebar-brand .logo-mark {
+    width: 34px;
+    height: 34px;
+  }
+
+  .sidebar-brand strong {
+    font-size: 0.85rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-card {
+    padding: 0.95rem;
+  }
+
+  .admin-form-card,
+  .admin-list-card,
+  .admin-card {
+    padding: 0.9rem;
+    border-radius: 14px;
+  }
+
+  .chart-wrapper {
+    min-height: 170px;
+  }
+}

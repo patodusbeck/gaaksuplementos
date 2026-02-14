@@ -106,73 +106,10 @@
         <div class="admin-grid">
           <div class="admin-form-card">
             <div class="section-header">
-              <h3 id="form-title">Catalogo de Produtos</h3>
-              <button class="primary" id="new-product">Novo produto</button>
+              <h3>Catalogo versionado por commit</h3>
             </div>
-            <form id="product-form" class="admin-form">
-            <input type="hidden" id="product-id" />
-            <label>
-              Nome
-              <input class="cart-input" id="name" type="text" required />
-            </label>
-            <label>
-              Descricao
-              <textarea class="cart-input" id="description" rows="3"></textarea>
-            </label>
-            <div class="admin-row">
-              <label>
-                Preco
-                <input class="cart-input" id="price" type="number" step="0.01" min="0" required />
-              </label>
-              <label>
-                Preco original
-                <input class="cart-input" id="original" type="number" step="0.01" min="0" />
-              </label>
-            </div>
-            <div class="admin-row">
-              <label>
-                Categoria
-                <input class="cart-input" id="category" type="text" />
-              </label>
-              <label>
-                Badge
-                <input class="cart-input" id="badge" type="text" />
-              </label>
-            </div>
-            <label>
-              URL da imagem
-              <input class="cart-input" id="imageUrl" type="url" placeholder="https://..." />
-            </label>
-            <label>
-              Upload de imagem
-              <input class="cart-input" id="imageFile" type="file" accept="image/*" />
-              <span class="admin-muted">Envio rapido (max 5MB). A URL sera preenchida automaticamente.</span>
-            </label>
-            <div class="image-preview">
-              <span class="admin-muted">Preview da imagem</span>
-              <div class="image-preview-box">
-                <img id="imagePreview" alt="Preview do produto" />
-              </div>
-            </div>
-            <div class="admin-row">
-              <label>
-                Colecao
-                <select class="cart-input" id="collection">
-                  <option value="best-sellers">Mais vendidos</option>
-                  <option value="launches">Lancamentos</option>
-                </select>
-              </label>
-              <label class="checkbox-row">
-                <input type="checkbox" id="active" checked />
-                Ativo na loja
-              </label>
-            </div>
-            <div class="admin-actions">
-              <button class="primary" type="submit">Salvar</button>
-              <button class="ghost" type="button" id="reset-form">Limpar</button>
-            </div>
-            <p class="admin-status" id="form-status"></p>
-            </form>
+            <p class="admin-muted">A inclusao, edicao e remocao de produtos e feita no arquivo <code>data/products.json</code>.</p>
+            <p class="admin-muted">Fluxo recomendado: editar o arquivo, commitar, fazer deploy e validar no painel.</p>
           </div>
 
           <div class="admin-list-card">
@@ -181,7 +118,6 @@
           </div>
         </div>
       </section>
-
       <section class="section-panel" id="vendas-section">
         <div class="admin-list-card">
           <div class="section-header">
@@ -276,3 +212,6 @@
   <script src="admin.js"></script>
 </body>
 </html>
+
+
+

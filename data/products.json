@@ -1,0 +1,122 @@
+﻿[
+  {
+    "id": "creatina-monohidratada-500g",
+    "name": "Creatina Monohidratada 500g",
+    "description": "Creatina para suporte de forca e desempenho.",
+    "price": 47.9,
+    "original": 59.9,
+    "category": "Creatina",
+    "badge": "Destaque",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "whey-protein-isolado-900g",
+    "name": "Whey Protein Isolado 900g",
+    "description": "Proteina de alta absorcao para pos-treino.",
+    "price": 139.9,
+    "original": 179.9,
+    "category": "Proteina",
+    "badge": "Mais vendido",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "pre-treino-dark-force-300g",
+    "name": "Pre-Treino Dark Force 300g",
+    "description": "Formula para foco e energia no treino.",
+    "price": 89.9,
+    "original": 109.9,
+    "category": "Pre-treino",
+    "badge": "Energia",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "kit-performance-whey-creatina",
+    "name": "Kit Performance (Whey + Creatina)",
+    "description": "Kit para ganho de massa e performance.",
+    "price": 179.9,
+    "original": 219.9,
+    "category": "Kits",
+    "badge": "Combo",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "bcaa-211-200-caps",
+    "name": "BCAA 2:1:1 200 caps",
+    "description": "Aminoacidos essenciais para recuperacao.",
+    "price": 69.9,
+    "original": 89.9,
+    "category": "Recuperacao",
+    "badge": "Recuperacao",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "termogenico-burn-60-caps",
+    "name": "Termogenico Burn 60 caps",
+    "description": "Suporte para definicao e energia.",
+    "price": 49.9,
+    "original": 69.9,
+    "category": "Emagrecimento",
+    "badge": "Top",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "creatina-creapure-250g",
+    "name": "Creatina Creapure 250g",
+    "description": "Creatina premium para performance.",
+    "price": 79.9,
+    "original": 95.9,
+    "category": "Creatina",
+    "badge": "Novo",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "pre-treino-nitro-pump-300g",
+    "name": "Pre-Treino Nitro Pump 300g",
+    "description": "Blend focado em pump e foco.",
+    "price": 99.9,
+    "original": 119.9,
+    "category": "Pre-treino",
+    "badge": "Lancamento",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "whey-3w-blend-900g",
+    "name": "Whey 3W Blend 900g",
+    "description": "Blend proteico para rotina de treino.",
+    "price": 129.9,
+    "original": 149.9,
+    "category": "Proteina",
+    "badge": "Novo",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "kit-definicao-burn-bcaa",
+    "name": "Kit Definicao (Burn + BCAA)",
+    "description": "Kit para rotina de definicao.",
+    "price": 109.9,
+    "original": 139.9,
+    "category": "Kits",
+    "badge": "Combo",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  }
+]
