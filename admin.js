@@ -1,4 +1,4 @@
-﻿const API_BASE = "/api";
+const API_BASE = "/api";
 
 const productList = document.getElementById("product-list");
 const ordersList = document.getElementById("orders-list");

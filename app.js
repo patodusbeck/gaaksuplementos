@@ -1,4 +1,4 @@
-﻿const fallbackProducts = [
+const fallbackProducts = [
   {
     id: 1,
     name: "Creatina Monohidratada 500g",

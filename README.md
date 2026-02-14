@@ -1,4 +1,4 @@
-﻿# GAAK SUPLEMENTOS - Backend
+# GAAK SUPLEMENTOS - Backend
 
 ## Rodando local
 
@@ -38,4 +38,9 @@ O catalogo e somente leitura no painel admin.
 
 ## Vercel
 
-O arquivo `api/index.js` expoe a API e `vercel.json` reescreve `/api/*` para a funcao.
+A API serverless esta em:
+
+- `api/index.js` para `/api`
+- `api/[...path].js` para `/api/*`
+
+Nao e necessario `vercel.json` para este projeto.

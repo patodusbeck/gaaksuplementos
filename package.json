@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "gaak-suplementos",
   "version": "1.0.0",
   "description": "Backend API for GAAK SUPLEMENTOS",
@@ -9,12 +9,12 @@
     "dev": "node server/index.js"
   },
   "dependencies": {
+    "cloudinary": "^2.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "multer-storage-cloudinary": "^4.0.0",
-    "cloudinary": "^2.5.1",
     "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "mongoose": "^8.9.5"
   }
 }
