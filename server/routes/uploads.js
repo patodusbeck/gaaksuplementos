@@ -3,7 +3,6 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { v2: cloudinary } = require("cloudinary");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const router = express.Router();
 
@@ -21,16 +20,8 @@ if (useCloudinary) {
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-  const storage = new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: "gaak-suplementos",
-      resource_type: "image",
-    },
-  });
-
   upload = multer({
-    storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 },
   });
 } else {
@@ -56,16 +47,36 @@ if (useCloudinary) {
   });
 }
 
-router.post("/", upload.single("image"), (req, res) => {
+const uploadToCloudinary = (buffer) =>
+  new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "gaak-suplementos",
+        resource_type: "image",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      }
+    );
+    stream.end(buffer);
+  });
+
+router.post("/", upload.single("image"), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "Arquivo nao enviado" });
   }
 
-  const fileUrl = useCloudinary
-    ? req.file.path
-    : `/uploads/${req.file.filename}`;
+  try {
+    if (useCloudinary) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      return res.status(201).json({ url: result.secure_url || result.url });
+    }
 
-  res.status(201).json({ url: fileUrl });
+    return res.status(201).json({ url: `/uploads/${req.file.filename}` });
+  } catch (err) {
+    return res.status(500).json({ error: "Falha no upload da imagem" });
+  }
 });
 
 module.exports = router;
