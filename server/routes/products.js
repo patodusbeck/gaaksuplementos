@@ -1,9 +1,10 @@
-const express = require("express");
+﻿const express = require("express");
 const fs = require("fs/promises");
 const path = require("path");
+const { projectRoot } = require("../paths");
 
 const router = express.Router();
-const catalogPath = path.join(process.cwd(), "data", "products.json");
+const catalogPath = path.join(projectRoot, "data", "products.json");
 
 const readCatalog = async () => {
   const content = await fs.readFile(catalogPath, "utf8");

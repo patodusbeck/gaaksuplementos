@@ -1,2 +1,6 @@
 .env
 deploy.md
+node_modules/.bin/mime
+/node_modules
+.env
+.env

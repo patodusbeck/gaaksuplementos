@@ -1,7 +1,8 @@
-const express = require("express");
+﻿const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const { connectDb } = require("./db");
+const { projectRoot } = require("./paths");
 const productsRouter = require("./routes/products");
 const ordersRouter = require("./routes/orders");
 const uploadsRouter = require("./routes/uploads");
@@ -12,7 +13,10 @@ const app = express();
 
 app.use(cors({ origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : "*" }));
 app.use(express.json({ limit: "1mb" }));
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
+// Serve frontend files locally (index.html, admin.html, css, js)
+app.use(express.static(projectRoot));
+app.use("/uploads", express.static(path.join(projectRoot, "uploads")));
 
 const requireDb = async (req, res, next) => {
   try {
@@ -24,7 +28,7 @@ const requireDb = async (req, res, next) => {
 };
 
 app.get("/", (req, res) => {
-  res.json({ status: "ok", service: "gaak-api" });
+  res.sendFile(path.join(projectRoot, "index.html"));
 });
 
 app.get("/api/health", async (req, res) => {

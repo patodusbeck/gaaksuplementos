@@ -1,8 +1,9 @@
-const express = require("express");
+﻿const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { v2: cloudinary } = require("cloudinary");
+const { projectRoot } = require("../paths");
 
 const router = express.Router();
 
@@ -25,7 +26,7 @@ if (useCloudinary) {
     limits: { fileSize: 5 * 1024 * 1024 },
   });
 } else {
-  const uploadDir = path.join(process.cwd(), "uploads");
+  const uploadDir = path.join(projectRoot, "uploads");
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }

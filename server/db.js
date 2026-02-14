@@ -1,9 +1,18 @@
-const mongoose = require("mongoose");
+﻿const mongoose = require("mongoose");
 
 let cached = global.__mongoose_cache__;
 if (!cached) {
   cached = global.__mongoose_cache__ = { conn: null, promise: null };
 }
+
+const normalizeMongoUri = (value) => {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if ((raw.startsWith('"') && raw.endsWith('"')) || (raw.startsWith("'") && raw.endsWith("'"))) {
+    return raw.slice(1, -1).trim();
+  }
+  return raw;
+};
 
 const connectDb = async () => {
   if (cached.conn && mongoose.connection.readyState === 1) {
@@ -11,7 +20,7 @@ const connectDb = async () => {
   }
 
   if (!cached.promise) {
-    const uri = process.env.MONGODB_URI;
+    const uri = normalizeMongoUri(process.env.MONGODB_URI || process.env.MONGO_URI);
     if (!uri) {
       throw new Error("MONGODB_URI nao definido nas variaveis de ambiente");
     }
