@@ -16,7 +16,7 @@ const readCatalog = async () => {
 
 router.get("/", async (req, res) => {
   try {
-    const { collection, active } = req.query;
+    const { collection, active, q } = req.query;
     let products = await readCatalog();
 
     if (collection) {
@@ -26,6 +26,11 @@ router.get("/", async (req, res) => {
     if (active !== undefined) {
       const flag = active === "true";
       products = products.filter((item) => Boolean(item.active) === flag);
+    }
+
+    if (q) {
+      const term = String(q).toLowerCase();
+      products = products.filter((item) => String(item.name || "").toLowerCase().includes(term));
     }
 
     res.json(products);

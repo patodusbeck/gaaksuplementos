@@ -4,13 +4,13 @@ const ProductSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
     description: { type: String, default: "" },
-    price: { type: Number, required: true },
-    original: { type: Number, default: 0 },
+    price: { type: Number, required: true, min: 0 },
+    original: { type: Number, default: 0, min: 0 },
     category: { type: String, default: "" },
     badge: { type: String, default: "" },
     imageUrl: { type: String, default: "" },
     collection: { type: String, enum: ["best-sellers", "launches"], default: "best-sellers" },
-    active: { type: Boolean, default: true },
+    active: { type: Boolean, default: true, index: true },
   },
   { timestamps: true }
 );

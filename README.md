@@ -8,23 +8,29 @@
 
 ## Variaveis de ambiente
 
-- `MONGODB_URI` - string de conexao do MongoDB
+- `MONGODB_URI` - string de conexao do MongoDB (obrigatoria para pedidos/cupons/clientes)
 - `WHATSAPP_NUMBER` - numero do WhatsApp (ex: 5599984065730)
 - `CORS_ORIGIN` - origens permitidas (ex: https://seusite.com). Use `*` para liberar tudo.
-- `CLOUDINARY_CLOUD_NAME` - (recomendado na Vercel) nome da cloud
-- `CLOUDINARY_API_KEY` - chave da API
-- `CLOUDINARY_API_SECRET` - segredo da API
+- `CLOUDINARY_CLOUD_NAME` - nome da cloud (upload)
+- `CLOUDINARY_API_KEY` - chave da API (upload)
+- `CLOUDINARY_API_SECRET` - segredo da API (upload)
 
-## Catalogo de produtos (por commit)
+## Persistencia no MongoDB
 
-O catalogo e somente leitura no painel admin.
+Persistido no MongoDB:
 
-- Arquivo fonte: `data/products.json`
-- Fluxo: editar JSON, commitar, publicar deploy
-- Cada produto usa campos: `id`, `name`, `description`, `price`, `original`, `category`, `badge`, `imageUrl`, `collection`, `active`
+- `orders` - vendas/pedidos
+- `coupons` - cupons e uso
+- `customers` - clientes
+
+Catalogo de produtos:
+
+- somente leitura via `data/products.json`
+- manutencao por commit/deploy
 
 ## Endpoints
 
+- `GET /api/health` - status da API + conexao DB
 - `GET /api/products` - lista produtos do `data/products.json`
 - `GET /api/products/:id` - detalhes de produto por `id`
 - `POST /api/products` - bloqueado (405)
@@ -34,7 +40,12 @@ O catalogo e somente leitura no painel admin.
 - `POST /api/coupons` - cria cupom
 - `PUT /api/coupons/:id` - atualiza cupom
 - `DELETE /api/coupons/:id` - remove cupom
+- `GET /api/customers` - lista clientes
+- `GET /api/customers/:id` - detalhes de cliente
+- `PUT /api/customers/:id` - atualiza cliente
+- `GET /api/orders` - lista pedidos
 - `POST /api/orders` - cria pedido e retorna link do WhatsApp
+- `POST /api/uploads` - upload de imagem (Cloudinary ou fallback local)
 
 ## Vercel
 
@@ -43,4 +54,4 @@ A API serverless esta em:
 - `api/index.js` para `/api`
 - `api/[...path].js` para `/api/*`
 
-Nao e necessario `vercel.json` para este projeto.
+Nao e necessario `vercel.json` neste projeto.
