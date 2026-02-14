@@ -1018,3 +1018,25 @@ canvas {
     padding: 1rem;
   }
 }
+
+/* Input zoom fix for mobile */
+input,
+textarea,
+select {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+#customer-name,
+#customer-phone,
+#coupon-code,
+#search-input,
+.newsletter-form input,
+.cart-input,
+.search-card input {
+  font-size: 16px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}

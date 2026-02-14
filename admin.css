@@ -560,3 +560,26 @@
     min-height: 170px;
   }
 }
+
+/* Input zoom fix for mobile */
+input,
+textarea,
+select {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+#coupon-code-input,
+#coupon-percent,
+#coupon-expires,
+#coupon-limit,
+#order-search,
+#order-from,
+#order-to,
+.cart-input {
+  font-size: 16px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
