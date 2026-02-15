@@ -593,3 +593,26 @@ html {
 }
 
 
+
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.login-card {
+  width: min(460px, 94vw);
+  background: linear-gradient(160deg, #111626, #0a0d16);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.login-card h1 {
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

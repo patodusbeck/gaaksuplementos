@@ -1,9 +1,10 @@
 ﻿const express = require("express");
 const Customer = require("../models/Customer");
+const { requireAuth } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", requireAuth(["owner", "gerente"]), async (req, res) => {
   const { q } = req.query;
   const query = {};
   if (q) {
@@ -21,13 +22,13 @@ router.get("/", async (req, res) => {
   res.json(customers);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", requireAuth(["owner", "gerente"]), async (req, res) => {
   const customer = await Customer.findById(req.params.id);
   if (!customer) return res.status(404).json({ error: "Cliente nao encontrado" });
   return res.json(customer);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireAuth(["owner"]), async (req, res) => {
   const updates = { ...req.body };
   const customer = await Customer.findByIdAndUpdate(req.params.id, updates, {
     new: true,

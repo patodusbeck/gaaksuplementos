@@ -4,6 +4,7 @@ const Order = require("../models/Order");
 const Coupon = require("../models/Coupon");
 const Product = require("../models/Product");
 const Customer = require("../models/Customer");
+const { requireAuth } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -192,9 +193,11 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.get("/", async (req, res) => {
+router.get("/", requireAuth(["owner", "gerente"]), async (req, res) => {
   const orders = await Order.find().sort({ createdAt: -1 });
   return res.json(orders);
 });
 
 module.exports = router;
+
+

@@ -1,5 +1,6 @@
-const express = require("express");
+﻿const express = require("express");
 const Coupon = require("../models/Coupon");
+const { requireAuth } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -21,7 +22,26 @@ const normalizeAndAutoDisable = async () => {
   );
 };
 
-router.get("/", async (req, res) => {
+router.get("/validate", async (req, res) => {
+  await normalizeAndAutoDisable();
+
+  const code = String(req.query.code || "").trim().toUpperCase();
+  if (!code) return res.status(400).json({ error: "Cupom invalido" });
+
+  const coupon = await Coupon.findOne({ code, active: true });
+  if (!coupon) return res.status(404).json({ error: "Cupom invalido ou inativo" });
+
+  return res.json({
+    code: coupon.code,
+    percent: coupon.percent,
+    usageLimit: coupon.usageLimit,
+    usedCount: coupon.usedCount,
+    expiresAt: coupon.expiresAt,
+    active: coupon.active,
+  });
+});
+
+router.get("/", requireAuth(["owner"]), async (req, res) => {
   await normalizeAndAutoDisable();
 
   const { active, code } = req.query;
@@ -33,7 +53,7 @@ router.get("/", async (req, res) => {
   res.json(coupons);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", requireAuth(["owner"]), async (req, res) => {
   const payload = {
     code: String(req.body.code || "").toUpperCase().trim(),
     percent: Number(req.body.percent || 0),
@@ -53,7 +73,7 @@ router.post("/", async (req, res) => {
   return res.status(201).json(coupon);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireAuth(["owner"]), async (req, res) => {
   const updates = { ...req.body };
   if (updates.code) updates.code = String(updates.code).toUpperCase().trim();
   if (updates.expiresAt !== undefined) {
@@ -70,7 +90,7 @@ router.put("/:id", async (req, res) => {
   return res.json(coupon);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireAuth(["owner"]), async (req, res) => {
   const coupon = await Coupon.findByIdAndDelete(req.params.id);
   if (!coupon) return res.status(404).json({ error: "Cupom nao encontrado" });
   return res.json({ ok: true });

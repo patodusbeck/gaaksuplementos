@@ -344,7 +344,7 @@ const applyCoupon = async (code) => {
   }
 
   try {
-    const response = await fetch(`${API_BASE}/coupons?active=true&code=${encodeURIComponent(cleanCode)}`);
+    const response = await fetch(`${API_BASE}/coupons/validate?code=${encodeURIComponent(cleanCode)}`);
     if (!response.ok) throw new Error("Erro ao buscar cupom");
     const data = await response.json();
     const coupon = data[0];
@@ -705,6 +705,7 @@ const init = async () => {
 };
 
 init();
+
 
 
 

@@ -1,4 +1,5 @@
 ﻿const API_BASE = "/api";
+const AUTH_TOKEN_KEY = "gaak_admin_token";
 
 const productList = document.getElementById("product-list");
 const ordersList = document.getElementById("orders-list");
@@ -11,6 +12,8 @@ const clearFiltersBtn = document.getElementById("clear-filters");
 const exportCsvBtn = document.getElementById("export-csv");
 const customersList = document.getElementById("customers-list");
 const customersSearch = document.getElementById("customers-search");
+const logoutBtn = document.getElementById("logout-admin");
+const sessionUser = document.getElementById("session-user");
 
 const sidebarLinks = document.querySelectorAll(".sidebar-link");
 const sectionPanels = document.querySelectorAll(".section-panel");
@@ -49,12 +52,28 @@ const couponFields = {
   active: document.getElementById("coupon-active"),
 };
 
+let currentUser = null;
 let cachedOrders = [];
 let cachedProducts = [];
 let cachedCoupons = [];
 let cachedCustomers = [];
 let salesChart = null;
 let topProductsChart = null;
+
+const getToken = () => localStorage.getItem(AUTH_TOKEN_KEY) || "";
+
+const logout = () => {
+  localStorage.removeItem(AUTH_TOKEN_KEY);
+  window.location.href = "admin-login.html";
+};
+
+const authHeaders = (extra = {}) => {
+  const token = getToken();
+  return {
+    ...extra,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+};
 
 const setCouponStatus = (text, isError = false) => {
   if (!couponStatus) return;
@@ -133,8 +152,15 @@ const fillCouponForm = (coupon) => {
 };
 
 const fetchJson = async (url, options = {}) => {
-  const response = await fetch(url, options);
+  const headers = authHeaders(options.headers || {});
+  const response = await fetch(url, { ...options, headers });
   const data = await response.json().catch(() => ({}));
+
+  if (response.status === 401) {
+    logout();
+    throw new Error("Sessao expirada");
+  }
+
   if (!response.ok) {
     throw new Error(data.error || "Erro na requisicao");
   }
@@ -146,12 +172,27 @@ const fetchCoupons = () => fetchJson(`${API_BASE}/coupons`);
 const fetchOrders = () => fetchJson(`${API_BASE}/orders`);
 const fetchCustomers = () => fetchJson(`${API_BASE}/customers`);
 
+const formatAddress = (entry) => {
+  const street = String(entry.customerStreet || entry.street || "").trim();
+  const number = String(entry.customerNumber || entry.number || "").trim();
+  const neighborhood = String(entry.customerNeighborhood || entry.neighborhood || "").trim();
+  const city = String(entry.customerCity || entry.city || "").trim();
+  const complement = String(entry.customerComplement || entry.complement || "").trim();
+
+  const parts = [];
+  if (street) parts.push(number ? `${street}, ${number}` : street);
+  if (neighborhood) parts.push(`Bairro: ${neighborhood}`);
+  if (city) parts.push(`Cidade: ${city}`);
+  if (complement) parts.push(`Comp.: ${complement}`);
+  return parts.join(" | ") || "Endereco nao informado";
+};
+
 const renderProducts = (items) => {
   cachedProducts = items;
   if (!productList) return;
 
   if (!items.length) {
-    productList.innerHTML = "<p class=\"admin-muted\">Nenhum produto cadastrado.</p>";
+    productList.innerHTML = '<p class="admin-muted">Nenhum produto cadastrado.</p>';
     return;
   }
 
@@ -177,7 +218,7 @@ const renderCoupons = (items) => {
   if (!couponList) return;
 
   if (!items.length) {
-    couponList.innerHTML = "<p class=\"admin-muted\">Nenhum cupom cadastrado.</p>";
+    couponList.innerHTML = '<p class="admin-muted">Nenhum cupom cadastrado.</p>';
     return;
   }
 
@@ -212,7 +253,7 @@ const renderOrders = (items) => {
   if (!ordersList) return;
 
   if (!items.length) {
-    ordersList.innerHTML = "<p class=\"admin-muted\">Nenhuma venda registrada.</p>";
+    ordersList.innerHTML = '<p class="admin-muted">Nenhuma venda registrada.</p>';
     return;
   }
 
@@ -236,21 +277,6 @@ const renderOrders = (items) => {
       `;
     })
     .join("");
-};
-
-const formatAddress = (entry) => {
-  const street = String(entry.customerStreet || entry.street || "").trim();
-  const number = String(entry.customerNumber || entry.number || "").trim();
-  const neighborhood = String(entry.customerNeighborhood || entry.neighborhood || "").trim();
-  const city = String(entry.customerCity || entry.city || "").trim();
-  const complement = String(entry.customerComplement || entry.complement || "").trim();
-
-  const parts = [];
-  if (street) parts.push(number ? `${street}, ${number}` : street);
-  if (neighborhood) parts.push(`Bairro: ${neighborhood}`);
-  if (city) parts.push(`Cidade: ${city}`);
-  if (complement) parts.push(`Comp.: ${complement}`);
-  return parts.join(" | ") || "Endereco nao informado";
 };
 
 const renderCustomers = (items) => {
@@ -314,8 +340,7 @@ const buildSalesSeries = (days) => {
 
   for (let i = days - 1; i >= 0; i -= 1) {
     const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
-    const label = date.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
-    labels.push(label);
+    labels.push(date.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }));
 
     const total = cachedOrders
       .filter((order) => order.createdAt && new Date(order.createdAt).toDateString() === date.toDateString())
@@ -345,6 +370,7 @@ const buildTopProducts = () => {
 
 const renderCharts = () => {
   if (!salesChartCanvas || !topProductsCanvas || typeof Chart === "undefined") return;
+  if (currentUser?.role !== "owner") return;
 
   const days = Number(salesRange?.value || 30);
   const salesData = buildSalesSeries(days);
@@ -401,6 +427,7 @@ const renderCharts = () => {
 
 const renderTotals = (items) => {
   if (!ordersTotals) return;
+  if (currentUser?.role !== "owner") return;
 
   const now = new Date();
   const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -471,6 +498,7 @@ const applyFilters = () => {
 };
 
 const loadProducts = async () => {
+  if (currentUser?.role !== "owner") return;
   try {
     const items = await fetchProducts();
     renderProducts(items);
@@ -481,6 +509,7 @@ const loadProducts = async () => {
 };
 
 const loadCoupons = async () => {
+  if (currentUser?.role !== "owner") return;
   try {
     const items = await fetchCoupons();
     renderCoupons(items);
@@ -519,7 +548,10 @@ const startSmartPolling = () => {
   const maxInterval = 30000;
 
   const poll = async () => {
-    await Promise.all([loadOrders(), loadCustomers(), loadProducts()]);
+    const tasks = [loadOrders(), loadCustomers()];
+    if (currentUser?.role === "owner") tasks.push(loadProducts());
+    await Promise.all(tasks);
+
     const lastOk = Number(ordersStatus?.dataset.lastOk || 0);
     interval = lastOk ? 5000 : Math.min(interval + 5000, maxInterval);
     setTimeout(poll, interval);
@@ -528,9 +560,32 @@ const startSmartPolling = () => {
   poll();
 };
 
+const applyRoleAccess = () => {
+  const role = currentUser?.role || "";
+  if (sessionUser) {
+    sessionUser.textContent = `${currentUser?.username || ""} (${role})`;
+  }
+
+  document.querySelectorAll("[data-role]").forEach((el) => {
+    const allowed = String(el.dataset.role || "").split(/\s+/).filter(Boolean);
+    const permitted = allowed.length === 0 || allowed.includes(role);
+    el.style.display = permitted ? "" : "none";
+  });
+
+  const firstAllowedNav = Array.from(sidebarLinks).find((btn) => btn.style.display !== "none");
+  if (firstAllowedNav) {
+    sidebarLinks.forEach((btn) => btn.classList.remove("active"));
+    sectionPanels.forEach((panel) => panel.classList.remove("active"));
+    firstAllowedNav.classList.add("active");
+    const target = document.getElementById(firstAllowedNav.dataset.section);
+    if (target) target.classList.add("active");
+  }
+};
+
 if (couponForm) {
   couponForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (currentUser?.role !== "owner") return;
 
     setCouponStatus("Salvando...");
 
@@ -563,6 +618,8 @@ if (couponForm) {
 
 if (couponList) {
   couponList.addEventListener("click", async (event) => {
+    if (currentUser?.role !== "owner") return;
+
     const editBtn = event.target.closest("[data-coupon-edit]");
     const deleteBtn = event.target.closest("[data-coupon-delete]");
 
@@ -666,26 +723,39 @@ if (customersSearch) {
   });
 }
 if (salesRange) salesRange.addEventListener("change", renderCharts);
+if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
 sidebarLinks.forEach((btn) => {
   btn.addEventListener("click", () => {
+    if (btn.style.display === "none") return;
     sidebarLinks.forEach((link) => link.classList.remove("active"));
     sectionPanels.forEach((panel) => panel.classList.remove("active"));
     btn.classList.add("active");
     const target = document.getElementById(btn.dataset.section);
-    if (target) target.classList.add("active");
+    if (target && target.style.display !== "none") target.classList.add("active");
   });
 });
 
 const init = async () => {
-  await Promise.all([loadProducts(), loadCustomers(), loadCoupons(), loadOrders()]);
+  const token = getToken();
+  if (!token) return logout();
+
+  try {
+    const me = await fetchJson(`${API_BASE}/auth/me`);
+    currentUser = me.user;
+  } catch (err) {
+    return logout();
+  }
+
+  applyRoleAccess();
+
+  const tasks = [loadCustomers(), loadOrders()];
+  if (currentUser?.role === "owner") {
+    tasks.push(loadProducts(), loadCoupons());
+  }
+
+  await Promise.all(tasks);
   startSmartPolling();
 };
 
 init();
-
-
-
-
-
-

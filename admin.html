@@ -24,29 +24,31 @@
         </div>
       </div>
       <nav class="sidebar-nav">
-        <button class="sidebar-link active" data-section="dashboard-section">
+        <button class="sidebar-link active" data-section="dashboard-section" data-role="owner">
           <ion-icon name="grid-outline"></ion-icon>
           Dashboard
         </button>
-        <button class="sidebar-link" data-section="clientes-section">
+        <button class="sidebar-link" data-section="clientes-section" data-role="owner gerente">
           <ion-icon name="people-outline"></ion-icon>
           Clientes
         </button>
-        <button class="sidebar-link" data-section="catalogo-section">
+        <button class="sidebar-link" data-section="catalogo-section" data-role="owner">
           <ion-icon name="bag-outline"></ion-icon>
           Produtos
         </button>
-        <button class="sidebar-link" data-section="vendas-section">
+        <button class="sidebar-link" data-section="vendas-section" data-role="owner gerente">
           <ion-icon name="cash-outline"></ion-icon>
           Vendas
         </button>
-        <button class="sidebar-link" data-section="cupons-section">
+        <button class="sidebar-link" data-section="cupons-section" data-role="owner">
           <ion-icon name="ticket-outline"></ion-icon>
           Cupons
         </button>
       </nav>
       <div class="sidebar-footer">
+        <span class="admin-muted" id="session-user"></span>
         <a class="ghost" href="index.html">Voltar ao site</a>
+        <button class="ghost" id="logout-admin" type="button">Sair</button>
       </div>
     </aside>
 
@@ -58,7 +60,7 @@
         </div>
       </header>
 
-      <section class="section-panel active" id="dashboard-section">
+      <section class="section-panel active" id="dashboard-section" data-role="owner">
         <div class="metrics-grid">
           <div class="metric-card">
             <span>Clientes</span>
@@ -106,7 +108,7 @@
         </div>
       </section>
 
-      <section class="section-panel" id="clientes-section">
+      <section class="section-panel" id="clientes-section" data-role="owner gerente">
         <div class="admin-list-card">
           <div class="section-header">
             <h3>Clientes cadastrados</h3>
@@ -115,7 +117,8 @@
           <div class="admin-list" id="customers-list"></div>
         </div>
       </section>
-                  <section class="section-panel" id="catalogo-section">
+
+      <section class="section-panel" id="catalogo-section" data-role="owner">
         <div class="admin-grid">
           <div class="admin-form-card">
             <div class="section-header">
@@ -131,7 +134,8 @@
           </div>
         </div>
       </section>
-      <section class="section-panel" id="vendas-section">
+
+      <section class="section-panel" id="vendas-section" data-role="owner gerente">
         <div class="admin-list-card">
           <div class="section-header">
             <h3>Vendas registradas</h3>
@@ -158,7 +162,7 @@
         </div>
       </section>
 
-      <section class="section-panel" id="cupons-section">
+      <section class="section-panel" id="cupons-section" data-role="owner">
         <div class="admin-grid">
           <div class="admin-form-card">
             <div class="section-header">
@@ -225,12 +229,3 @@
   <script src="admin.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-

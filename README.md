@@ -10,7 +10,7 @@
 
 - `MONGODB_URI` - string de conexao do MongoDB (obrigatoria para pedidos/cupons/clientes)
 - `WHATSAPP_NUMBER` - numero do WhatsApp (ex: 5599984065730)
-- `CORS_ORIGIN` - origens permitidas (ex: https://seusite.com). Use `*` para liberar tudo.
+- `CORS_ORIGIN` - origens permitidas (ex: https://seusite.com). Use `*` para liberar tudo.`r`n- `JWT_SECRET` - segredo JWT para login do painel admin`r`n- `OWNER_PASSWORD` - senha inicial do usuario `owner``r`n- `MANAGER_PASSWORD` - senha inicial do usuario `gerente`
 
 ## Persistencia no MongoDB
 
@@ -52,3 +52,10 @@ A API serverless esta em:
 - `api/[...path].js` para `/api/*`
 
 Nao e necessario `vercel.json` neste projeto.
+
+## Login Admin
+
+- Acesso do painel: dmin-login.html`r
+- Usuarios criados automaticamente no MongoDB: owner (acesso total) e gerente (clientes e vendas).
+- Altere as senhas padrao via variaveis de ambiente antes de publicar.
+
