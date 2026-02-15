@@ -20,7 +20,7 @@ const trySession = async () => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (!token) return;
 
-  const response = await fetch(`${API_BASE}/auth/me`, {
+  const response = await fetch(`${API_BASE}/admin-auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -42,7 +42,7 @@ if (form) {
     setStatus("Entrando...");
 
     try {
-      const response = await fetch(`${API_BASE}/auth/login`, {
+      const response = await fetch(`${API_BASE}/admin-auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -64,3 +64,4 @@ if (form) {
 }
 
 trySession();
+

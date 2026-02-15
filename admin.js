@@ -741,7 +741,7 @@ const init = async () => {
   if (!token) return logout();
 
   try {
-    const me = await fetchJson(`${API_BASE}/auth/me`);
+    const me = await fetchJson(`${API_BASE}/admin-auth/me`);
     currentUser = me.user;
   } catch (err) {
     return logout();
@@ -759,3 +759,4 @@ const init = async () => {
 };
 
 init();
+

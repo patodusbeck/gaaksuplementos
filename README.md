@@ -27,5 +27,5 @@
 - `GET /api/health`
 - `GET /api/products`
 - `GET /api/coupons/validate?code=...` (publico para checkout)
-- `POST /api/auth/login`
-- `GET /api/auth/me`
+- `POST /api/admin-auth/login`
+- `GET /api/admin-auth/me`
