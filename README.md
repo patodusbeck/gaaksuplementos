@@ -8,54 +8,24 @@
 
 ## Variaveis de ambiente
 
-- `MONGODB_URI` - string de conexao do MongoDB (obrigatoria para pedidos/cupons/clientes)
+- `MONGODB_URI` - string de conexao do MongoDB
 - `WHATSAPP_NUMBER` - numero do WhatsApp (ex: 5599984065730)
-- `CORS_ORIGIN` - origens permitidas (ex: https://seusite.com). Use `*` para liberar tudo.`r`n- `JWT_SECRET` - segredo JWT para login do painel admin`r`n- `OWNER_PASSWORD` - senha inicial do usuario `owner``r`n- `MANAGER_PASSWORD` - senha inicial do usuario `gerente`
-
-## Persistencia no MongoDB
-
-Persistido no MongoDB:
-
-- `orders` - vendas/pedidos
-- `coupons` - cupons e uso
-- `customers` - clientes
-
-Catalogo de produtos:
-
-- somente leitura via `data/products.json`
-- manutencao por commit/deploy
-
-## Endpoints
-
-- `GET /api/health` - status da API + conexao DB
-- `GET /api/products` - lista produtos do `data/products.json`
-- `GET /api/products/:id` - detalhes de produto por `id`
-- `POST /api/products` - bloqueado (405)
-- `PUT /api/products/:id` - bloqueado (405)
-- `DELETE /api/products/:id` - bloqueado (405)
-- `GET /api/coupons` - lista cupons
-- `POST /api/coupons` - cria cupom
-- `PUT /api/coupons/:id` - atualiza cupom
-- `DELETE /api/coupons/:id` - remove cupom
-- `GET /api/customers` - lista clientes
-- `GET /api/customers/:id` - detalhes de cliente
-- `PUT /api/customers/:id` - atualiza cliente
-- `GET /api/orders` - lista pedidos
-- `POST /api/orders` - cria pedido e retorna link do WhatsApp
-- `POST /api/uploads` - upload de imagem local (`/uploads`) com limite de 5MB
-
-## Vercel
-
-A API serverless esta em:
-
-- `api/index.js` para `/api`
-- `api/[...path].js` para `/api/*`
-
-Nao e necessario `vercel.json` neste projeto.
+- `CORS_ORIGIN` - origens permitidas (ex: https://seusite.com)
+- `JWT_SECRET` - segredo JWT para o login admin
+- `ADMIN_PASSWORD` - senha inicial do usuario `admin`
+- `MANAGER_PASSWORD` - senha inicial do usuario `gerente`
 
 ## Login Admin
 
-- Acesso do painel: dmin-login.html`r
-- Usuarios criados automaticamente no MongoDB: owner (acesso total) e gerente (clientes e vendas).
-- Altere as senhas padrao via variaveis de ambiente antes de publicar.
+- Tela de login: `login.html`
+- Usuarios automáticos no MongoDB:
+  - `admin` (role `owner`, acesso total)
+  - `gerente` (acesso de clientes e vendas)
 
+## Endpoints principais
+
+- `GET /api/health`
+- `GET /api/products`
+- `GET /api/coupons/validate?code=...` (publico para checkout)
+- `POST /api/auth/login`
+- `GET /api/auth/me`

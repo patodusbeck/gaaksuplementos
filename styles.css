@@ -101,7 +101,7 @@ input {
   height: 42px;
   display: block;
   border-radius: 12px;
-  background: center / cover no-repeat url("/data/images/gs-icon.svg");
+  background: #000 center / 96% 96% no-repeat url("/data/images/gs-icon.svg");
   color: transparent;
   font-size: 0;
   line-height: 0;
@@ -1151,5 +1151,7 @@ body.cart-open {
     min-height: 360px;
   }
 }
+
+
 
 

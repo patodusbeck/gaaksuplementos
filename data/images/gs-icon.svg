@@ -1,10 +1,22 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="GS">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ff2d6f" />
-      <stop offset="100%" stop-color="#e11d48" />
-    </linearGradient>
-  </defs>
-  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#g)" />
-  <text x="64" y="76" text-anchor="middle" font-family="Oswald, Arial, sans-serif" font-size="44" font-weight="700" fill="#111111">GS</text>
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="GS icon">
+  <rect width="128" height="128" rx="22" fill="#000000" />
+
+  <g transform="translate(16 32)">
+    <!-- barras vermelhas mais finas -->
+    <polygon points="0,56 11,56 33,12 22,12" fill="#ff1010" />
+    <polygon points="13,56 23,56 43,12 33,12" fill="#ff1010" />
+
+    <!-- GS centralizado -->
+    <text
+      x="31"
+      y="54"
+      fill="#ededed"
+      font-family="Arial Black, Impact, sans-serif"
+      font-size="47"
+      font-style="italic"
+      font-weight="900"
+      letter-spacing="-3"
+      transform="skewX(-12)"
+    >GS</text>
+  </g>
 </svg>

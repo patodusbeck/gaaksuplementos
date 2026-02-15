@@ -27,7 +27,7 @@
 }
 
 .sidebar-brand .logo-mark {
-  background: center / cover no-repeat url("/data/images/gs-icon.svg");
+  background: #000 center / 96% 96% no-repeat url("/data/images/gs-icon.svg");
   color: transparent;
   font-size: 0;
   line-height: 0;
@@ -616,3 +616,5 @@ html {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+
+

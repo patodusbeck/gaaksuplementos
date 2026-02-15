@@ -64,7 +64,7 @@ const getToken = () => localStorage.getItem(AUTH_TOKEN_KEY) || "";
 
 const logout = () => {
   localStorage.removeItem(AUTH_TOKEN_KEY);
-  window.location.href = "admin-login.html";
+  window.location.href = "login.html";
 };
 
 const authHeaders = (extra = {}) => {
