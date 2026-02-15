@@ -56,7 +56,7 @@ app.use(["/api/products", "/products"], productsRouter);
 app.use(["/api/orders", "/orders"], requireDb, ordersRouter);
 app.use(["/api/coupons", "/coupons"], requireDb, couponsRouter);
 app.use(["/api/customers", "/customers"], requireDb, customersRouter);
-app.use(["/api/admin-auth", "/admin-auth", "/api/auth", "/auth"], requireDb, authRouter);
+app.use(["/api/admin-auth", "/admin-auth", "/api/auth", "/auth", "/api"], requireDb, authRouter);
 app.use(["/api/uploads", "/uploads-api"], uploadsRouter);
 
 app.use((req, res) => {

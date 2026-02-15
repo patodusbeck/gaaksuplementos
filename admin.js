@@ -1,5 +1,6 @@
 ﻿const API_BASE = "/api";
 const AUTH_TOKEN_KEY = "gaak_admin_token";
+const ME_ENDPOINTS = [`${API_BASE}/admin-auth/me`, `${API_BASE}/auth/me`, `${API_BASE}/me`];
 
 const productList = document.getElementById("product-list");
 const ordersList = document.getElementById("orders-list");
@@ -165,6 +166,29 @@ const fetchJson = async (url, options = {}) => {
     throw new Error(data.error || "Erro na requisicao");
   }
   return data;
+};
+
+const fetchAuthMe = async () => {
+  const headers = authHeaders({});
+  let lastError = null;
+
+  for (const endpoint of ME_ENDPOINTS) {
+    try {
+      const response = await fetch(endpoint, { headers });
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok) return data;
+      if (![404, 405].includes(response.status)) {
+        if (response.status === 401) logout();
+        throw new Error(data.error || "Erro na validacao de sessao");
+      }
+      lastError = new Error("Rota nao encontrada");
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error("Falha ao validar sessao");
 };
 
 const fetchProducts = () => fetchJson(`${API_BASE}/products`);
@@ -741,7 +765,7 @@ const init = async () => {
   if (!token) return logout();
 
   try {
-    const me = await fetchJson(`${API_BASE}/admin-auth/me`);
+    const me = await fetchAuthMe();
     currentUser = me.user;
   } catch (err) {
     return logout();

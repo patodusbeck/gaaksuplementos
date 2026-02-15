@@ -1088,6 +1088,7 @@ select {
 
 html {
   -webkit-text-size-adjust: 100%;
+  background: #090b10;
 }
 
 #coupon-code {
@@ -1104,7 +1105,8 @@ html {
 .cart-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(5, 8, 14, 0.58);
+  background: rgba(2, 4, 9, 0.78);
+  backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -1151,7 +1153,4 @@ body.cart-open {
     min-height: 360px;
   }
 }
-
-
-
 

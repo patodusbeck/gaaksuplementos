@@ -294,6 +294,8 @@ const lockBodyScroll = () => {
   document.body.style.top = `-${scrollLockTop}px`;
   document.body.style.position = "fixed";
   document.body.style.width = "100%";
+  document.body.style.left = "0";
+  document.body.style.right = "0";
 };
 
 const unlockBodyScroll = () => {
@@ -302,6 +304,8 @@ const unlockBodyScroll = () => {
   document.body.style.position = "";
   document.body.style.top = "";
   document.body.style.width = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
   window.scrollTo(0, scrollLockTop);
 };
 
@@ -347,7 +351,7 @@ const applyCoupon = async (code) => {
     const response = await fetch(`${API_BASE}/coupons/validate?code=${encodeURIComponent(cleanCode)}`);
     if (!response.ok) throw new Error("Erro ao buscar cupom");
     const data = await response.json();
-    const coupon = data[0];
+    const coupon = data;
     if (!coupon) {
       appliedCoupon = null;
       appliedDiscount = 0;
@@ -705,18 +709,4 @@ const init = async () => {
 };
 
 init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
