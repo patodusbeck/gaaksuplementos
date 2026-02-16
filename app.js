@@ -12,7 +12,7 @@
     name: "Whey Protein Isolado 900g",
     price: 139.9,
     original: 179.9,
-    category: "Proteina",
+    category: "Proteína",
     badge: "Mais vendido",
   },
   {
@@ -36,8 +36,8 @@
     name: "BCAA 2:1:1 200 caps",
     price: 69.9,
     original: 89.9,
-    category: "Recuperacao",
-    badge: "Recuperacao",
+    category: "Recuperação",
+    badge: "Recuperação",
   },
   {
     id: 6,
@@ -64,19 +64,19 @@ const fallbackLaunches = [
     price: 99.9,
     original: 119.9,
     category: "Pre-treino",
-    badge: "Lancamento",
+    badge: "Lançamento",
   },
   {
     id: 9,
     name: "Whey 3W Blend 900g",
     price: 129.9,
     original: 149.9,
-    category: "Proteina",
+    category: "Proteína",
     badge: "Novo",
   },
   {
     id: 10,
-    name: "Kit Definicao (Burn + BCAA)",
+    name: "Kit Definição (Burn + BCAA)",
     price: 109.9,
     original: 139.9,
     category: "Kits",
@@ -198,7 +198,7 @@ const updateCartUI = () => {
   cartBody.innerHTML = "";
 
   if (cart.size === 0) {
-    cartBody.innerHTML = "<p>Seu carrinho esta vazio.</p>";
+    cartBody.innerHTML = "<p>Seu carrinho está vazio.</p>";
   }
 
   cart.forEach((entry) => {
@@ -344,7 +344,7 @@ const applyCoupon = async (code) => {
     appliedCoupon = null;
     appliedDiscount = 0;
     updateCartUI();
-    return { ok: false, message: "Informe um cupom valido." };
+    return { ok: false, message: "Informe um cupom válido." };
   }
 
   try {
@@ -356,7 +356,7 @@ const applyCoupon = async (code) => {
       appliedCoupon = null;
       appliedDiscount = 0;
       updateCartUI();
-      return { ok: false, message: "Cupom invalido ou inativo." };
+      return { ok: false, message: "Cupom inválido ou inativo." };
     }
     if (coupon.expiresAt) {
       const expiry = new Date(coupon.expiresAt);
@@ -382,7 +382,7 @@ const applyCoupon = async (code) => {
     updateCartUI();
     return { ok: true, message: `Cupom aplicado: ${coupon.percent}%` };
   } catch (err) {
-    return { ok: false, message: "Nao foi possivel validar o cupom." };
+    return { ok: false, message: "Não foi possível validar o cupom." };
   }
 };
 
@@ -546,17 +546,15 @@ const init = async () => {
     }
 
     if (!streetValue || !neighborhoodValue || !cityValue) {
-      showInfo("Endereco", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
+      showInfo("Endereço", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
       return;
     }
 
     const items = Array.from(cart.values()).map((entry) => {
       const payload = {
-        name: entry.item.name,
-        price: entry.item.price,
+        productId: String(entry.item.id || ""),
         quantity: entry.qty,
       };
-      if (entry.item._id) payload.productId = entry.item._id;
       return payload;
     });
 
@@ -588,7 +586,7 @@ const init = async () => {
       toggleDrawer(false);
       openWhatsAppDirect(data);
     } catch (err) {
-      showInfo("Erro", "Nao foi possivel enviar o pedido agora.", "alert-circle-outline");
+      showInfo("Erro", "Não foi possível enviar o pedido agora.", "alert-circle-outline");
     }
   };
 
@@ -654,12 +652,12 @@ const init = async () => {
   }
   if (openSupport) {
     openSupport.addEventListener("click", () => {
-      showInfo("Atendimento", "Atendimento de segunda a sexta, 07h30 as 18h.", "headset-outline");
+      showInfo("Atendimento", "Atendimento de segunda a sexta, 07h30 às 18h.", "headset-outline");
     });
   }
   if (openAccount) {
     openAccount.addEventListener("click", () => {
-      showInfo("Minha conta", "Area de login em breve. Entre em contato para suporte.", "person-outline");
+      showInfo("Minha conta", "Área de login em breve. Entre em contato para suporte.", "person-outline");
     });
   }
 
@@ -678,7 +676,7 @@ const init = async () => {
     newsletterForm.addEventListener("submit", (event) => {
       event.preventDefault();
       event.target.reset();
-      showInfo("Cadastro realizado", "Em breve voce recebe novidades.", "mail-outline");
+      showInfo("Cadastro realizado", "Em breve você recebe novidades.", "mail-outline");
     });
   }
 
@@ -709,4 +707,7 @@ const init = async () => {
 };
 
 init();
+
+
+
 

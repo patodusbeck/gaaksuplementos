@@ -2,7 +2,7 @@
 
 const OrderItemSchema = new Schema(
   {
-    productId: { type: Schema.Types.ObjectId, ref: "Product", required: false },
+    productId: { type: String, required: false, trim: true },
     name: { type: String, required: true },
     price: { type: Number, required: true, min: 0 },
     quantity: { type: Number, required: true, min: 1 },
@@ -31,3 +31,4 @@ const OrderSchema = new Schema(
 );
 
 module.exports = model("Order", OrderSchema);
+

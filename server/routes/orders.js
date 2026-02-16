@@ -1,10 +1,9 @@
 ﻿const express = require("express");
-const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Coupon = require("../models/Coupon");
-const Product = require("../models/Product");
 const Customer = require("../models/Customer");
 const { requireAuth } = require("../middleware/auth");
+const catalogService = require("../services/catalog");
 
 const router = express.Router();
 
@@ -49,29 +48,23 @@ const buildWhatsAppMessage = (order) => {
 };
 
 const resolveItems = async (itemsPayload) => {
+  const catalogMap = await catalogService.readCatalogActiveMap();
   const resolved = [];
 
   for (const item of itemsPayload) {
     const quantity = Number(item.quantity || 0);
-    if (quantity <= 0) continue;
+    if (!Number.isFinite(quantity) || quantity <= 0) continue;
 
-    const id = item.productId;
-    if (id && mongoose.Types.ObjectId.isValid(String(id))) {
-      const product = await Product.findById(id);
-      if (product && product.active) {
-        resolved.push({
-          productId: product._id,
-          name: product.name,
-          price: Number(product.price),
-          quantity,
-        });
-        continue;
-      }
-    }
+    const productId = String(item.productId || item.id || "").trim();
+    if (!productId) continue;
+
+    const product = catalogMap.get(productId);
+    if (!product) continue;
 
     resolved.push({
-      name: String(item.name || "Produto"),
-      price: Number(item.price || 0),
+      productId,
+      name: String(product.name || "Produto"),
+      price: Number(product.price || 0),
       quantity,
     });
   }
@@ -199,5 +192,3 @@ router.get("/", requireAuth(["owner", "gerente"]), async (req, res) => {
 });
 
 module.exports = router;
-
-

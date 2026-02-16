@@ -1,4 +1,5 @@
 ﻿const jwt = require("jsonwebtoken");
+const { getJwtSecret } = require("../config/env");
 
 const getTokenFromRequest = (req) => {
   const header = String(req.headers.authorization || "");
@@ -11,7 +12,7 @@ const requireAuth = (roles = []) => (req, res, next) => {
   if (!token) return res.status(401).json({ error: "Nao autenticado" });
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET || "dev-secret-change-me");
+    const payload = jwt.verify(token, getJwtSecret());
     req.auth = payload;
 
     if (roles.length > 0 && !roles.includes(payload.role)) {

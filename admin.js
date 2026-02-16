@@ -1,6 +1,6 @@
 ﻿const API_BASE = "/api";
 const AUTH_TOKEN_KEY = "gaak_admin_token";
-const ME_ENDPOINTS = [`${API_BASE}/admin-auth/me`, `${API_BASE}/auth/me`, `${API_BASE}/me`];
+const ME_ENDPOINT = `${API_BASE}/admin-auth/me`;
 
 const productList = document.getElementById("product-list");
 const ordersList = document.getElementById("orders-list");
@@ -159,37 +159,16 @@ const fetchJson = async (url, options = {}) => {
 
   if (response.status === 401) {
     logout();
-    throw new Error("Sessao expirada");
+    throw new Error("Sessão expirada");
   }
 
   if (!response.ok) {
-    throw new Error(data.error || "Erro na requisicao");
+    throw new Error(data.error || "Erro na requisição");
   }
   return data;
 };
 
-const fetchAuthMe = async () => {
-  const headers = authHeaders({});
-  let lastError = null;
-
-  for (const endpoint of ME_ENDPOINTS) {
-    try {
-      const response = await fetch(endpoint, { headers });
-      const data = await response.json().catch(() => ({}));
-
-      if (response.ok) return data;
-      if (![404, 405].includes(response.status)) {
-        if (response.status === 401) logout();
-        throw new Error(data.error || "Erro na validacao de sessao");
-      }
-      lastError = new Error("Rota nao encontrada");
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  throw lastError || new Error("Falha ao validar sessao");
-};
+const fetchAuthMe = () => fetchJson(ME_ENDPOINT);
 
 const fetchProducts = () => fetchJson(`${API_BASE}/products`);
 const fetchCoupons = () => fetchJson(`${API_BASE}/coupons`);
@@ -208,7 +187,7 @@ const formatAddress = (entry) => {
   if (neighborhood) parts.push(`Bairro: ${neighborhood}`);
   if (city) parts.push(`Cidade: ${city}`);
   if (complement) parts.push(`Comp.: ${complement}`);
-  return parts.join(" | ") || "Endereco nao informado";
+  return parts.join(" | ") || "Endereço não informado";
 };
 
 const renderProducts = (items) => {
@@ -783,4 +762,7 @@ const init = async () => {
 };
 
 init();
+
+
+
 

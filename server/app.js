@@ -12,10 +12,38 @@ const couponsRouter = require("./routes/coupons");
 const customersRouter = require("./routes/customers");
 const authRouter = require("./routes/auth");
 
+const parseAllowedOrigins = () =>
+  String(process.env.CORS_ORIGIN || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+const buildCorsOptions = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+  const allowedOrigins = parseAllowedOrigins();
+
+  if (isProduction) {
+    if (allowedOrigins.length === 0 || allowedOrigins.includes("*")) {
+      throw new Error("CORS_ORIGIN deve ser definido com dominios especificos em producao");
+    }
+
+    return {
+      origin(origin, callback) {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        return callback(new Error("CORS bloqueado para esta origem"));
+      },
+    };
+  }
+
+  if (allowedOrigins.length === 0) return { origin: "*" };
+  return { origin: allowedOrigins };
+};
+
 const app = express();
 
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors({ origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : "*" }));
+app.use(cors(buildCorsOptions()));
 app.use(express.json({ limit: "1mb" }));
 
 const apiLimiter = rateLimit({
@@ -26,7 +54,6 @@ const apiLimiter = rateLimit({
 });
 app.use("/api", apiLimiter);
 
-// Serve frontend files locally (index.html, admin.html, css, js)
 app.use(express.static(projectRoot));
 app.use("/uploads", express.static(path.join(projectRoot, "uploads")));
 
@@ -56,7 +83,7 @@ app.use(["/api/products", "/products"], productsRouter);
 app.use(["/api/orders", "/orders"], requireDb, ordersRouter);
 app.use(["/api/coupons", "/coupons"], requireDb, couponsRouter);
 app.use(["/api/customers", "/customers"], requireDb, customersRouter);
-app.use(["/api/admin-auth", "/admin-auth", "/api/auth", "/auth", "/api"], requireDb, authRouter);
+app.use(["/api/admin-auth"], requireDb, authRouter);
 app.use(["/api/uploads", "/uploads-api"], uploadsRouter);
 
 app.use((req, res) => {
@@ -69,4 +96,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-

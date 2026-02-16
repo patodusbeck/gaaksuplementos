@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const AdminUser = require("../models/AdminUser");
 const { requireAuth } = require("../middleware/auth");
-const { ensureDefaultAdmins } = require("../services/seedAdmins");
+const seedAdminsService = require("../services/seedAdmins");
+const { getJwtSecret } = require("../config/env");
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ const loginLimiter = rateLimit({
 });
 
 router.post("/login", loginLimiter, async (req, res) => {
-  await ensureDefaultAdmins();
+  await seedAdminsService.ensureDefaultAdmins();
 
   const username = String(req.body.username || "").trim().toLowerCase();
   const password = String(req.body.password || "");
@@ -38,7 +39,7 @@ router.post("/login", loginLimiter, async (req, res) => {
 
   const token = jwt.sign(
     { sub: String(user._id), username: user.username, role: user.role },
-    process.env.JWT_SECRET || "dev-secret-change-me",
+    getJwtSecret(),
     { expiresIn: "12h" }
   );
 

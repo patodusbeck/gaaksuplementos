@@ -1,17 +1,7 @@
 ﻿const API_BASE = "/api";
 const AUTH_TOKEN_KEY = "gaak_admin_token";
-
-const LOGIN_ENDPOINTS = [
-  `${API_BASE}/admin-auth/login`,
-  `${API_BASE}/auth/login`,
-  `${API_BASE}/login`,
-];
-
-const ME_ENDPOINTS = [
-  `${API_BASE}/admin-auth/me`,
-  `${API_BASE}/auth/me`,
-  `${API_BASE}/me`,
-];
+const LOGIN_ENDPOINT = `${API_BASE}/admin-auth/login`;
+const ME_ENDPOINT = `${API_BASE}/admin-auth/me`;
 
 const form = document.getElementById("login-form");
 const usernameInput = document.getElementById("login-username");
@@ -28,37 +18,15 @@ const goAdmin = () => {
   window.location.href = "admin.html";
 };
 
-const requestFirstOk = async (endpoints, options) => {
-  let lastData = {};
-
-  for (const endpoint of endpoints) {
-    try {
-      const response = await fetch(endpoint, options);
-      const data = await response.json().catch(() => ({}));
-
-      if (response.ok) return { ok: true, data, endpoint };
-
-      lastData = data;
-      if (![404, 405].includes(response.status)) {
-        return { ok: false, data, endpoint, status: response.status };
-      }
-    } catch (err) {
-      // Tenta o proximo endpoint
-    }
-  }
-
-  return { ok: false, data: lastData };
-};
-
 const trySession = async () => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (!token) return;
 
-  const result = await requestFirstOk(ME_ENDPOINTS, {
+  const response = await fetch(ME_ENDPOINT, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  if (result.ok) goAdmin();
+  if (response.ok) goAdmin();
 };
 
 if (form) {
@@ -75,19 +43,24 @@ if (form) {
 
     setStatus("Entrando...");
 
-    const result = await requestFirstOk(LOGIN_ENDPOINTS, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch(LOGIN_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (!result.ok) {
-      setStatus(result.data?.error || "Falha no login.", true);
-      return;
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setStatus(data.error || "Falha no login.", true);
+        return;
+      }
+
+      localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+      goAdmin();
+    } catch (err) {
+      setStatus("Erro de conexao ao autenticar.", true);
     }
-
-    localStorage.setItem(AUTH_TOKEN_KEY, result.data.token);
-    goAdmin();
   });
 }
 
