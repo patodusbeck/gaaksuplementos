@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "backend/api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -20,6 +15,18 @@
     {
       "source": "/",
       "destination": "/frontend/public/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/frontend/public/admin.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/frontend/public/login.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/frontend/public/privacy.html"
     },
     {
       "source": "/(.*)",
