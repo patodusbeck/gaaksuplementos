@@ -1,5 +1,8 @@
 [
   {
+    "_comment": "SECAO DE CREATINAS"
+  },
+  {
     "id": "creatina-monohidratada-500g",
     "name": "Creatina Monohidratada 500g",
     "description": "Creatina para suporte de forca e desempenho.",
@@ -10,6 +13,21 @@
     "imageUrl": "",
     "collection": "best-sellers",
     "active": true
+  },
+  {
+    "id": "creatina-creapure-250g",
+    "name": "Creatina Creapure 250g",
+    "description": "Creatina premium para performance.",
+    "price": 79.9,
+    "original": 95.9,
+    "category": "Creatina",
+    "badge": "Novo",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "_comment": "SECAO DE WHEYS"
   },
   {
     "id": "whey-protein-isolado-900g",
@@ -24,6 +42,21 @@
     "active": true
   },
   {
+    "id": "whey-3w-blend-900g",
+    "name": "Whey 3W Blend 900g",
+    "description": "Blend proteico para rotina de treino.",
+    "price": 129.9,
+    "original": 149.9,
+    "category": "Proteina",
+    "badge": "Novo",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "_comment": "SECAO DE PRE-TREINOS"
+  },
+  {
     "id": "pre-treino-dark-force-300g",
     "name": "Pre-Treino Dark Force 300g",
     "description": "Formula para foco e energia no treino.",
@@ -36,16 +69,19 @@
     "active": true
   },
   {
-    "id": "kit-performance-whey-creatina",
-    "name": "Kit Performance (Whey + Creatina)",
-    "description": "Kit para ganho de massa e performance.",
-    "price": 179.9,
-    "original": 219.9,
-    "category": "Kits",
-    "badge": "Combo",
+    "id": "pre-treino-nitro-pump-300g",
+    "name": "Pre-Treino Nitro Pump 300g",
+    "description": "Blend focado em pump e foco.",
+    "price": 99.9,
+    "original": 119.9,
+    "category": "Pre-treino",
+    "badge": "Lancamento",
     "imageUrl": "",
-    "collection": "best-sellers",
+    "collection": "launches",
     "active": true
+  },
+  {
+    "_comment": "SECAO DE SUPORTE E RECUPERACAO"
   },
   {
     "id": "bcaa-211-200-caps",
@@ -72,40 +108,7 @@
     "active": true
   },
   {
-    "id": "creatina-creapure-250g",
-    "name": "Creatina Creapure 250g",
-    "description": "Creatina premium para performance.",
-    "price": 79.9,
-    "original": 95.9,
-    "category": "Creatina",
-    "badge": "Novo",
-    "imageUrl": "",
-    "collection": "launches",
-    "active": true
-  },
-  {
-    "id": "pre-treino-nitro-pump-300g",
-    "name": "Pre-Treino Nitro Pump 300g",
-    "description": "Blend focado em pump e foco.",
-    "price": 99.9,
-    "original": 119.9,
-    "category": "Pre-treino",
-    "badge": "Lancamento",
-    "imageUrl": "",
-    "collection": "launches",
-    "active": true
-  },
-  {
-    "id": "whey-3w-blend-900g",
-    "name": "Whey 3W Blend 900g",
-    "description": "Blend proteico para rotina de treino.",
-    "price": 129.9,
-    "original": 149.9,
-    "category": "Proteina",
-    "badge": "Novo",
-    "imageUrl": "",
-    "collection": "launches",
-    "active": true
+    "_comment": "SECAO DE KITS | COMBOS DE PRODUTOS"
   },
   {
     "id": "kit-definicao-burn-bcaa",
@@ -120,6 +123,21 @@
     "active": true
   },
   {
+    "id": "kit-performance-whey-creatina",
+    "name": "Kit Performance (Whey + Creatina)",
+    "description": "Kit para ganho de massa e performance.",
+    "price": 179.9,
+    "original": 219.9,
+    "category": "Kits",
+    "badge": "Combo",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "_comment": "SECAO DE MODA | CAMISETAS E MAIS"
+  },
+  {
     "id": "camisa-dark-lab",
     "name": "Camisa Dark Lab",
     "description": "Camisa performance Dry Fit com modelagem esportiva para treino e uso casual.",
@@ -127,7 +145,7 @@
     "original": 79.9,
     "category": "Acessorios",
     "badge": "Destaque",
-    "imageUrl": "/data/products/camdark.png",
+    "imageUrl": "/data/products/moda/camdark.png",
     "collection": "accessories",
     "active": true
   }

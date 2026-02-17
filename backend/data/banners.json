@@ -36,7 +36,8 @@
       "actionLabel": "Ver produto",
       "actionType": "product",
       "actionTarget": "camisa-dark-lab",
-      "theme": "whey"
+      "theme": "whey",
+      "imageUrl": "/data/products/moda/camdark.png"
     }
   ],
   "benefits": [
@@ -49,7 +50,7 @@
     "badge": "Destaque",
     "title": "Camisa Dark Lab",
     "priceText": "R$ 59,90",
-    "imageUrl": "/data/products/camdark.png",
+    "imageUrl": "/data/products/moda/camdark.png",
     "productId": "camisa-dark-lab"
   }
 }

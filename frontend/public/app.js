@@ -112,7 +112,7 @@ const fallbackAccessories = [
     original: 79.9,
     category: "Acessorios",
     badge: "Destaque",
-    imageUrl: "/data/products/camdark.png",
+    imageUrl: "/data/products/moda/camdark.png",
   },
 ];
 
@@ -146,6 +146,7 @@ const fallbackStorefront = {
       actionLabel: "Ver produto",
       actionType: "product",
       actionTarget: "camisa-dark-lab",
+      imageUrl: "/data/products/moda/camdark.png",
       theme: "whey",
     },
   ],
@@ -159,7 +160,7 @@ const fallbackStorefront = {
     badge: "Destaque",
     title: "Camisa Dark Lab",
     priceText: "R$ 59,90",
-    imageUrl: "/data/products/camdark.png",
+    imageUrl: "/data/products/moda/camdark.png",
     productId: "camisa-dark-lab",
   },
 };
@@ -355,6 +356,11 @@ const renderStorefront = () => {
           .map(
             (item) => `
           <article class="storefront-mini banner-${item.theme || "pump"}">
+            ${
+              String(item.imageUrl || "").trim()
+                ? `<img class="storefront-mini-image" src="${String(item.imageUrl).trim()}" alt="${item.title || "Banner"}" loading="lazy" />`
+                : ""
+            }
             <small>${item.eyebrow || ""}</small>
             <strong>${item.title || ""}</strong>
             <button
@@ -391,7 +397,7 @@ const renderStorefront = () => {
   if (heroFeaturedTitle) heroFeaturedTitle.textContent = featured.title || "";
   if (heroFeaturedPrice) heroFeaturedPrice.textContent = featured.priceText || "";
   if (heroFeaturedImage) {
-    heroFeaturedImage.src = String(featured.imageUrl || "/data/products/camdark.png");
+    heroFeaturedImage.src = String(featured.imageUrl || "/data/products/moda/camdark.png");
     heroFeaturedImage.alt = featured.title || "Produto em destaque";
   }
   if (heroFeaturedLink) {

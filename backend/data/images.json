@@ -1,11 +1,25 @@
 [
   {
+    "_comment": "SEÇÃO DE CREATINAS"
+  },
+  {
     "id": "creatina-monohidratada-500g",
     "images": [
       "/data/products/creatine/creatine.png",
       "/data/products/creatine/nutrition.png",
       "/data/products/creatine/creatine2.png"
     ]
+  },
+  {
+    "id": "creatina-creapure-250g",
+    "images": [
+      "/data/products/creatine/creatine.png",
+      "/data/products/creatine/nutrition.png",
+      "/data/products/creatine/creatine2.png"
+    ]
+  },
+  {
+    "_comment": "SEÇÃO DE WHEYS"
   },
   {
     "id": "whey-protein-isolado-900g",
@@ -16,6 +30,17 @@
     ]
   },
   {
+    "id": "whey-3w-blend-900g",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "_comment": "SEÇÃO DE PRÉ-TREINOS"
+  },
+  {
     "id": "pre-treino-dark-force-300g",
     "images": [
       "/data/images/gaaklogo.png",
@@ -24,12 +49,15 @@
     ]
   },
   {
-    "id": "kit-performance-whey-creatina",
+    "id": "pre-treino-nitro-pump-300g",
     "images": [
       "/data/images/gaaklogo.png",
       "/data/images/gaaklogo.png",
       "/data/images/gaaklogo.png"
     ]
+  },
+  {
+    "_comment": "SEÇÃO DE RECUPERACAO  PROTEÍNAS"
   },
   {
     "id": "bcaa-211-200-caps",
@@ -48,23 +76,10 @@
     ]
   },
   {
-    "id": "creatina-creapure-250g",
-    "images": [
-      "/data/products/creatine/creatine.png",
-      "/data/products/creatine/nutrition.png",
-      "/data/products/creatine/creatine2.png"
-    ]
+    "_comment": "SEÇÃO DE KITS | COMBOS DE PRODUTOS"
   },
   {
-    "id": "pre-treino-nitro-pump-300g",
-    "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
-    ]
-  },
-  {
-    "id": "whey-3w-blend-900g",
+    "id": "kit-performance-whey-creatina",
     "images": [
       "/data/images/gaaklogo.png",
       "/data/images/gaaklogo.png",
@@ -80,11 +95,14 @@
     ]
   },
   {
+    "_comment": "SEÇÃO DE MODA | CAMISETAS E MAIS"
+  },
+  {
     "id": "camisa-dark-lab",
     "images": [
-      "/data/products/camdark.png",
-      "/data/products/camdark.png",
-      "/data/products/camdark.png"
+      "/data/products/moda/camdark.png",
+      "/data/products/moda/camdark.png",
+      "/data/products/moda/camdark.png"
     ]
   }
 ]
