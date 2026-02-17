@@ -152,6 +152,22 @@ const fillCouponForm = (coupon) => {
   setCouponStatus("");
 };
 
+const findActionElement = (event, attribute) => {
+  const selector = `[${attribute}]`;
+  if (typeof event.composedPath === "function") {
+    const path = event.composedPath();
+    for (const node of path) {
+      if (node && node.nodeType === 1 && typeof node.matches === "function" && node.matches(selector)) {
+        return node;
+      }
+    }
+  }
+  if (event.target && typeof event.target.closest === "function") {
+    return event.target.closest(selector);
+  }
+  return null;
+};
+
 const fetchJson = async (url, options = {}) => {
   const headers = authHeaders(options.headers || {});
   const response = await fetch(url, { ...options, headers });
@@ -623,17 +639,17 @@ if (couponList) {
   couponList.addEventListener("click", async (event) => {
     if (currentUser?.role !== "owner") return;
 
-    const editBtn = event.target.closest("[data-coupon-edit]");
-    const deleteBtn = event.target.closest("[data-coupon-delete]");
+    const editBtn = findActionElement(event, "data-coupon-edit");
+    const deleteBtn = findActionElement(event, "data-coupon-delete");
 
     if (editBtn) {
-      const id = editBtn.dataset.couponEdit;
-      const coupon = cachedCoupons.find((item) => item._id === id);
+      const id = String(editBtn.getAttribute("data-coupon-edit") || "").trim();
+      const coupon = cachedCoupons.find((item) => String(item._id) === id);
       if (coupon) fillCouponForm(coupon);
     }
 
     if (deleteBtn) {
-      const id = deleteBtn.dataset.couponDelete;
+      const id = String(deleteBtn.getAttribute("data-coupon-delete") || "").trim();
       const confirmed = await openModal({
         title: "Remover cupom",
         message: "Tem certeza que deseja remover este cupom?",
@@ -643,6 +659,7 @@ if (couponList) {
       if (!confirmed) return;
 
       try {
+        setCouponStatus("Removendo cupom...");
         await fetchJson(`${API_BASE}/coupons/${id}`, { method: "DELETE" });
         setCouponStatus("Cupom removido.");
         await loadCoupons();

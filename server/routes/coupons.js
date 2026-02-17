@@ -1,6 +1,7 @@
 ﻿const express = require("express");
 const Coupon = require("../models/Coupon");
 const { requireAuth } = require("../middleware/auth");
+const { asyncHandler } = require("../utils/asyncHandler");
 
 const router = express.Router();
 
@@ -22,7 +23,9 @@ const normalizeAndAutoDisable = async () => {
   );
 };
 
-router.get("/validate", async (req, res) => {
+router.get(
+  "/validate",
+  asyncHandler(async (req, res) => {
   await normalizeAndAutoDisable();
 
   const code = String(req.query.code || "").trim().toUpperCase();
@@ -31,17 +34,21 @@ router.get("/validate", async (req, res) => {
   const coupon = await Coupon.findOne({ code, active: true });
   if (!coupon) return res.status(404).json({ error: "Cupom invalido ou inativo" });
 
-  return res.json({
-    code: coupon.code,
-    percent: coupon.percent,
-    usageLimit: coupon.usageLimit,
-    usedCount: coupon.usedCount,
-    expiresAt: coupon.expiresAt,
-    active: coupon.active,
-  });
-});
+    return res.json({
+      code: coupon.code,
+      percent: coupon.percent,
+      usageLimit: coupon.usageLimit,
+      usedCount: coupon.usedCount,
+      expiresAt: coupon.expiresAt,
+      active: coupon.active,
+    });
+  })
+);
 
-router.get("/", requireAuth(["owner"]), async (req, res) => {
+router.get(
+  "/",
+  requireAuth(["owner"]),
+  asyncHandler(async (req, res) => {
   await normalizeAndAutoDisable();
 
   const { active, code } = req.query;
@@ -49,11 +56,15 @@ router.get("/", requireAuth(["owner"]), async (req, res) => {
   if (code) query.code = String(code).toUpperCase();
   if (active !== undefined) query.active = active === "true";
 
-  const coupons = await Coupon.find(query).sort({ createdAt: -1 });
-  res.json(coupons);
-});
+    const coupons = await Coupon.find(query).sort({ createdAt: -1 });
+    res.json(coupons);
+  })
+);
 
-router.post("/", requireAuth(["owner"]), async (req, res) => {
+router.post(
+  "/",
+  requireAuth(["owner"]),
+  asyncHandler(async (req, res) => {
   const payload = {
     code: String(req.body.code || "").toUpperCase().trim(),
     percent: Number(req.body.percent || 0),
@@ -69,11 +80,15 @@ router.post("/", requireAuth(["owner"]), async (req, res) => {
   const exists = await Coupon.findOne({ code: payload.code });
   if (exists) return res.status(409).json({ error: "Cupom ja existe" });
 
-  const coupon = await Coupon.create(payload);
-  return res.status(201).json(coupon);
-});
+    const coupon = await Coupon.create(payload);
+    return res.status(201).json(coupon);
+  })
+);
 
-router.put("/:id", requireAuth(["owner"]), async (req, res) => {
+router.put(
+  "/:id",
+  requireAuth(["owner"]),
+  asyncHandler(async (req, res) => {
   const updates = { ...req.body };
   if (updates.code) updates.code = String(updates.code).toUpperCase().trim();
   if (updates.expiresAt !== undefined) {
@@ -86,14 +101,28 @@ router.put("/:id", requireAuth(["owner"]), async (req, res) => {
     runValidators: true,
   });
 
-  if (!coupon) return res.status(404).json({ error: "Cupom nao encontrado" });
-  return res.json(coupon);
-});
+    if (!coupon) return res.status(404).json({ error: "Cupom nao encontrado" });
+    return res.json(coupon);
+  })
+);
 
-router.delete("/:id", requireAuth(["owner"]), async (req, res) => {
-  const coupon = await Coupon.findByIdAndDelete(req.params.id);
-  if (!coupon) return res.status(404).json({ error: "Cupom nao encontrado" });
-  return res.json({ ok: true });
-});
+router.delete(
+  "/:id",
+  requireAuth(["owner"]),
+  asyncHandler(async (req, res) => {
+    const idOrCode = String(req.params.id || "").trim();
+    let coupon = null;
+    try {
+      coupon = await Coupon.findByIdAndDelete(idOrCode);
+    } catch (err) {
+      coupon = null;
+    }
+    if (!coupon) {
+      coupon = await Coupon.findOneAndDelete({ code: idOrCode.toUpperCase() });
+    }
+    if (!coupon) return res.status(404).json({ error: "Cupom nao encontrado" });
+    return res.json({ ok: true });
+  })
+);
 
 module.exports = router;

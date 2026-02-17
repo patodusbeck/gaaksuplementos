@@ -55,3 +55,58 @@ test("rota de lista de cupons bloqueia gerente", async () => {
       assert.equal(res.body.error, "Acesso negado");
     });
 });
+
+test("owner pode editar cupom", async () => {
+  const app = buildApp();
+  const ownerToken = signToken({ username: "admin", role: "owner" });
+
+  const originalFindByIdAndUpdate = Coupon.findByIdAndUpdate;
+  Coupon.findByIdAndUpdate = async (id, updates) => ({
+    _id: id,
+    code: updates.code || "GAAK15",
+    percent: updates.percent || 15,
+    usageLimit: updates.usageLimit || 0,
+    usedCount: 0,
+    expiresAt: updates.expiresAt || null,
+    active: updates.active !== false,
+  });
+
+  await request(app)
+    .put("/api/coupons/coupon-id-1")
+    .set("Authorization", `Bearer ${ownerToken}`)
+    .send({ percent: 25, active: true })
+    .expect(200)
+    .expect((res) => {
+      assert.equal(res.body.percent, 25);
+      assert.equal(res.body.active, true);
+    });
+
+  Coupon.findByIdAndUpdate = originalFindByIdAndUpdate;
+});
+
+test("owner pode excluir cupom vencido", async () => {
+  const app = buildApp();
+  const ownerToken = signToken({ username: "admin", role: "owner" });
+
+  const originalFindByIdAndDelete = Coupon.findByIdAndDelete;
+  const originalFindOneAndDelete = Coupon.findOneAndDelete;
+
+  Coupon.findByIdAndDelete = async (id) => {
+    if (id === "coupon-expired-id") {
+      return { _id: id, code: "VENCIDO", active: false };
+    }
+    return null;
+  };
+  Coupon.findOneAndDelete = async () => null;
+
+  await request(app)
+    .delete("/api/coupons/coupon-expired-id")
+    .set("Authorization", `Bearer ${ownerToken}`)
+    .expect(200)
+    .expect((res) => {
+      assert.equal(res.body.ok, true);
+    });
+
+  Coupon.findByIdAndDelete = originalFindByIdAndDelete;
+  Coupon.findOneAndDelete = originalFindOneAndDelete;
+});
