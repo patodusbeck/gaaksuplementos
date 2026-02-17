@@ -15,6 +15,9 @@ const buildApp = () => {
   const app = express();
   app.use(express.json());
   app.use("/api/orders", ordersRouter);
+  app.use((err, req, res, next) => {
+    res.status(500).json({ error: err.message || "Erro interno" });
+  });
   return app;
 };
 
@@ -85,4 +88,28 @@ test("pedido ignora preco enviado pelo cliente e usa catalogo", async () => {
   Customer.create = originalCustomerCreate;
   Coupon.findOne = originalCouponFindOne;
   Coupon.updateOne = originalCouponUpdateOne;
+});
+
+test("pedido retorna 500 quando leitura de catalogo falha", async () => {
+  const app = buildApp();
+
+  const originalCatalog = catalogService.readCatalogActiveMap;
+  catalogService.readCatalogActiveMap = async () => {
+    const err = new Error("no such file or directory");
+    err.code = "ENOENT";
+    throw err;
+  };
+
+  const response = await request(app).post("/api/orders").send({
+    customerName: "Kaio",
+    customerStreet: "Rua A",
+    customerNeighborhood: "Centro",
+    customerCity: "Cidade",
+    items: [{ productId: "x", quantity: 1 }],
+  });
+
+  assert.equal(response.status, 500);
+  assert.ok(response.body.error, "esperado payload de erro");
+
+  catalogService.readCatalogActiveMap = originalCatalog;
 });

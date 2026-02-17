@@ -9,6 +9,14 @@ initMonitoring();
 
 const PORT = process.env.PORT || 3000;
 
+process.on("unhandledRejection", (reason) => {
+  logger.error("unhandled_rejection", { error: reason });
+});
+
+process.on("uncaughtException", (error) => {
+  logger.error("uncaught_exception", { error });
+});
+
 app.listen(PORT, () => {
   logger.info("server_started", { port: Number(PORT) });
 });

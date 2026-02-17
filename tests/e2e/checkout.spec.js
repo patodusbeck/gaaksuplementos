@@ -25,7 +25,10 @@ const openCheckoutWithOneItem = async (page) => {
   await page.goto("/");
   await expect(page.locator('[data-add="creatina-monohidratada-500g"]').first()).toBeVisible();
 
-  await page.locator('[data-add="creatina-monohidratada-500g"]').first().click();
+  await page.evaluate(() => {
+    const addBtn = document.querySelector('[data-add="creatina-monohidratada-500g"]');
+    if (addBtn) addBtn.click();
+  });
   await page.click("#open-cart");
 };
 

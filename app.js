@@ -502,6 +502,23 @@ const getCheckoutErrorMessage = async (response) => {
   return backendMessage ? `${backendMessage}${suffix}` : `Não foi possível finalizar o pedido agora.${suffix}`;
 };
 
+const postJsonWithTimeout = async (url, body, timeoutMs = 25000) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    return response;
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
 const closeModal = () => {
   const overlay = document.getElementById("modal-overlay");
   if (!overlay) return;
@@ -662,10 +679,7 @@ const init = async () => {
 
     setCheckoutSubmitting(true);
     try {
-      const response = await fetch(`${API_BASE}/orders`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const response = await postJsonWithTimeout(`${API_BASE}/orders`, {
           customerName: nameValue,
           customerPhone: phoneValue,
           customerStreet: streetValue,
@@ -675,7 +689,6 @@ const init = async () => {
           customerComplement: complementValue,
           items,
           couponCode: appliedCoupon ? appliedCoupon.code : "",
-        }),
       });
 
       if (!response.ok) {
@@ -693,9 +706,12 @@ const init = async () => {
       toggleDrawer(false);
       openWhatsAppDirect(data);
     } catch (err) {
+      const timeoutMessage =
+        "Tempo limite para finalizar pedido. Tente novamente em instantes.";
       const fallback = "Não foi possível enviar o pedido agora. Verifique sua conexão e tente novamente.";
-      setCheckoutFeedback(err?.message || fallback);
-      showInfo("Erro no pedido", err?.message || fallback, "alert-circle-outline");
+      const message = err?.name === "AbortError" ? timeoutMessage : err?.message || fallback;
+      setCheckoutFeedback(message);
+      showInfo("Erro no pedido", message, "alert-circle-outline");
     } finally {
       setCheckoutSubmitting(false);
     }

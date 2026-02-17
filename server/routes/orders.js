@@ -5,6 +5,7 @@ const Customer = require("../models/Customer");
 const { requireAuth } = require("../middleware/auth");
 const catalogService = require("../services/catalog");
 const { logger } = require("../observability/logger");
+const { asyncHandler } = require("../utils/asyncHandler");
 
 const router = express.Router();
 
@@ -73,7 +74,9 @@ const resolveItems = async (itemsPayload) => {
   return resolved.filter((item) => item.price >= 0 && item.quantity > 0);
 };
 
-router.post("/", async (req, res) => {
+router.post(
+  "/",
+  asyncHandler(async (req, res) => {
   const {
     customerName,
     customerPhone,
@@ -197,17 +200,22 @@ router.post("/", async (req, res) => {
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encoded}`;
   const whatsappDeepLink = `whatsapp://send?phone=${whatsappNumber}&text=${encoded}`;
 
-  return res.status(201).json({
-    orderId: order._id,
-    customerId: customer._id,
-    whatsappUrl,
-    whatsappDeepLink,
-  });
-});
+    return res.status(201).json({
+      orderId: order._id,
+      customerId: customer._id,
+      whatsappUrl,
+      whatsappDeepLink,
+    });
+  })
+);
 
-router.get("/", requireAuth(["owner", "gerente"]), async (req, res) => {
-  const orders = await Order.find().sort({ createdAt: -1 });
-  return res.json(orders);
-});
+router.get(
+  "/",
+  requireAuth(["owner", "gerente"]),
+  asyncHandler(async (req, res) => {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    return res.json(orders);
+  })
+);
 
 module.exports = router;
