@@ -15,7 +15,7 @@ const setStatus = (text, isError = false) => {
 };
 
 const goAdmin = () => {
-  window.location.href = "admin.html";
+  window.location.href = "/admin";
 };
 
 const trySession = async () => {

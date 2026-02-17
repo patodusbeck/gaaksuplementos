@@ -87,9 +87,15 @@ const requireDb = async (req, res, next) => {
   }
 };
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(publicRoot, "index.html"));
-});
+const sendPublicHtml = (fileName) => (req, res) => {
+  res.sendFile(path.join(publicRoot, fileName));
+};
+
+app.get("/", sendPublicHtml("index.html"));
+app.get("/index", sendPublicHtml("index.html"));
+app.get("/admin", sendPublicHtml("admin.html"));
+app.get("/login", sendPublicHtml("login.html"));
+app.get("/privacy", sendPublicHtml("privacy.html"));
 
 app.get("/api/health", async (req, res) => {
   try {
