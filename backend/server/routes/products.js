@@ -7,6 +7,11 @@ router.get("/", async (req, res) => {
   try {
     const { collection, active, q } = req.query;
     let products = await readCatalog();
+    products = products.filter((item) => {
+      if (!item || typeof item !== "object") return false;
+      if (!item.id || !item.name) return false;
+      return Number.isFinite(Number(item.price));
+    });
 
     if (collection) {
       products = products.filter((item) => item.collection === collection);

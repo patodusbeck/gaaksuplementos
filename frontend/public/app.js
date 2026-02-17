@@ -618,7 +618,13 @@ const applyCoupon = async (code) => {
 
 const normalizeCatalogItems = (items) =>
   (Array.isArray(items) ? items : [])
-    .filter((item) => item && item.active !== false)
+    .filter((item) => {
+      if (!item || typeof item !== "object") return false;
+      if (!item.id || !item.name) return false;
+      const price = Number(item.price);
+      if (!Number.isFinite(price)) return false;
+      return item.active !== false;
+    })
     .map((item) => ({
       ...item,
       id: item._id || item.id,
