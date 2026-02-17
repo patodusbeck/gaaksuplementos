@@ -585,17 +585,34 @@ const init = async () => {
   const customerNeighborhood = document.getElementById("customer-neighborhood");
   const customerCity = document.getElementById("customer-city");
   const customerComplement = document.getElementById("customer-complement");
+  const checkoutFeedback = document.getElementById("checkout-feedback");
   const couponInput = document.getElementById("coupon-code");
   const applyCouponBtn = document.getElementById("apply-coupon");
+  const confirmCheckoutDefaultText = confirmCheckout ? confirmCheckout.textContent : "Finalizar compra";
+
+  const setCheckoutFeedback = (message = "") => {
+    if (!checkoutFeedback) return;
+    checkoutFeedback.textContent = String(message || "");
+  };
+
+  const setCheckoutSubmitting = (isSubmitting) => {
+    if (!confirmCheckout) return;
+    confirmCheckout.disabled = Boolean(isSubmitting);
+    confirmCheckout.textContent = isSubmitting ? "Enviando..." : confirmCheckoutDefaultText;
+  };
 
   const closeCheckoutModal = () => {
     if (!checkoutOverlay) return;
+    setCheckoutFeedback("");
+    setCheckoutSubmitting(false);
     checkoutOverlay.classList.remove("active");
     checkoutOverlay.setAttribute("aria-hidden", "true");
   };
 
   const openCheckoutModal = () => {
     if (!checkoutOverlay) return;
+    setCheckoutFeedback("");
+    setCheckoutSubmitting(false);
     checkoutOverlay.classList.add("active");
     checkoutOverlay.setAttribute("aria-hidden", "false");
     if (customerName) customerName.focus();
@@ -603,10 +620,13 @@ const init = async () => {
 
   const submitCheckout = async () => {
     if (cart.size === 0) {
+      setCheckoutFeedback("Adicione produtos antes de finalizar o pedido.");
       showInfo("Carrinho vazio", "Adicione produtos antes de finalizar o pedido.", "alert-circle-outline");
       closeCheckoutModal();
       return;
     }
+
+    setCheckoutFeedback("");
 
     const nameValue = customerName ? customerName.value.trim() : "";
     const phoneValue = customerPhone ? customerPhone.value.trim() : "";
@@ -617,11 +637,17 @@ const init = async () => {
     const complementValue = customerComplement ? customerComplement.value.trim() : "";
 
     if (!nameValue) {
+      setCheckoutFeedback("Informe seu nome para concluir o pedido.");
+      if (customerName) customerName.focus();
       showInfo("Seu nome", "Informe seu nome para concluir o pedido.", "person-outline");
       return;
     }
 
     if (!streetValue || !neighborhoodValue || !cityValue) {
+      setCheckoutFeedback("Preencha Rua, Bairro e Cidade para finalizar.");
+      if (!streetValue && customerStreet) customerStreet.focus();
+      else if (!neighborhoodValue && customerNeighborhood) customerNeighborhood.focus();
+      else if (!cityValue && customerCity) customerCity.focus();
       showInfo("Endereço", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
       return;
     }
@@ -634,6 +660,7 @@ const init = async () => {
       return payload;
     });
 
+    setCheckoutSubmitting(true);
     try {
       const response = await fetch(`${API_BASE}/orders`, {
         method: "POST",
@@ -656,6 +683,7 @@ const init = async () => {
         throw new Error(message);
       }
       const data = await response.json();
+      setCheckoutFeedback("");
       cart.clear();
       appliedCoupon = null;
       appliedDiscount = 0;
@@ -666,7 +694,10 @@ const init = async () => {
       openWhatsAppDirect(data);
     } catch (err) {
       const fallback = "Não foi possível enviar o pedido agora. Verifique sua conexão e tente novamente.";
+      setCheckoutFeedback(err?.message || fallback);
       showInfo("Erro no pedido", err?.message || fallback, "alert-circle-outline");
+    } finally {
+      setCheckoutSubmitting(false);
     }
   };
 

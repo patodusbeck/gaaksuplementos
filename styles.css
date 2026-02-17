@@ -1149,6 +1149,13 @@ body.cart-open {
   gap: 0.6rem;
 }
 
+.checkout-feedback {
+  min-height: 1.1rem;
+  color: #fda4af;
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
 @media (max-width: 540px) {
   .checkout-actions {
     flex-direction: column;
