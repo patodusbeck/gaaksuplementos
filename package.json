@@ -2,11 +2,11 @@
   "name": "gaak-suplementos",
   "version": "1.0.0",
   "description": "Backend API for GAAK SUPLEMENTOS",
-  "main": "server/index.js",
+  "main": "backend/server/index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "node server/index.js",
+    "start": "node backend/server/index.js",
+    "dev": "node backend/server/index.js",
     "test": "node --test tests/*.test.js",
     "test:e2e": "playwright test",
     "test:all": "npm run test && npm run test:e2e"

@@ -1369,6 +1369,7 @@ body.cart-open {
 }
 
 .product-modal-image-wrap {
+  position: relative;
   border-radius: 16px;
   border: 1px solid var(--line);
   background: linear-gradient(145deg, #141a28, #0d111b);
@@ -1380,6 +1381,57 @@ body.cart-open {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
+}
+
+.product-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(8, 10, 16, 0.62);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.product-carousel-btn.prev {
+  left: 10px;
+}
+
+.product-carousel-btn.next {
+  right: 10px;
+}
+
+.product-carousel-btn[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.product-carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.product-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.14);
+  padding: 0;
+  cursor: pointer;
+}
+
+.product-carousel-dot.active {
+  background: var(--accent);
+  border-color: var(--accent-2);
 }
 
 .product-modal-description {

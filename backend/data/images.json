@@ -1,0 +1,90 @@
+﻿[
+  {
+    "id": "creatina-monohidratada-500g",
+    "images": [
+      "/data/products/creatine/creatine.png",
+      "/data/products/creatine/nutrition.png",
+      "/data/products/creatine/creatine2.png"
+    ]
+  },
+  {
+    "id": "whey-protein-isolado-900g",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "pre-treino-dark-force-300g",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "kit-performance-whey-creatina",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "bcaa-211-200-caps",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "termogenico-burn-60-caps",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "creatina-creapure-250g",
+    "images": [
+      "/data/products/creatine.png",
+      "/data/products/creatine.png",
+      "/data/products/creatine.png"
+    ]
+  },
+  {
+    "id": "pre-treino-nitro-pump-300g",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "whey-3w-blend-900g",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "kit-definicao-burn-bcaa",
+    "images": [
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png",
+      "/data/images/gaaklogo.png"
+    ]
+  },
+  {
+    "id": "camisa-dark-lab",
+    "images": [
+      "/data/products/camdark.png",
+      "/data/products/camdark.png",
+      "/data/products/camdark.png"
+    ]
+  }
+]

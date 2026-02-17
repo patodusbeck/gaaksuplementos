@@ -1,24 +1,29 @@
 {
+  "functions": {
+    "backend/api/**/*.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "destination": "/backend/api/$1"
     },
     {
       "source": "/data/(.*)",
-      "destination": "/data/$1"
+      "destination": "/backend/data/$1"
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "/uploads/$1"
+      "destination": "/backend/uploads/$1"
     },
     {
       "source": "/",
-      "destination": "/public/index.html"
+      "destination": "/frontend/public/index.html"
     },
     {
       "source": "/(.*)",
-      "destination": "/public/$1"
+      "destination": "/frontend/public/$1"
     }
   ]
 }

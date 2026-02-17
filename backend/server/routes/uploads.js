@@ -2,11 +2,11 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { projectRoot } = require("../paths");
+const { uploadsRoot } = require("../paths");
 
 const router = express.Router();
 const isVercel = Boolean(process.env.VERCEL);
-const uploadDir = isVercel ? path.join("/tmp", "gaak-uploads") : path.join(projectRoot, "uploads");
+const uploadDir = isVercel ? path.join("/tmp", "gaak-uploads") : uploadsRoot;
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });

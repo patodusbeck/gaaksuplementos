@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
 const { connectDb } = require("./db");
-const { projectRoot, publicRoot, dataRoot } = require("./paths");
+const { publicRoot, dataRoot, uploadsRoot } = require("./paths");
 const productsRouter = require("./routes/products");
 const ordersRouter = require("./routes/orders");
 const uploadsRouter = require("./routes/uploads");
@@ -60,7 +60,7 @@ const apiLimiter = rateLimit({
 app.use("/api", apiLimiter);
 
 app.use(express.static(publicRoot));
-app.use("/uploads", express.static(path.join(projectRoot, "uploads")));
+app.use("/uploads", express.static(uploadsRoot));
 app.use("/data/images", express.static(path.join(dataRoot, "images")));
 app.use("/data/products", express.static(path.join(dataRoot, "products")));
 

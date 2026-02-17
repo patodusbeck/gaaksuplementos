@@ -3,8 +3,8 @@ const fs = require("fs");
 const path = require("path");
 
 const repoRoot = path.resolve(__dirname, "..", "..");
-const publicRoot = path.join(repoRoot, "public");
-const dataRoot = path.join(repoRoot, "data");
+const publicRoot = path.join(repoRoot, "frontend", "public");
+const dataRoot = path.join(repoRoot, "backend", "data");
 const host = "127.0.0.1";
 const port = Number(process.env.E2E_PORT || 4173);
 
@@ -25,7 +25,8 @@ const resolvePath = (urlPath) => {
   const filePath = normalized === "/" ? "/index.html" : normalized;
 
   if (filePath.startsWith("/data/")) {
-    const absoluteData = path.normalize(path.join(repoRoot, filePath));
+    const dataRelativePath = filePath.replace(/^\/data\//, "");
+    const absoluteData = path.normalize(path.join(dataRoot, dataRelativePath));
     if (!absoluteData.startsWith(dataRoot)) return null;
     return absoluteData;
   }

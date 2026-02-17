@@ -1,12 +1,12 @@
 ﻿const fs = require("fs/promises");
 const path = require("path");
-const { projectRoot } = require("../paths");
+const { dataRoot } = require("../paths");
 const { logger } = require("../observability/logger");
 
-const catalogPath = path.join(projectRoot, "data", "products.json");
-const fallbackCatalogPath = path.resolve(process.cwd(), "data", "products.json");
-const bundledCatalogPath = path.resolve(__dirname, "..", "..", "data", "products.json");
-const catalogPaths = [catalogPath, fallbackCatalogPath, bundledCatalogPath];
+const catalogPath = path.join(dataRoot, "products.json");
+const fallbackCatalogPath = path.resolve(process.cwd(), "backend", "data", "products.json");
+const legacyFallbackCatalogPath = path.resolve(process.cwd(), "data", "products.json");
+const catalogPaths = [catalogPath, fallbackCatalogPath, legacyFallbackCatalogPath];
 
 const readFirstAvailableCatalog = async () => {
   let lastError = null;

@@ -194,9 +194,24 @@ let bodyLockCount = 0;
 const API_BASE = "/api";
 let appliedCoupon = null;
 let appliedDiscount = 0;
+const DEFAULT_PRODUCT_IMAGE = "/data/images/gaaklogo.png";
 
 const formatCurrency = (value) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+const sanitizeImageList = (images, limit = 3) =>
+  (Array.isArray(images) ? images : [])
+    .map((image) => String(image || "").trim())
+    .filter(Boolean)
+    .slice(0, limit);
+
+const resolveProductImages = (product) => {
+  const fromImages = sanitizeImageList(product?.images);
+  const fromMain = String(product?.imageUrl || "").trim();
+  const merged = sanitizeImageList(fromMain ? [fromMain, ...fromImages] : fromImages);
+  if (merged.length > 0) return merged;
+  return [DEFAULT_PRODUCT_IMAGE];
+};
 
 const normalizeDigits = (value) => String(value || "").replace(/\D/g, "");
 
@@ -234,7 +249,7 @@ const renderProducts = (items, targetId) => {
   }
   container.innerHTML = items
     .map((item) => {
-      const imageUrl = String(item.imageUrl || "").trim() || "/data/images/gaaklogo.png";
+      const imageUrl = resolveProductImages(item)[0];
       const description = String(item.description || "Produto selecionado da GAAK SUPLEMENTOS.");
       const cardId = `product-${toDomSafeId(item.id)}`;
       return `
@@ -614,7 +629,12 @@ const loadImageMap = async () => {
     (Array.isArray(data) ? data : []).forEach((entry) => {
       const id = String(entry?.id || "").trim();
       if (!id) return;
-      map.set(id, String(entry?.imageUrl || "").trim());
+      const legacyImage = String(entry?.imageUrl || "").trim();
+      const images = sanitizeImageList(entry?.images);
+      const merged = sanitizeImageList(legacyImage ? [legacyImage, ...images] : images);
+      if (merged.length > 0) {
+        map.set(id, merged);
+      }
     });
     return map;
   } catch (err) {
@@ -625,10 +645,13 @@ const loadImageMap = async () => {
 const applyImageMapToCatalog = (items, imageMap) =>
   items.map((item) => {
     const productId = String(item.id || "");
-    const imageFromMap = String(imageMap.get(productId) || "").trim();
+    const imagesFromMap = sanitizeImageList(imageMap.get(productId));
+    const existingImages = resolveProductImages(item);
+    const images = imagesFromMap.length > 0 ? imagesFromMap : existingImages;
     return {
       ...item,
-      imageUrl: imageFromMap || String(item.imageUrl || "").trim(),
+      imageUrl: images[0] || DEFAULT_PRODUCT_IMAGE,
+      images,
     };
   });
 
@@ -775,13 +798,53 @@ const closeModal = () => {
   overlay.setAttribute("aria-hidden", "true");
 };
 
-let productModalState = { productId: "", quantity: 1 };
+let productModalState = { productId: "", quantity: 1, images: [DEFAULT_PRODUCT_IMAGE], currentImageIndex: 0 };
 
 const setProductModalQuantity = (value) => {
   const qtyEl = document.getElementById("product-qty-value");
   const next = Math.max(1, Number(value || 1));
   productModalState.quantity = next;
   if (qtyEl) qtyEl.textContent = String(next);
+};
+
+const renderProductModalCarousel = () => {
+  const image = document.getElementById("product-modal-image");
+  const dots = document.getElementById("product-carousel-dots");
+  const prevBtn = document.getElementById("product-image-prev");
+  const nextBtn = document.getElementById("product-image-next");
+  if (!image || !dots || !prevBtn || !nextBtn) return;
+
+  const images = sanitizeImageList(productModalState.images);
+  const total = images.length > 0 ? images.length : 1;
+  if (productModalState.currentImageIndex >= total) productModalState.currentImageIndex = 0;
+
+  const currentImage = images[productModalState.currentImageIndex] || DEFAULT_PRODUCT_IMAGE;
+  image.src = currentImage;
+  image.alt = `${document.getElementById("product-modal-title")?.textContent || "Produto"} (${productModalState.currentImageIndex + 1}/${total})`;
+
+  dots.innerHTML = Array.from({ length: total }, (_, index) => {
+    const activeClass = index === productModalState.currentImageIndex ? "active" : "";
+    return `<button class="product-carousel-dot ${activeClass}" type="button" data-product-dot="${index}" aria-label="Ver imagem ${index + 1}"></button>`;
+  }).join("");
+
+  const oneImage = total <= 1;
+  prevBtn.disabled = oneImage;
+  nextBtn.disabled = oneImage;
+};
+
+const setProductModalImages = (images) => {
+  const normalized = sanitizeImageList(images);
+  productModalState.images = normalized.length > 0 ? normalized : [DEFAULT_PRODUCT_IMAGE];
+  productModalState.currentImageIndex = 0;
+  renderProductModalCarousel();
+};
+
+const changeProductModalImage = (delta) => {
+  const images = sanitizeImageList(productModalState.images);
+  const total = images.length;
+  if (total <= 1) return;
+  productModalState.currentImageIndex = (productModalState.currentImageIndex + delta + total) % total;
+  renderProductModalCarousel();
 };
 
 const closeProductModal = () => {
@@ -815,7 +878,8 @@ const openProductModalById = (productId) => {
   description.textContent = product.description || "Produto selecionado da GAAK SUPLEMENTOS.";
   price.textContent = formatCurrency(Number(product.price || 0));
   installments.textContent = `3x de ${formatCurrency(Number(product.price || 0) / 3)} sem juros`;
-  image.src = String(product.imageUrl || "").trim() || "/data/images/gaaklogo.png";
+  setProductModalImages(resolveProductImages(product));
+  image.src = productModalState.images[0] || DEFAULT_PRODUCT_IMAGE;
   image.alt = product.name || "Produto";
   addBtn.textContent = `Adicionar ${formatCurrency(Number(product.price || 0))}`;
 
@@ -946,6 +1010,9 @@ const init = async () => {
   const applyCouponBtn = document.getElementById("apply-coupon");
   const productOverlay = document.getElementById("product-overlay");
   const closeProductModalBtn = document.getElementById("close-product-modal");
+  const productImagePrev = document.getElementById("product-image-prev");
+  const productImageNext = document.getElementById("product-image-next");
+  const productCarouselDots = document.getElementById("product-carousel-dots");
   const productQtyDec = document.getElementById("product-qty-dec");
   const productQtyInc = document.getElementById("product-qty-inc");
   const productModalAdd = document.getElementById("product-modal-add");
@@ -1159,6 +1226,26 @@ const init = async () => {
       addToCart(productModalState.productId, productModalState.quantity);
       closeProductModal();
       toggleDrawer(true);
+    });
+  }
+  if (productImagePrev) {
+    productImagePrev.addEventListener("click", () => {
+      changeProductModalImage(-1);
+    });
+  }
+  if (productImageNext) {
+    productImageNext.addEventListener("click", () => {
+      changeProductModalImage(1);
+    });
+  }
+  if (productCarouselDots) {
+    productCarouselDots.addEventListener("click", (event) => {
+      const dot = event.target.closest("[data-product-dot]");
+      if (!dot) return;
+      const index = Number(dot.getAttribute("data-product-dot"));
+      if (!Number.isFinite(index)) return;
+      productModalState.currentImageIndex = Math.max(0, index);
+      renderProductModalCarousel();
     });
   }
   if (closeProductModalBtn) {

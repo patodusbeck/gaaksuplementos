@@ -6,9 +6,9 @@ const bcrypt = require("bcryptjs");
 
 process.env.JWT_SECRET = "test-jwt-secret";
 
-const authRouter = require("../server/routes/auth");
-const AdminUser = require("../server/models/AdminUser");
-const seedAdminsService = require("../server/services/seedAdmins");
+const authRouter = require("../backend/server/routes/auth");
+const AdminUser = require("../backend/server/models/AdminUser");
+const seedAdminsService = require("../backend/server/services/seedAdmins");
 
 const buildApp = () => {
   const app = express();

@@ -8,7 +8,7 @@
 
 ## Deploy na Vercel
 
-- O projeto usa `vercel.json` para servir frontend a partir de `public/`.
+- O projeto usa `vercel.json` para servir frontend a partir de `frontend/public/`.
 - Rotas API continuam em `/api/*`.
 - Arquivos de dados/imagens continuam em `/data/*`.
 - Defina no projeto Vercel as variaveis de ambiente:
@@ -21,9 +21,10 @@
 
 ## Estrutura de estaticos
 
-- A aplicacao publica agora fica em `public/` (HTML/CSS/JS da loja e admin).
-- O backend serve somente `public/` como raiz estatica.
-- Dados do catalogo permanecem fora da raiz publica em `data/`.
+- Backend em `backend/` (API, server, dados e uploads).
+- Frontend em `frontend/` (`frontend/public` com HTML/CSS/JS).
+- O backend serve somente `frontend/public` como raiz estatica.
+- Dados do catalogo permanecem fora da raiz publica em `backend/data`.
 
 ## Variaveis de ambiente
 
@@ -38,7 +39,7 @@
 
 ## Login Admin
 
-- Tela de login: `login.html`
+- Tela de login: `frontend/public/login.html`
 - Endpoint unico de auth: `POST /api/admin-auth/login` e `GET /api/admin-auth/me`
 - Usuarios automáticos no MongoDB:
   - `admin` (role `owner`, acesso total)

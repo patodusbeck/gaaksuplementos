@@ -5,8 +5,8 @@ const request = require("supertest");
 
 process.env.JWT_SECRET = "test-jwt-secret";
 
-const ordersRouter = require("../server/routes/orders");
-const Order = require("../server/models/Order");
+const ordersRouter = require("../backend/server/routes/orders");
+const Order = require("../backend/server/models/Order");
 const { signToken } = require("./helpers");
 
 const buildApp = () => {

@@ -5,11 +5,11 @@ const request = require("supertest");
 
 process.env.JWT_SECRET = "test-jwt-secret";
 
-const ordersRouter = require("../server/routes/orders");
-const Order = require("../server/models/Order");
-const Coupon = require("../server/models/Coupon");
-const Customer = require("../server/models/Customer");
-const catalogService = require("../server/services/catalog");
+const ordersRouter = require("../backend/server/routes/orders");
+const Order = require("../backend/server/models/Order");
+const Coupon = require("../backend/server/models/Coupon");
+const Customer = require("../backend/server/models/Customer");
+const catalogService = require("../backend/server/services/catalog");
 
 const buildApp = () => {
   const app = express();

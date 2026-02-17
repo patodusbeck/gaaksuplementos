@@ -304,8 +304,15 @@
       </div>
       <div class="modal-body product-modal-body">
         <div class="product-modal-image-wrap">
+          <button class="product-carousel-btn prev" id="product-image-prev" type="button" aria-label="Imagem anterior">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
           <img id="product-modal-image" class="product-modal-image" src="/data/images/gaaklogo.png" alt="Produto" loading="lazy" />
+          <button class="product-carousel-btn next" id="product-image-next" type="button" aria-label="Próxima imagem">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
         </div>
+        <div class="product-carousel-dots" id="product-carousel-dots" aria-label="Navegação de imagens do produto"></div>
         <p id="product-modal-description" class="product-modal-description"></p>
         <div class="product-modal-price">
           <strong id="product-modal-price">R$ 0,00</strong>
