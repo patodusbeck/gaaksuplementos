@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
 const { connectDb } = require("./db");
-const { projectRoot } = require("./paths");
+const { projectRoot, publicRoot, dataRoot } = require("./paths");
 const productsRouter = require("./routes/products");
 const ordersRouter = require("./routes/orders");
 const uploadsRouter = require("./routes/uploads");
@@ -59,8 +59,18 @@ const apiLimiter = rateLimit({
 });
 app.use("/api", apiLimiter);
 
-app.use(express.static(projectRoot));
+app.use(express.static(publicRoot));
 app.use("/uploads", express.static(path.join(projectRoot, "uploads")));
+app.use("/data/images", express.static(path.join(dataRoot, "images")));
+app.use("/data/products", express.static(path.join(dataRoot, "products")));
+
+app.get("/data/images.json", (req, res) => {
+  res.sendFile(path.join(dataRoot, "images.json"));
+});
+
+app.get("/data/banners.json", (req, res) => {
+  res.sendFile(path.join(dataRoot, "banners.json"));
+});
 
 const requireDb = async (req, res, next) => {
   try {
@@ -78,7 +88,7 @@ const requireDb = async (req, res, next) => {
 };
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(projectRoot, "index.html"));
+  res.sendFile(path.join(publicRoot, "index.html"));
 });
 
 app.get("/api/health", async (req, res) => {

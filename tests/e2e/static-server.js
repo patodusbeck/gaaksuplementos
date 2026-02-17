@@ -2,7 +2,9 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const root = path.resolve(__dirname, "..", "..");
+const repoRoot = path.resolve(__dirname, "..", "..");
+const publicRoot = path.join(repoRoot, "public");
+const dataRoot = path.join(repoRoot, "data");
 const host = "127.0.0.1";
 const port = Number(process.env.E2E_PORT || 4173);
 
@@ -21,9 +23,16 @@ const contentTypes = {
 const resolvePath = (urlPath) => {
   const normalized = decodeURIComponent(String(urlPath || "/").split("?")[0]);
   const filePath = normalized === "/" ? "/index.html" : normalized;
-  const absolute = path.normalize(path.join(root, filePath));
-  if (!absolute.startsWith(root)) return null;
-  return absolute;
+
+  if (filePath.startsWith("/data/")) {
+    const absoluteData = path.normalize(path.join(repoRoot, filePath));
+    if (!absoluteData.startsWith(dataRoot)) return null;
+    return absoluteData;
+  }
+
+  const absolutePublic = path.normalize(path.join(publicRoot, filePath));
+  if (!absolutePublic.startsWith(publicRoot)) return null;
+  return absolutePublic;
 };
 
 const server = http.createServer((req, res) => {

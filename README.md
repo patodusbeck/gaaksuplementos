@@ -6,6 +6,25 @@
 2. Crie `.env` com base em `.env.example`
 3. `npm start`
 
+## Deploy na Vercel
+
+- O projeto usa `vercel.json` para servir frontend a partir de `public/`.
+- Rotas API continuam em `/api/*`.
+- Arquivos de dados/imagens continuam em `/data/*`.
+- Defina no projeto Vercel as variaveis de ambiente:
+  - `MONGODB_URI`
+  - `JWT_SECRET`
+  - `CORS_ORIGIN` (dominio(s) do frontend)
+  - `WHATSAPP_NUMBER` (opcional)
+  - `ADMIN_PASSWORD` e `MANAGER_PASSWORD` (primeiro seed)
+  - `SENTRY_DSN` e `SENTRY_TRACES_SAMPLE_RATE` (opcional)
+
+## Estrutura de estaticos
+
+- A aplicacao publica agora fica em `public/` (HTML/CSS/JS da loja e admin).
+- O backend serve somente `public/` como raiz estatica.
+- Dados do catalogo permanecem fora da raiz publica em `data/`.
+
 ## Variaveis de ambiente
 
 - `MONGODB_URI` - string de conexao do MongoDB

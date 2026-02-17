@@ -9,11 +9,9 @@ const ensureDefaultAdmins = async () => {
   const adminPassword = String(process.env.ADMIN_PASSWORD || process.env.OWNER_PASSWORD || "Owner@123").trim();
   const managerPassword = String(process.env.MANAGER_PASSWORD || "Gerente@123").trim();
 
-  const adminHash = await bcrypt.hash(adminPassword, 12);
-  const managerHash = await bcrypt.hash(managerPassword, 12);
-
   let admin = await AdminUser.findOne({ username: "admin" });
   if (!admin) {
+    const adminHash = await bcrypt.hash(adminPassword, 12);
     admin = await AdminUser.create({
       username: "admin",
       role: "owner",
@@ -21,14 +19,18 @@ const ensureDefaultAdmins = async () => {
       active: true,
     });
   } else {
-    admin.role = "owner";
-    admin.passwordHash = adminHash;
-    admin.active = true;
-    await admin.save();
+    // Preserve senha existente; apenas corrige role/status se necessario.
+    const needsUpdate = admin.role !== "owner" || admin.active !== true;
+    if (needsUpdate) {
+      admin.role = "owner";
+      admin.active = true;
+      await admin.save();
+    }
   }
 
   let manager = await AdminUser.findOne({ username: "gerente" });
   if (!manager) {
+    const managerHash = await bcrypt.hash(managerPassword, 12);
     manager = await AdminUser.create({
       username: "gerente",
       role: "gerente",
@@ -36,10 +38,13 @@ const ensureDefaultAdmins = async () => {
       active: true,
     });
   } else {
-    manager.role = "gerente";
-    manager.passwordHash = managerHash;
-    manager.active = true;
-    await manager.save();
+    // Preserve senha existente; apenas corrige role/status se necessario.
+    const needsUpdate = manager.role !== "gerente" || manager.active !== true;
+    if (needsUpdate) {
+      manager.role = "gerente";
+      manager.active = true;
+      await manager.save();
+    }
   }
 
   const legacyOwner = await AdminUser.findOne({ username: "owner", active: true });
