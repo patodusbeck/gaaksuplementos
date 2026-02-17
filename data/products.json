@@ -118,5 +118,17 @@
     "imageUrl": "",
     "collection": "launches",
     "active": true
+  },
+  {
+    "id": "camisa-dark-lab",
+    "name": "Camisa Dark Lab",
+    "description": "Camisa performance Dry Fit com modelagem esportiva para treino e uso casual.",
+    "price": 59.9,
+    "original": 79.9,
+    "category": "Acessorios",
+    "badge": "Destaque",
+    "imageUrl": "/data/products/camdark.png",
+    "collection": "accessories",
+    "active": true
   }
 ]

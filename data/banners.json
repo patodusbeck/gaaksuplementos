@@ -1,0 +1,55 @@
+{
+  "alert": {
+    "primary": "15% OFF no Pix em suplementos selecionados",
+    "secondary": "Frete gratis acima de R$ 199,00"
+  },
+  "mainBanner": {
+    "badge": "Oferta da semana",
+    "title": "Stack de forca e volume com desconto progressivo",
+    "description": "Creatina + Whey + Pre-treino com preco especial e entrega rapida.",
+    "priceFrom": "de R$ 289,90 por",
+    "priceTo": "R$ 219,90",
+    "imageUrl": "/data/images/image.png",
+    "primaryAction": {
+      "label": "Comprar agora",
+      "type": "scroll",
+      "target": "best-sellers-section"
+    },
+    "secondaryAction": {
+      "label": "Ver kits",
+      "type": "scroll",
+      "target": "kits-section"
+    }
+  },
+  "sideBanners": [
+    {
+      "eyebrow": "Pre-treino em alta",
+      "title": "Mais energia no treino",
+      "actionLabel": "Ver lancamentos",
+      "actionType": "scroll",
+      "actionTarget": "launches-section",
+      "theme": "pump"
+    },
+    {
+      "eyebrow": "Destaque da loja",
+      "title": "Camisa Dark Lab",
+      "actionLabel": "Ver produto",
+      "actionType": "product",
+      "actionTarget": "camisa-dark-lab",
+      "theme": "whey"
+    }
+  ],
+  "benefits": [
+    { "icon": "flash-outline", "label": "Entrega rapida" },
+    { "icon": "shield-checkmark-outline", "label": "Produtos originais" },
+    { "icon": "card-outline", "label": "Pix e cartao" },
+    { "icon": "pricetag-outline", "label": "Cupons exclusivos" }
+  ],
+  "featuredProduct": {
+    "badge": "Destaque",
+    "title": "Camisa Dark Lab",
+    "priceText": "R$ 59,90",
+    "imageUrl": "/data/products/camdark.png",
+    "productId": "camisa-dark-lab"
+  }
+}

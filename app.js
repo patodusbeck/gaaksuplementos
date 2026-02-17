@@ -103,7 +103,66 @@ const fallbackKits = [
   },
 ];
 
-const fallbackAccessories = [];
+const fallbackAccessories = [
+  {
+    id: "camisa-dark-lab",
+    name: "Camisa Dark Lab",
+    description: "Camisa performance Dry Fit com modelagem esportiva para treino e uso casual.",
+    price: 59.9,
+    original: 79.9,
+    category: "Acessorios",
+    badge: "Destaque",
+    imageUrl: "/data/products/camdark.png",
+  },
+];
+
+const fallbackStorefront = {
+  alert: {
+    primary: "15% OFF no Pix em suplementos selecionados",
+    secondary: "Frete gratis acima de R$ 199,00",
+  },
+  mainBanner: {
+    badge: "Oferta da semana",
+    title: "Stack de forca e volume com desconto progressivo",
+    description: "Creatina + Whey + Pre-treino com preco especial e entrega rapida.",
+    priceFrom: "de R$ 289,90 por",
+    priceTo: "R$ 219,90",
+    imageUrl: "/data/images/image.png",
+    primaryAction: { label: "Comprar agora", type: "scroll", target: "best-sellers-section" },
+    secondaryAction: { label: "Ver kits", type: "scroll", target: "kits-section" },
+  },
+  sideBanners: [
+    {
+      eyebrow: "Pre-treino em alta",
+      title: "Mais energia no treino",
+      actionLabel: "Ver lancamentos",
+      actionType: "scroll",
+      actionTarget: "launches-section",
+      theme: "pump",
+    },
+    {
+      eyebrow: "Destaque da loja",
+      title: "Camisa Dark Lab",
+      actionLabel: "Ver produto",
+      actionType: "product",
+      actionTarget: "camisa-dark-lab",
+      theme: "whey",
+    },
+  ],
+  benefits: [
+    { icon: "flash-outline", label: "Entrega rapida" },
+    { icon: "shield-checkmark-outline", label: "Produtos originais" },
+    { icon: "card-outline", label: "Pix e cartao" },
+    { icon: "pricetag-outline", label: "Cupons exclusivos" },
+  ],
+  featuredProduct: {
+    badge: "Destaque",
+    title: "Camisa Dark Lab",
+    priceText: "R$ 59,90",
+    imageUrl: "/data/products/camdark.png",
+    productId: "camisa-dark-lab",
+  },
+};
 
 const instagramPosts = [
   {
@@ -127,7 +186,10 @@ let products = [...fallbackProducts];
 let launches = [...fallbackLaunches];
 let kits = [...fallbackKits];
 let accessories = [...fallbackAccessories];
+let storefront = fallbackStorefront;
 const cart = new Map();
+let scrollLockTop = 0;
+let bodyLockCount = 0;
 
 const API_BASE = "/api";
 let appliedCoupon = null;
@@ -173,9 +235,13 @@ const renderProducts = (items, targetId) => {
   container.innerHTML = items
     .map((item) => {
       const imageUrl = String(item.imageUrl || "").trim() || "/data/images/gaaklogo.png";
+      const description = String(item.description || "Produto selecionado da GAAK SUPLEMENTOS.");
+      const cardId = `product-${toDomSafeId(item.id)}`;
       return `
-      <article class="product-card">        <div class="product-image has-image" style="background-image:url('${imageUrl}')"></div>
+      <article class="product-card" id="${cardId}" data-open-product="${item.id}">
+        <button class="product-image has-image product-image-link" type="button" data-open-product="${item.id}" style="background-image:url('${imageUrl}')"></button>
         <h3>${item.name}</h3>
+        <p class="product-desc">${description}</p>
         <div class="price">
           <strong>${formatCurrency(item.price)}</strong>
         </div>
@@ -210,6 +276,112 @@ const renderInstagram = () => {
     `
     )
     .join("");
+};
+
+const toDomSafeId = (value) => String(value || "").replace(/[^a-zA-Z0-9_-]/g, "-");
+
+const getProductById = (productId) =>
+  getAllDisplayItems().find((item) => String(item.id) === String(productId));
+
+const runStorefrontAction = (type, target) => {
+  if (type === "product") {
+    openProductModalById(target);
+    return;
+  }
+  if (type === "scroll") {
+    scrollToId(target);
+  }
+};
+
+const renderStorefront = () => {
+  const alertPrimary = document.getElementById("store-alert-primary");
+  const alertSecondary = document.getElementById("store-alert-secondary");
+  const storefrontGrid = document.getElementById("storefront-grid");
+  const benefitsEl = document.getElementById("store-benefits");
+  const heroFeaturedBadge = document.getElementById("hero-featured-badge");
+  const heroFeaturedTitle = document.getElementById("hero-featured-title");
+  const heroFeaturedPrice = document.getElementById("hero-featured-price");
+  const heroFeaturedImage = document.getElementById("hero-featured-image");
+  const heroFeaturedLink = document.getElementById("hero-featured-link");
+
+  if (alertPrimary) alertPrimary.textContent = storefront.alert?.primary || fallbackStorefront.alert.primary;
+  if (alertSecondary) {
+    alertSecondary.textContent = storefront.alert?.secondary || fallbackStorefront.alert.secondary;
+  }
+
+  const main = storefront.mainBanner || fallbackStorefront.mainBanner;
+  const side = Array.isArray(storefront.sideBanners) ? storefront.sideBanners : fallbackStorefront.sideBanners;
+
+  if (storefrontGrid) {
+    const bannerImage = String(main.imageUrl || "").trim();
+    const bannerStyle = bannerImage
+      ? `style="background-image: linear-gradient(150deg, rgba(23,28,42,0.92) 0%, rgba(15,19,32,0.95) 62%, rgba(10,13,20,0.96) 100%), url('${bannerImage}')"`
+      : "";
+    storefrontGrid.innerHTML = `
+      <article class="storefront-banner-main" ${bannerStyle}>
+        <div class="storefront-badge">${main.badge || "Oferta"}</div>
+        <h2>${main.title || ""}</h2>
+        <p>${main.description || ""}</p>
+        <div class="storefront-actions">
+          <button class="primary" data-storefront-action="${main.primaryAction?.type || "scroll"}" data-storefront-target="${main.primaryAction?.target || "best-sellers-section"}">
+            ${main.primaryAction?.label || "Comprar"}
+          </button>
+          <button class="ghost" data-storefront-action="${main.secondaryAction?.type || "scroll"}" data-storefront-target="${main.secondaryAction?.target || "kits-section"}">
+            ${main.secondaryAction?.label || "Ver mais"}
+          </button>
+        </div>
+        <div class="storefront-price">
+          <span>${main.priceFrom || ""}</span>
+          <strong>${main.priceTo || ""}</strong>
+        </div>
+      </article>
+      <div class="storefront-side">
+        ${side
+          .map(
+            (item) => `
+          <article class="storefront-mini banner-${item.theme || "pump"}">
+            <small>${item.eyebrow || ""}</small>
+            <strong>${item.title || ""}</strong>
+            <button
+              class="link"
+              data-storefront-action="${item.actionType || "scroll"}"
+              data-storefront-target="${item.actionTarget || "best-sellers-section"}"
+            >
+              ${item.actionLabel || "Ver"}
+            </button>
+          </article>
+        `
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+  const benefits = Array.isArray(storefront.benefits) ? storefront.benefits : fallbackStorefront.benefits;
+  if (benefitsEl) {
+    benefitsEl.innerHTML = benefits
+      .map(
+        (item) => `
+        <div class="benefit-item">
+          <ion-icon name="${item.icon || "flash-outline"}"></ion-icon>
+          <span>${item.label || ""}</span>
+        </div>
+      `
+      )
+      .join("");
+  }
+
+  const featured = storefront.featuredProduct || fallbackStorefront.featuredProduct;
+  if (heroFeaturedBadge) heroFeaturedBadge.textContent = featured.badge || "Destaque";
+  if (heroFeaturedTitle) heroFeaturedTitle.textContent = featured.title || "";
+  if (heroFeaturedPrice) heroFeaturedPrice.textContent = featured.priceText || "";
+  if (heroFeaturedImage) {
+    heroFeaturedImage.src = String(featured.imageUrl || "/data/products/camdark.png");
+    heroFeaturedImage.alt = featured.title || "Produto em destaque";
+  }
+  if (heroFeaturedLink) {
+    heroFeaturedLink.setAttribute("data-featured-product", String(featured.productId || ""));
+  }
 };
 
 const updateCartUI = () => {
@@ -263,12 +435,13 @@ const updateCartUI = () => {
   cartTotalFinalEl.textContent = formatCurrency(subtotal - appliedDiscount);
 };
 
-const addToCart = (id) => {
+const addToCart = (id, quantity = 1) => {
   const item = getAllDisplayItems().find((product) => String(product.id) === String(id));
   if (!item) return;
   const key = String(id);
   const current = cart.get(key) || { item, qty: 0 };
-  cart.set(key, { item, qty: current.qty + 1 });
+  const qty = Math.max(1, Number(quantity || 1));
+  cart.set(key, { item, qty: current.qty + qty });
   updateCartUI();
 };
 
@@ -318,7 +491,10 @@ const handleSearch = (query) => {
 };
 
 const lockBodyScroll = () => {
-  if (document.body.classList.contains("cart-open")) return;
+  if (bodyLockCount > 0) {
+    bodyLockCount += 1;
+    return;
+  }
   scrollLockTop = window.scrollY || window.pageYOffset || 0;
   document.body.classList.add("cart-open");
   document.body.style.top = `-${scrollLockTop}px`;
@@ -326,10 +502,13 @@ const lockBodyScroll = () => {
   document.body.style.width = "100%";
   document.body.style.left = "0";
   document.body.style.right = "0";
+  bodyLockCount = 1;
 };
 
 const unlockBodyScroll = () => {
-  if (!document.body.classList.contains("cart-open")) return;
+  if (bodyLockCount === 0) return;
+  bodyLockCount -= 1;
+  if (bodyLockCount > 0) return;
   document.body.classList.remove("cart-open");
   document.body.style.position = "";
   document.body.style.top = "";
@@ -416,16 +595,51 @@ const applyCoupon = async (code) => {
   }
 };
 
+const normalizeCatalogItems = (items) =>
+  (Array.isArray(items) ? items : [])
+    .filter((item) => item && item.active !== false)
+    .map((item) => ({
+      ...item,
+      id: item._id || item.id,
+      original: item.original || item.price,
+      description: String(item.description || "").trim(),
+    }));
+
+const loadImageMap = async () => {
+  try {
+    const response = await fetch("/data/images.json");
+    if (!response.ok) throw new Error("Falha ao carregar imagens");
+    const data = await response.json();
+    const map = new Map();
+    (Array.isArray(data) ? data : []).forEach((entry) => {
+      const id = String(entry?.id || "").trim();
+      if (!id) return;
+      map.set(id, String(entry?.imageUrl || "").trim());
+    });
+    return map;
+  } catch (err) {
+    return new Map();
+  }
+};
+
+const applyImageMapToCatalog = (items, imageMap) =>
+  items.map((item) => {
+    const productId = String(item.id || "");
+    const imageFromMap = String(imageMap.get(productId) || "").trim();
+    return {
+      ...item,
+      imageUrl: imageFromMap || String(item.imageUrl || "").trim(),
+    };
+  });
+
 const loadProducts = async () => {
+  const imageMap = await loadImageMap();
+
   try {
     const response = await fetch(`${API_BASE}/products?active=true`);
     if (!response.ok) throw new Error("Falha ao carregar produtos");
     const data = await response.json();
-    const normalized = data.map((item) => ({
-      ...item,
-      id: item._id || item.id,
-      original: item.original || item.price,
-    }));
+    const normalized = applyImageMapToCatalog(normalizeCatalogItems(data), imageMap);
 
     products = normalized.filter((item) => item.collection === "best-sellers" || !item.collection);
     launches = normalized.filter((item) => item.collection === "launches");
@@ -438,14 +652,38 @@ const loadProducts = async () => {
       return collection === "accessories" || collection === "acessorios" || category === "acessorios";
     });
 
-    if (products.length === 0) products = [...fallbackProducts];
-    if (launches.length === 0) launches = [...fallbackLaunches];
-    if (kits.length === 0) kits = [...fallbackKits];
-  } catch (err) {
-    products = [...fallbackProducts];
-    launches = [...fallbackLaunches];
-    kits = [...fallbackKits];
-    accessories = [...fallbackAccessories];
+    if (products.length === 0) products = applyImageMapToCatalog([...fallbackProducts], imageMap);
+    if (launches.length === 0) launches = applyImageMapToCatalog([...fallbackLaunches], imageMap);
+    if (kits.length === 0) kits = applyImageMapToCatalog([...fallbackKits], imageMap);
+    if (accessories.length === 0) accessories = applyImageMapToCatalog([...fallbackAccessories], imageMap);
+  } catch (apiErr) {
+    try {
+      const staticResponse = await fetch("/data/products.json");
+      if (!staticResponse.ok) throw new Error("Falha ao carregar products.json");
+      const staticData = await staticResponse.json();
+      const normalized = applyImageMapToCatalog(normalizeCatalogItems(staticData), imageMap);
+
+      products = normalized.filter((item) => item.collection === "best-sellers" || !item.collection);
+      launches = normalized.filter((item) => item.collection === "launches");
+      kits = normalized.filter(
+        (item) => item.collection === "kits" || String(item.category || "").toLowerCase() === "kits"
+      );
+      accessories = normalized.filter((item) => {
+        const collection = String(item.collection || "").toLowerCase();
+        const category = String(item.category || "").toLowerCase();
+        return collection === "accessories" || collection === "acessorios" || category === "acessorios";
+      });
+
+      if (products.length === 0) products = applyImageMapToCatalog([...fallbackProducts], imageMap);
+      if (launches.length === 0) launches = applyImageMapToCatalog([...fallbackLaunches], imageMap);
+      if (kits.length === 0) kits = applyImageMapToCatalog([...fallbackKits], imageMap);
+      if (accessories.length === 0) accessories = applyImageMapToCatalog([...fallbackAccessories], imageMap);
+    } catch (err) {
+      products = applyImageMapToCatalog([...fallbackProducts], imageMap);
+      launches = applyImageMapToCatalog([...fallbackLaunches], imageMap);
+      kits = applyImageMapToCatalog([...fallbackKits], imageMap);
+      accessories = applyImageMapToCatalog([...fallbackAccessories], imageMap);
+    }
   }
 };
 
@@ -519,11 +757,86 @@ const postJsonWithTimeout = async (url, body, timeoutMs = 25000) => {
   }
 };
 
+const loadStorefront = async () => {
+  try {
+    const response = await fetch("/data/banners.json");
+    if (!response.ok) throw new Error("Falha ao carregar banners");
+    const data = await response.json();
+    storefront = data && typeof data === "object" ? data : fallbackStorefront;
+  } catch (err) {
+    storefront = fallbackStorefront;
+  }
+};
+
 const closeModal = () => {
   const overlay = document.getElementById("modal-overlay");
   if (!overlay) return;
   overlay.classList.remove("active");
   overlay.setAttribute("aria-hidden", "true");
+};
+
+let productModalState = { productId: "", quantity: 1 };
+
+const setProductModalQuantity = (value) => {
+  const qtyEl = document.getElementById("product-qty-value");
+  const next = Math.max(1, Number(value || 1));
+  productModalState.quantity = next;
+  if (qtyEl) qtyEl.textContent = String(next);
+};
+
+const closeProductModal = () => {
+  const overlay = document.getElementById("product-overlay");
+  if (!overlay) return;
+  if (!overlay.classList.contains("active")) return;
+  overlay.classList.remove("active");
+  overlay.setAttribute("aria-hidden", "true");
+  unlockBodyScroll();
+};
+
+const openProductModalById = (productId) => {
+  const product = getProductById(productId);
+  if (!product) return;
+
+  const overlay = document.getElementById("product-overlay");
+  const title = document.getElementById("product-modal-title");
+  const image = document.getElementById("product-modal-image");
+  const description = document.getElementById("product-modal-description");
+  const price = document.getElementById("product-modal-price");
+  const installments = document.getElementById("product-modal-installments");
+  const addBtn = document.getElementById("product-modal-add");
+
+  if (!overlay || !title || !image || !description || !price || !installments || !addBtn) return;
+  if (overlay.classList.contains("active")) return;
+
+  productModalState.productId = String(product.id);
+  setProductModalQuantity(1);
+
+  title.textContent = product.name || "Produto";
+  description.textContent = product.description || "Produto selecionado da GAAK SUPLEMENTOS.";
+  price.textContent = formatCurrency(Number(product.price || 0));
+  installments.textContent = `3x de ${formatCurrency(Number(product.price || 0) / 3)} sem juros`;
+  image.src = String(product.imageUrl || "").trim() || "/data/images/gaaklogo.png";
+  image.alt = product.name || "Produto";
+  addBtn.textContent = `Adicionar ${formatCurrency(Number(product.price || 0))}`;
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden", "false");
+  lockBodyScroll();
+};
+
+const goToProductById = (productId, openModalAfterScroll = true) => {
+  const anchorId = `product-${toDomSafeId(productId)}`;
+  const target = document.getElementById(anchorId);
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.classList.add("product-focus");
+    setTimeout(() => target.classList.remove("product-focus"), 1400);
+  } else {
+    scrollToId("accessories-section");
+  }
+  if (openModalAfterScroll) {
+    setTimeout(() => openProductModalById(productId), 280);
+  }
 };
 
 const menuMap = {
@@ -537,6 +850,22 @@ document.addEventListener("click", (event) => {
   const addBtn = event.target.closest("[data-add]");
   if (addBtn) {
     addToCart(addBtn.dataset.add);
+    return;
+  }
+
+  const storefrontBtn = event.target.closest("[data-storefront-action]");
+  if (storefrontBtn) {
+    runStorefrontAction(
+      storefrontBtn.getAttribute("data-storefront-action"),
+      storefrontBtn.getAttribute("data-storefront-target")
+    );
+    return;
+  }
+
+  const featuredBtn = event.target.closest("[data-featured-product]");
+  if (featuredBtn) {
+    const productId = featuredBtn.getAttribute("data-featured-product");
+    if (productId) goToProductById(productId, true);
     return;
   }
 
@@ -563,11 +892,21 @@ document.addEventListener("click", (event) => {
     if (targetId) {
       scrollToId(targetId);
     }
+    return;
+  }
+
+  const openProductBtn = event.target.closest("[data-open-product]");
+  if (openProductBtn) {
+    const isAddButton = event.target.closest("[data-add]");
+    if (isAddButton) return;
+    openProductModalById(openProductBtn.getAttribute("data-open-product"));
   }
 });
 
 const init = async () => {
+  await loadStorefront();
   await loadProducts();
+  renderStorefront();
   renderProducts(products, "best-sellers");
   renderProducts(launches, "launches");
   renderProducts(kits, "kits");
@@ -605,6 +944,11 @@ const init = async () => {
   const checkoutFeedback = document.getElementById("checkout-feedback");
   const couponInput = document.getElementById("coupon-code");
   const applyCouponBtn = document.getElementById("apply-coupon");
+  const productOverlay = document.getElementById("product-overlay");
+  const closeProductModalBtn = document.getElementById("close-product-modal");
+  const productQtyDec = document.getElementById("product-qty-dec");
+  const productQtyInc = document.getElementById("product-qty-inc");
+  const productModalAdd = document.getElementById("product-modal-add");
   const confirmCheckoutDefaultText = confirmCheckout ? confirmCheckout.textContent : "Finalizar compra";
 
   const setCheckoutFeedback = (message = "") => {
@@ -799,6 +1143,33 @@ const init = async () => {
     });
   }
 
+  if (productQtyDec) {
+    productQtyDec.addEventListener("click", () => {
+      setProductModalQuantity(productModalState.quantity - 1);
+    });
+  }
+  if (productQtyInc) {
+    productQtyInc.addEventListener("click", () => {
+      setProductModalQuantity(productModalState.quantity + 1);
+    });
+  }
+  if (productModalAdd) {
+    productModalAdd.addEventListener("click", () => {
+      if (!productModalState.productId) return;
+      addToCart(productModalState.productId, productModalState.quantity);
+      closeProductModal();
+      toggleDrawer(true);
+    });
+  }
+  if (closeProductModalBtn) {
+    closeProductModalBtn.addEventListener("click", closeProductModal);
+  }
+  if (productOverlay) {
+    productOverlay.addEventListener("click", (event) => {
+      if (event.target === productOverlay) closeProductModal();
+    });
+  }
+
   if (newsletterForm) {
     newsletterForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -813,6 +1184,12 @@ const init = async () => {
       if (checkoutOverlay && checkoutOverlay.classList.contains("active")) {
         checkoutOverlay.classList.remove("active");
         checkoutOverlay.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      const productOverlay = document.getElementById("product-overlay");
+      if (productOverlay && productOverlay.classList.contains("active")) {
+        closeProductModal();
         return;
       }
 

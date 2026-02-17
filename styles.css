@@ -225,6 +225,8 @@ input {
   background:
     radial-gradient(circle at 76% 24%, rgba(244, 63, 94, 0.36), transparent 45%),
     linear-gradient(150deg, #171c2a 0%, #0f1320 62%, #0a0d14 100%);
+  background-size: cover;
+  background-position: center;
   border: 1px solid var(--line);
   border-radius: 22px;
   padding: 1.35rem;
@@ -501,6 +503,10 @@ input {
   position: relative;
 }
 
+.product-focus {
+  box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.65), 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
 .product-card .badge {
   display: none;
 }
@@ -521,8 +527,20 @@ input {
   color: transparent;
 }
 
+.product-image-link {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+
 .product-card h3 {
   font-size: 1rem;
+}
+
+.product-desc {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  min-height: 2.3rem;
 }
 
 .price {
@@ -1333,9 +1351,89 @@ body.cart-open {
   width: min(560px, 94vw);
 }
 
+.product-modal {
+  width: min(560px, 94vw);
+  max-height: min(92vh, 860px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.product-modal-body {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.2rem;
+}
+
+.product-modal-image-wrap {
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, #141a28, #0d111b);
+  overflow: hidden;
+}
+
+.product-modal-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.product-modal-description {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.product-modal-price {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.product-modal-price strong {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1;
+}
+
+.product-modal-price span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.product-modal-actions {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+}
+
+.product-modal-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.product-modal-qty .ghost {
+  width: 44px;
+  height: 42px;
+  padding: 0;
+}
+
+.product-modal-qty strong {
+  min-width: 22px;
+  text-align: center;
+}
+
 .checkout-actions {
   justify-content: flex-end;
   gap: 0.6rem;
+}
+
+#product-overlay {
+  overscroll-behavior: contain;
 }
 
 .checkout-feedback {
@@ -1348,6 +1446,14 @@ body.cart-open {
 @media (max-width: 540px) {
   .checkout-actions {
     flex-direction: column;
+  }
+
+  .product-modal-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .product-modal-qty {
+    justify-content: center;
   }
 }
 

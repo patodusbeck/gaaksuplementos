@@ -1,7 +1,7 @@
 [
   {
     "id": "creatina-monohidratada-500g",
-    "imageUrl": ""
+    "imageUrl": "/data/products/creatine.png"
   },
   {
     "id": "whey-protein-isolado-900g",
@@ -38,5 +38,9 @@
   {
     "id": "kit-definicao-burn-bcaa",
     "imageUrl": ""
+  },
+  {
+    "id": "camisa-dark-lab",
+    "imageUrl": "/data/products/camdark.png"
   }
 ]
