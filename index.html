@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="UTF-8" />
   <meta name="Language" content="pt" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Gaak Suplementos: suplementos originais com preços especiais. Creatina, Whey, Pré-Workout e muito mais para seus resultados." />
   <meta name="theme-color" content="#b10000" />
   <link rel="icon" href="/data/images/gs-icon.svg" type="image/svg+xml" sizes="128x128" />
@@ -59,7 +59,7 @@
           <button class="nav-item" data-menu="categorias">Categorias</button>
           <button class="nav-item" data-menu="proteinas">Proteínas</button>
           <button class="nav-item" data-menu="pretreino">Pre-Treino</button>
-          <button class="nav-item" data-scroll="launches-section">Kits</button>
+          <button class="nav-item" data-scroll="kits-section">Kits</button>
         </nav>
 
         <div class="header-actions">
@@ -78,6 +78,64 @@
         </div>
       </div>
     </header>
+
+    <section class="store-alert">
+      <div class="container store-alert-row">
+        <span>15% OFF no PIX no kit da semana</span>
+        <strong>Frete grátis acima de R$ 199,00</strong>
+      </div>
+    </section>
+
+    <section class="section storefront-section" id="storefront-section">
+      <div class="container storefront-grid">
+        <article class="storefront-banner-main">
+          <div class="storefront-badge">Oferta da semana</div>
+          <h2>Stack de força e volume com desconto progressivo</h2>
+          <p>Creatina + Whey + Pré-treino com preço especial para pagamento no Pix e entrega rápida.</p>
+          <div class="storefront-actions">
+            <button class="primary" data-scroll="best-sellers-section">Comprar agora</button>
+            <button class="ghost" data-scroll="kits-section">Ver kits</button>
+          </div>
+          <div class="storefront-price">
+            <span>de R$ 289,90 por</span>
+            <strong>R$ 219,90</strong>
+          </div>
+        </article>
+
+        <div class="storefront-side">
+          <article class="storefront-mini banner-pump">
+            <small>Pré-treino em alta</small>
+            <strong>Mais energia no treino</strong>
+            <button class="link" data-scroll="launches-section">Ver lançamentos</button>
+          </article>
+
+          <article class="storefront-mini banner-whey">
+            <small>Proteína premium</small>
+            <strong>Whey com até 20% OFF</strong>
+            <button class="link" data-scroll="best-sellers-section">Aproveitar oferta</button>
+          </article>
+        </div>
+      </div>
+
+      <div class="container store-benefits" aria-label="Vantagens da loja">
+        <div class="benefit-item">
+          <ion-icon name="flash-outline"></ion-icon>
+          <span>Entrega rápida</span>
+        </div>
+        <div class="benefit-item">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <span>Produtos originais</span>
+        </div>
+        <div class="benefit-item">
+          <ion-icon name="card-outline"></ion-icon>
+          <span>Pix e cartão</span>
+        </div>
+        <div class="benefit-item">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <span>Cupons exclusivos</span>
+        </div>
+      </div>
+    </section>
 
     <section class="hero">
       <div class="container hero-grid">
@@ -105,15 +163,36 @@
         </div>
     </section>
 
-    <section class="section" id="best-sellers-section">
+    <section class="section" id="launches-section">
       <div class="container">
         <div class="section-header">
-          <h2>Mais vendidos</h2>
-          <button class="link" data-scroll="best-sellers-section">Ver todos</button>
+          <h2>Lançamentos GAAK SUPLEMENTOS</h2>
+          <button class="link" data-scroll="launches-section">Ver coleção</button>
         </div>
-        <div class="product-grid" id="best-sellers"></div>
+        <div class="product-grid" id="launches"></div>
       </div>
     </section>
+
+    <section class="section" id="kits-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Kits</h2>
+          <button class="link" data-scroll="kits-section">Ver todos</button>
+        </div>
+        <div class="product-grid" id="kits"></div>
+      </div>
+    </section>
+
+    <section class="section" id="accessories-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Acessorios</h2>
+          <button class="link" data-scroll="accessories-section">Ver todos</button>
+        </div>
+        <div class="product-grid" id="accessories"></div>
+      </div>
+    </section>
+
 
     <section class="section objective" id="objective">
       <div class="container">
@@ -136,13 +215,13 @@
         </div>
     </section>
 
-    <section class="section" id="launches-section">
+    <section class="section" id="best-sellers-section">
       <div class="container">
         <div class="section-header">
-          <h2>Lançamentos GAAK SUPLEMENTOS</h2>
-          <button class="link" data-scroll="launches-section">Ver coleção</button>
+          <h2>Mais vendidos</h2>
+          <button class="link" data-scroll="best-sellers-section">Ver todos</button>
         </div>
-        <div class="product-grid" id="launches"></div>
+        <div class="product-grid" id="best-sellers"></div>
       </div>
     </section>
 
@@ -278,6 +357,7 @@
           <input class="cart-input" id="customer-neighborhood" type="text" placeholder="Bairro" />
           <input class="cart-input" id="customer-city" type="text" placeholder="Cidade" />
           <input class="cart-input" id="customer-complement" type="text" placeholder="Complemento (opcional)" />
+          <p class="checkout-feedback" id="checkout-feedback" role="alert" aria-live="polite"></p>
         </div>
       </div>
       <div class="modal-footer checkout-actions">
@@ -289,6 +369,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
