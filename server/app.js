@@ -11,6 +11,9 @@ const uploadsRouter = require("./routes/uploads");
 const couponsRouter = require("./routes/coupons");
 const customersRouter = require("./routes/customers");
 const authRouter = require("./routes/auth");
+const { logger } = require("./observability/logger");
+const { requestContext, requestLogger } = require("./observability/requestContext");
+const { captureException } = require("./observability/monitoring");
 
 const parseAllowedOrigins = () =>
   String(process.env.CORS_ORIGIN || "")
@@ -45,6 +48,8 @@ const app = express();
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors(buildCorsOptions()));
 app.use(express.json({ limit: "1mb" }));
+app.use(requestContext);
+app.use(requestLogger);
 
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -62,6 +67,12 @@ const requireDb = async (req, res, next) => {
     await connectDb();
     return next();
   } catch (err) {
+    captureException(err, { requestId: req.requestId, path: req.originalUrl || req.url });
+    logger.error("db_connection_error", {
+      requestId: req.requestId,
+      path: req.originalUrl || req.url,
+      error: err,
+    });
     return res.status(500).json({ error: err.message || "Erro ao conectar no banco" });
   }
 };
@@ -87,11 +98,22 @@ app.use(["/api/admin-auth"], requireDb, authRouter);
 app.use(["/api/uploads", "/uploads-api"], uploadsRouter);
 
 app.use((req, res) => {
+  logger.warn("route_not_found", {
+    requestId: req.requestId,
+    method: req.method,
+    path: req.originalUrl || req.url,
+  });
   return res.status(404).json({ error: "Rota nao encontrada" });
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  captureException(err, { requestId: req.requestId, path: req.originalUrl || req.url });
+  logger.error("unhandled_error", {
+    requestId: req.requestId,
+    method: req.method,
+    path: req.originalUrl || req.url,
+    error: err,
+  });
   return res.status(500).json({ error: err.message || "Erro interno" });
 });
 

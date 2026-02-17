@@ -1,6 +1,6 @@
 ﻿const fallbackProducts = [
   {
-    id: 1,
+    id: "creatina-monohidratada-500g",
     name: "Creatina Monohidratada 500g",
     price: 47.9,
     original: 59.9,
@@ -8,7 +8,7 @@
     badge: "Destaque",
   },
   {
-    id: 2,
+    id: "whey-protein-isolado-900g",
     name: "Whey Protein Isolado 900g",
     price: 139.9,
     original: 179.9,
@@ -16,7 +16,7 @@
     badge: "Mais vendido",
   },
   {
-    id: 3,
+    id: "pre-treino-dark-force-300g",
     name: "Pre-Treino Dark Force 300g",
     price: 89.9,
     original: 109.9,
@@ -24,7 +24,7 @@
     badge: "Energia",
   },
   {
-    id: 4,
+    id: "kit-performance-whey-creatina",
     name: "Kit Performance (Whey + Creatina)",
     price: 179.9,
     original: 219.9,
@@ -32,7 +32,7 @@
     badge: "Combo",
   },
   {
-    id: 5,
+    id: "bcaa-211-200-caps",
     name: "BCAA 2:1:1 200 caps",
     price: 69.9,
     original: 89.9,
@@ -40,7 +40,7 @@
     badge: "Recuperação",
   },
   {
-    id: 6,
+    id: "termogenico-burn-60-caps",
     name: "Termogenico Burn 60 caps",
     price: 49.9,
     original: 69.9,
@@ -51,7 +51,7 @@
 
 const fallbackLaunches = [
   {
-    id: 7,
+    id: "creatina-creapure-250g",
     name: "Creatina Creapure 250g",
     price: 79.9,
     original: 95.9,
@@ -59,7 +59,7 @@ const fallbackLaunches = [
     badge: "Novo",
   },
   {
-    id: 8,
+    id: "pre-treino-nitro-pump-300g",
     name: "Pre-Treino Nitro Pump 300g",
     price: 99.9,
     original: 119.9,
@@ -67,7 +67,7 @@ const fallbackLaunches = [
     badge: "Lançamento",
   },
   {
-    id: 9,
+    id: "whey-3w-blend-900g",
     name: "Whey 3W Blend 900g",
     price: 129.9,
     original: 149.9,
@@ -75,7 +75,7 @@ const fallbackLaunches = [
     badge: "Novo",
   },
   {
-    id: 10,
+    id: "kit-definicao-burn-bcaa",
     name: "Kit Definição (Burn + BCAA)",
     price: 109.9,
     original: 139.9,
@@ -83,6 +83,27 @@ const fallbackLaunches = [
     badge: "Combo",
   },
 ];
+
+const fallbackKits = [
+  {
+    id: "kit-performance-whey-creatina",
+    name: "Kit Performance (Whey + Creatina)",
+    price: 179.9,
+    original: 219.9,
+    category: "Kits",
+    badge: "Kit",
+  },
+  {
+    id: "kit-definicao-burn-bcaa",
+    name: "Kit Definicao (Burn + BCAA)",
+    price: 109.9,
+    original: 139.9,
+    category: "Kits",
+    badge: "Kit",
+  },
+];
+
+const fallbackAccessories = [];
 
 const instagramPosts = [
   {
@@ -104,6 +125,8 @@ const instagramPosts = [
 
 let products = [...fallbackProducts];
 let launches = [...fallbackLaunches];
+let kits = [...fallbackKits];
+let accessories = [...fallbackAccessories];
 const cart = new Map();
 
 const API_BASE = "/api";
@@ -142,6 +165,11 @@ const openWhatsAppDirect = (payload) => {
 
 const renderProducts = (items, targetId) => {
   const container = document.getElementById(targetId);
+  if (!container) return;
+  if (!Array.isArray(items) || items.length === 0) {
+    container.innerHTML = '<p class="admin-muted">Em breve, novos produtos nesta secao.</p>';
+    return;
+  }
   container.innerHTML = items
     .map((item) => {
       const imageUrl = String(item.imageUrl || "").trim() || "/data/images/gaaklogo.png";
@@ -236,7 +264,7 @@ const updateCartUI = () => {
 };
 
 const addToCart = (id) => {
-  const item = [...products, ...launches].find((product) => String(product.id) === String(id));
+  const item = getAllDisplayItems().find((product) => String(product.id) === String(id));
   if (!item) return;
   const key = String(id);
   const current = cart.get(key) || { item, qty: 0 };
@@ -257,13 +285,15 @@ const updateQuantity = (id, delta) => {
   updateCartUI();
 };
 
+const getAllDisplayItems = () => [...products, ...launches, ...kits, ...accessories];
+
 const handleSearch = (query) => {
   const results = document.getElementById("search-results");
   if (!query) {
     results.innerHTML = "<span>Digite para buscar produtos.</span>";
     return;
   }
-  const matches = [...products, ...launches].filter((item) =>
+  const matches = getAllDisplayItems().filter((item) =>
     item.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -397,15 +427,25 @@ const loadProducts = async () => {
       original: item.original || item.price,
     }));
 
-    products = normalized.filter((item) => item.collection !== "launches");
+    products = normalized.filter((item) => item.collection === "best-sellers" || !item.collection);
     launches = normalized.filter((item) => item.collection === "launches");
-    if (products.length === 0 && launches.length > 0) {
-      products = [...launches];
-      launches = [];
-    }
+    kits = normalized.filter(
+      (item) => item.collection === "kits" || String(item.category || "").toLowerCase() === "kits"
+    );
+    accessories = normalized.filter((item) => {
+      const collection = String(item.collection || "").toLowerCase();
+      const category = String(item.category || "").toLowerCase();
+      return collection === "accessories" || collection === "acessorios" || category === "acessorios";
+    });
+
+    if (products.length === 0) products = [...fallbackProducts];
+    if (launches.length === 0) launches = [...fallbackLaunches];
+    if (kits.length === 0) kits = [...fallbackKits];
   } catch (err) {
     products = [...fallbackProducts];
     launches = [...fallbackLaunches];
+    kits = [...fallbackKits];
+    accessories = [...fallbackAccessories];
   }
 };
 
@@ -429,6 +469,39 @@ const showInfo = (title, message, icon = "information-circle") => {
   overlay.setAttribute("aria-hidden", "false");
 };
 
+const getCheckoutErrorMessage = async (response) => {
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch (err) {
+    payload = null;
+  }
+
+  const backendMessage = String(
+    (payload && (payload.error || payload.message || payload.detail || payload.details)) || ""
+  ).trim();
+  const requestId = String(response.headers.get("x-request-id") || "").trim();
+  const suffix = requestId ? ` (ref: ${requestId})` : "";
+
+  if (response.status === 400) {
+    return backendMessage ? `${backendMessage}${suffix}` : `Dados do pedido inválidos.${suffix}`;
+  }
+  if (response.status === 401 || response.status === 403) {
+    return `Ação não autorizada para finalizar o pedido.${suffix}`;
+  }
+  if (response.status === 404) {
+    return `Serviço de pedidos indisponível no momento.${suffix}`;
+  }
+  if (response.status === 429) {
+    return `Muitas tentativas. Aguarde alguns segundos e tente novamente.${suffix}`;
+  }
+  if (response.status >= 500) {
+    return backendMessage ? `${backendMessage}${suffix}` : `Instabilidade no servidor ao criar o pedido.${suffix}`;
+  }
+
+  return backendMessage ? `${backendMessage}${suffix}` : `Não foi possível finalizar o pedido agora.${suffix}`;
+};
+
 const closeModal = () => {
   const overlay = document.getElementById("modal-overlay");
   if (!overlay) return;
@@ -440,6 +513,7 @@ const menuMap = {
   categorias: "best-sellers-section",
   proteinas: "best-sellers-section",
   pretreino: "launches-section",
+  kits: "kits-section",
 };
 
 document.addEventListener("click", (event) => {
@@ -479,6 +553,8 @@ const init = async () => {
   await loadProducts();
   renderProducts(products, "best-sellers");
   renderProducts(launches, "launches");
+  renderProducts(kits, "kits");
+  renderProducts(accessories, "accessories");
   renderInstagram();
   updateCartUI();
 
@@ -575,7 +651,10 @@ const init = async () => {
         }),
       });
 
-      if (!response.ok) throw new Error("Falha ao enviar pedido");
+      if (!response.ok) {
+        const message = await getCheckoutErrorMessage(response);
+        throw new Error(message);
+      }
       const data = await response.json();
       cart.clear();
       appliedCoupon = null;
@@ -586,7 +665,8 @@ const init = async () => {
       toggleDrawer(false);
       openWhatsAppDirect(data);
     } catch (err) {
-      showInfo("Erro", "Não foi possível enviar o pedido agora.", "alert-circle-outline");
+      const fallback = "Não foi possível enviar o pedido agora. Verifique sua conexão e tente novamente.";
+      showInfo("Erro no pedido", err?.message || fallback, "alert-circle-outline");
     }
   };
 
@@ -707,6 +787,7 @@ const init = async () => {
 };
 
 init();
+
 
 
 

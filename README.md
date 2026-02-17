@@ -14,6 +14,8 @@
 - `JWT_SECRET` - segredo JWT obrigatorio para autenticação admin
 - `ADMIN_PASSWORD` - senha inicial do usuario `admin`
 - `MANAGER_PASSWORD` - senha inicial do usuario `gerente`
+- `SENTRY_DSN` - DSN opcional para monitoramento de erros no backend
+- `SENTRY_TRACES_SAMPLE_RATE` - taxa opcional de tracing (ex: `0.1`)
 
 ## Login Admin
 
@@ -34,3 +36,11 @@
 ## Testes
 
 - `npm test`
+- `npm run test:e2e` (Playwright, fluxo completo de checkout)
+- `npm run test:all`
+
+## Observabilidade
+
+- Logs estruturados em JSON no backend.
+- Correlação por `x-request-id` (aceita header de entrada e devolve no response).
+- Captura de exceções com Sentry quando `SENTRY_DSN` está configurado.

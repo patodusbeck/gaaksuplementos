@@ -587,6 +587,14 @@ input {
   z-index: 40;
 }
 
+#checkout-overlay {
+  z-index: 39;
+}
+
+#modal-overlay {
+  z-index: 41;
+}
+
 .modal-overlay.active {
   opacity: 1;
   pointer-events: auto;

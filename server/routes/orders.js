@@ -4,6 +4,7 @@ const Coupon = require("../models/Coupon");
 const Customer = require("../models/Customer");
 const { requireAuth } = require("../middleware/auth");
 const catalogService = require("../services/catalog");
+const { logger } = require("../observability/logger");
 
 const router = express.Router();
 
@@ -87,11 +88,20 @@ router.post("/", async (req, res) => {
   } = req.body;
 
   if (!customerName || !Array.isArray(items) || items.length === 0) {
+    logger.warn("order_rejected_invalid_payload", {
+      requestId: req.requestId,
+      hasCustomerName: Boolean(customerName),
+      hasItems: Array.isArray(items) && items.length > 0,
+    });
     return res.status(400).json({ error: "Dados do pedido invalidos" });
   }
 
   const resolvedItems = await resolveItems(items);
   if (resolvedItems.length === 0) {
+    logger.warn("order_rejected_invalid_items", {
+      requestId: req.requestId,
+      submittedItems: Array.isArray(items) ? items.length : 0,
+    });
     return res.status(400).json({ error: "Itens do pedido invalidos" });
   }
 
@@ -171,6 +181,15 @@ router.post("/", async (req, res) => {
   if (couponPercent) {
     await Coupon.updateOne({ code: normalizedCode }, { $inc: { usedCount: 1 } });
   }
+
+  logger.info("order_created", {
+    requestId: req.requestId,
+    orderId: String(order._id),
+    customerId: String(customer._id),
+    itemsCount: resolvedItems.length,
+    total,
+    couponCode: couponPercent ? normalizedCode : "",
+  });
 
   const whatsappNumber = String(process.env.WHATSAPP_NUMBER || "5599984065730").replace(/\D/g, "");
   const message = buildWhatsAppMessage(order);
