@@ -23,28 +23,31 @@ const buildAddressLine = (source) => {
 
   const parts = [];
   if (street) parts.push(number ? `${street}, ${number}` : street);
-  if (neighborhood) parts.push(`Bairro: ${neighborhood}`);
-  if (city) parts.push(`Cidade: ${city}`);
-  if (complement) parts.push(`Complemento: ${complement}`);
-  return parts.join(" | ");
+  if (neighborhood) parts.push(neighborhood);
+  if (city) parts.push(city);
+  if (complement) parts.push(complement);
+  return parts.join(", ");
 };
 
 const buildWhatsAppMessage = (order) => {
   const lines = [];
-  lines.push("Pedido GAAK SUPLEMENTOS");
+  lines.push("*PEDIDO GAAK SUPLEMENTOS*");
+  lines.push("");
   lines.push(`Cliente: ${order.customerName}`);
   if (order.customerPhone) lines.push(`Telefone: ${order.customerPhone}`);
 
   const address = buildAddressLine(order);
   if (address) lines.push(`Endereco: ${address}`);
 
-  if (order.couponCode) lines.push(`Cupom: ${order.couponCode} (${order.couponPercent}%)`);
+  lines.push("");
+  if (order.couponCode) lines.push(`CUPOM: ${order.couponCode}`);
   lines.push("Itens:");
+  lines.push("");
   order.items.forEach((item) => {
     lines.push(`- ${item.name} x${item.quantity} (${formatCurrency(item.price)})`);
   });
   lines.push(`Subtotal: ${formatCurrency(order.subtotal)}`);
-  if (order.discountCoupon > 0) lines.push(`Desconto cupom: ${formatCurrency(order.discountCoupon)}`);
+  if (order.discountCoupon > 0) lines.push(`Desconto CUPOM: ${formatCurrency(order.discountCoupon)}`);
   lines.push(`Total: ${formatCurrency(order.total)}`);
   return lines.join("\n");
 };

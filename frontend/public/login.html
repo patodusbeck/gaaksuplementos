@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login Admin | GAAK SUPLEMENTOS</title>
   <link rel="icon" href="/data/images/gs-icon.svg" type="image/svg+xml" sizes="128x128" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,7 +31,10 @@
         </label>
         <label>
           Senha
-          <input class="cart-input" id="login-password" type="password" placeholder="Sua senha" required />
+          <div class="password-field">
+            <input class="cart-input" id="login-password" type="password" placeholder="Sua senha" required />
+            <button class="ghost password-toggle" id="toggle-password" type="button" aria-label="Mostrar senha">Mostrar</button>
+          </div>
         </label>
         <button class="primary" type="submit">Entrar</button>
       </form>
@@ -40,7 +43,6 @@
     </section>
   </main>
 
-  <script src="no-zoom.js"></script>
   <script src="admin-login.js"></script>
 </body>
 </html>

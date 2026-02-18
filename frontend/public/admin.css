@@ -265,6 +265,18 @@
   flex-wrap: wrap;
 }
 
+.password-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.password-toggle {
+  padding: 0.62rem 0.8rem;
+  min-width: 92px;
+}
+
 .image-preview {
   display: grid;
   gap: 0.5rem;

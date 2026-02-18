@@ -253,8 +253,12 @@ const renderCoupons = (items) => {
         <div class="admin-card-header">
           <strong>${coupon.code}</strong>
           <div class="admin-card-actions">
-            <button class="icon-btn" data-coupon-edit="${coupon._id}"><ion-icon name="create-outline"></ion-icon></button>
-            <button class="icon-btn" data-coupon-delete="${coupon._id}"><ion-icon name="trash-outline"></ion-icon></button>
+            <button class="icon-btn" type="button" data-coupon-edit="${coupon._id}" data-coupon-code="${coupon.code}" aria-label="Editar cupom">
+              <ion-icon name="create-outline"></ion-icon>
+            </button>
+            <button class="icon-btn" type="button" data-coupon-delete="${coupon._id}" aria-label="Excluir cupom">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
           </div>
         </div>
         <div class="admin-chip">${coupon.percent}%</div>
@@ -644,7 +648,10 @@ if (couponList) {
 
     if (editBtn) {
       const id = String(editBtn.getAttribute("data-coupon-edit") || "").trim();
-      const coupon = cachedCoupons.find((item) => String(item._id) === id);
+      const code = String(editBtn.getAttribute("data-coupon-code") || "").trim().toUpperCase();
+      const coupon = cachedCoupons.find(
+        (item) => String(item._id) === id || (code && String(item.code || "").trim().toUpperCase() === code)
+      );
       if (coupon) fillCouponForm(coupon);
     }
 

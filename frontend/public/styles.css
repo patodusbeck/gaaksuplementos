@@ -836,6 +836,10 @@ input {
   border-radius: 20px;
   padding: 1.5rem;
   border: 1px solid var(--line);
+  max-height: 86vh;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  overflow: hidden;
 }
 
 .search-header {
@@ -858,6 +862,9 @@ input {
   margin-top: 1rem;
   display: grid;
   gap: 0.6rem;
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
 }
 
 .search-result {

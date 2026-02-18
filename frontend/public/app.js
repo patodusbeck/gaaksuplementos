@@ -563,10 +563,14 @@ const toggleDrawer = (open) => {
 
 const toggleSearch = (open) => {
   const overlay = document.getElementById("search-overlay");
+  if (!overlay) return;
   overlay.classList.toggle("active", open);
   overlay.setAttribute("aria-hidden", String(!open));
   if (open) {
+    lockBodyScroll();
     document.getElementById("search-input").focus();
+  } else {
+    unlockBodyScroll();
   }
 };
 
@@ -577,6 +581,10 @@ const applyCoupon = async (code) => {
     appliedDiscount = 0;
     updateCartUI();
     return { ok: false, message: "Informe um cupom válido." };
+  }
+
+  if (appliedCoupon && String(appliedCoupon.code || "").trim().toUpperCase() === cleanCode) {
+    return { ok: false, message: "Voce ja inseriu esse cupom." };
   }
 
   try {
@@ -924,6 +932,21 @@ const menuMap = {
   kits: "kits-section",
 };
 
+let lastProductTouchEnd = 0;
+document.addEventListener(
+  "touchend",
+  (event) => {
+    const target = event.target?.closest?.(".product-card, [data-open-product], .product-image-link");
+    if (!target) return;
+    const now = Date.now();
+    if (now - lastProductTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastProductTouchEnd = now;
+  },
+  { passive: false }
+);
+
 document.addEventListener("click", (event) => {
   const addBtn = event.target.closest("[data-add]");
   if (addBtn) {
@@ -1215,11 +1238,17 @@ const init = async () => {
 
   if (applyCouponBtn) {
     applyCouponBtn.addEventListener("click", async () => {
-      const result = await applyCoupon(couponInput ? couponInput.value : "");
-      if (result.ok) {
-        showInfo("Cupom aplicado", result.message, "ticket-outline");
-      } else {
-        showInfo("Cupom", result.message, "alert-circle-outline");
+      if (applyCouponBtn.disabled) return;
+      applyCouponBtn.disabled = true;
+      try {
+        const result = await applyCoupon(couponInput ? couponInput.value : "");
+        if (result.ok) {
+          showInfo("Cupom aplicado", result.message, "ticket-outline");
+        } else {
+          showInfo("Cupom", result.message, "alert-circle-outline");
+        }
+      } finally {
+        applyCouponBtn.disabled = false;
       }
     });
   }

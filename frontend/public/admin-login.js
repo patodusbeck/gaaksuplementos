@@ -6,6 +6,7 @@ const ME_ENDPOINT = `${API_BASE}/admin-auth/me`;
 const form = document.getElementById("login-form");
 const usernameInput = document.getElementById("login-username");
 const passwordInput = document.getElementById("login-password");
+const togglePasswordBtn = document.getElementById("toggle-password");
 const statusEl = document.getElementById("login-status");
 
 const setStatus = (text, isError = false) => {
@@ -61,6 +62,16 @@ if (form) {
     } catch (err) {
       setStatus("Erro de conexao ao autenticar.", true);
     }
+  });
+}
+
+if (togglePasswordBtn && passwordInput) {
+  togglePasswordBtn.addEventListener("click", () => {
+    const nextType = passwordInput.type === "password" ? "text" : "password";
+    passwordInput.type = nextType;
+    const showing = nextType === "text";
+    togglePasswordBtn.textContent = showing ? "Ocultar" : "Mostrar";
+    togglePasswordBtn.setAttribute("aria-label", showing ? "Ocultar senha" : "Mostrar senha");
   });
 }
 
