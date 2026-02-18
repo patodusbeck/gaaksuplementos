@@ -79,12 +79,15 @@
 .sidebar-nav {
   display: grid;
   gap: 0.6rem;
+  width: 100%;
+  overflow: hidden;
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  width: 100%;
   background: transparent;
   border: none;
   color: #fff;
@@ -93,6 +96,9 @@
   cursor: pointer;
   font-size: 0.95rem;
   text-align: left;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .sidebar-link ion-icon {
