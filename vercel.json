@@ -23,10 +23,6 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
-    {
       "source": "/data/(.*)",
       "destination": "/backend/data/$1"
     },
@@ -51,7 +47,7 @@
       "destination": "/frontend/public/privacy.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api(?:/|$)).*)",
       "destination": "/frontend/public/$1"
     }
   ]
