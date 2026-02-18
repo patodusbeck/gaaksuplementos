@@ -327,7 +327,8 @@ const renderStorefront = () => {
   }
 
   const main = storefront.mainBanner || fallbackStorefront.mainBanner;
-  const side = Array.isArray(storefront.sideBanners) ? storefront.sideBanners : fallbackStorefront.sideBanners;
+  const side = (Array.isArray(storefront.sideBanners) ? storefront.sideBanners : fallbackStorefront.sideBanners)
+    .slice(0, 2);
 
   if (storefrontGrid) {
     const bannerImage = String(main.imageUrl || "").trim();

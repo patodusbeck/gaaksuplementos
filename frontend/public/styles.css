@@ -294,21 +294,21 @@ input {
   padding: 1rem;
   border: 1px solid var(--line);
   display: grid;
-  gap: 0.6rem;
-  min-height: 156px;
-  align-content: center;
+  gap: 0.75rem;
+  min-height: 278px;
+  align-content: start;
 }
 
 .storefront-mini-image {
   width: 100%;
-  height: 118px;
-  max-height: 118px;
+  height: clamp(160px, 22vw, 220px);
+  max-height: 220px;
   object-fit: contain;
   object-position: center;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(8, 12, 20, 0.45);
-  padding: 0.2rem;
+  padding: 0.35rem;
 }
 
 .storefront-mini small {
@@ -1187,13 +1187,13 @@ canvas {
   }
 
   .storefront-mini {
-    min-height: 144px;
-    gap: 0.55rem;
+    min-height: 238px;
+    gap: 0.65rem;
   }
 
   .storefront-mini-image {
-    height: 110px;
-    max-height: 110px;
+    height: 172px;
+    max-height: 172px;
   }
 
   .storefront-actions {
