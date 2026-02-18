@@ -25,6 +25,7 @@
     {
       "eyebrow": "Pre-treino em alta",
       "title": "Mais energia no treino",
+      "imageUrl": "/data/images/banner.png",
       "actionLabel": "Ver lancamentos",
       "actionType": "scroll",
       "actionTarget": "launches-section",

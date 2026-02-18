@@ -138,6 +138,7 @@ const fallbackStorefront = {
       actionLabel: "Ver lancamentos",
       actionType: "scroll",
       actionTarget: "launches-section",
+      imageUrl: "/data/images/banner.png",
       theme: "pump",
     },
     {
