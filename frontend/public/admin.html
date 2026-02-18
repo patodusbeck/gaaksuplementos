@@ -25,9 +25,12 @@
             <small>Painel</small>
           </div>
         </div>
-        <button class="icon-btn logout-top-btn" id="logout-admin" type="button" aria-label="Sair">
-          <ion-icon name="log-out-outline"></ion-icon>
-        </button>
+        <div class="sidebar-brand-right">
+          <span class="admin-muted" id="session-user"></span>
+          <button class="icon-btn logout-top-btn" id="logout-admin" type="button" aria-label="Sair">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </button>
+        </div>
       </div>
       <nav class="sidebar-nav">
         <button class="sidebar-link active" data-section="dashboard-section" data-role="owner">
@@ -52,7 +55,6 @@
         </button>
       </nav>
       <div class="sidebar-footer">
-        <span class="admin-muted" id="session-user"></span>
         <a class="ghost" href="/">Voltar ao site</a>
       </div>
     </aside>
