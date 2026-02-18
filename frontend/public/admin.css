@@ -18,6 +18,8 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 2rem;
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .sidebar-brand {
@@ -99,6 +101,11 @@
   box-sizing: border-box;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sidebar-link:focus {
+  outline: none;
 }
 
 .sidebar-link ion-icon {
