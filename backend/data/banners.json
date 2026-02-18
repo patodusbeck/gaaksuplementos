@@ -30,15 +30,6 @@
       "actionType": "scroll",
       "actionTarget": "launches-section",
       "theme": "pump"
-    },
-    {
-      "eyebrow": "Destaque da loja",
-      "title": "Camisa Dark Lab",
-      "actionLabel": "Ver produto",
-      "actionType": "product",
-      "actionTarget": "camisa-dark-lab",
-      "theme": "whey",
-      "imageUrl": "/data/products/moda/camdark.png"
     }
   ],
   "benefits": [

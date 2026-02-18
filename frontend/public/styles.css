@@ -291,24 +291,24 @@ input {
 
 .storefront-mini {
   border-radius: 18px;
-  padding: 1rem;
+  padding: 0.75rem;
   border: 1px solid var(--line);
   display: grid;
-  gap: 0.75rem;
-  min-height: 278px;
+  gap: 0.6rem;
+  min-height: 0;
   align-content: start;
 }
 
 .storefront-mini-image {
   width: 100%;
-  height: clamp(160px, 22vw, 220px);
-  max-height: 220px;
+  height: clamp(200px, 28vw, 300px);
+  max-height: 300px;
   object-fit: contain;
-  object-position: center;
+  object-position: center top;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(8, 12, 20, 0.45);
-  padding: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  padding: 0;
 }
 
 .storefront-mini small {
@@ -1053,10 +1053,6 @@ canvas {
 }
 
 @media (max-width: 980px) {
-  .header {
-    position: static;
-  }
-
   .header-row {
     grid-template-columns: 1fr;
     justify-items: stretch;
@@ -1187,13 +1183,14 @@ canvas {
   }
 
   .storefront-mini {
-    min-height: 238px;
-    gap: 0.65rem;
+    min-height: 0;
+    gap: 0.5rem;
+    padding: 0.6rem;
   }
 
   .storefront-mini-image {
-    height: 172px;
-    max-height: 172px;
+    height: 270px;
+    max-height: 270px;
   }
 
   .storefront-actions {
