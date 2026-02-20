@@ -5,7 +5,7 @@
 
 .dashboard {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 300px 1fr;
   min-height: 100vh;
   background: radial-gradient(circle at top, #151822 0%, #0c0e14 55%, #090b10 100%);
   overflow-x: clip;
@@ -58,7 +58,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px;
+  max-width: 170px;
 }
 
 .sidebar-brand .logo-mark {
@@ -491,7 +491,7 @@
 
 @media (min-width: 1536px) {
   .dashboard {
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 340px 1fr;
   }
 
   .main {
@@ -509,7 +509,7 @@
 
 @media (max-width: 1200px) {
   .dashboard {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 260px 1fr;
   }
 
   .main {

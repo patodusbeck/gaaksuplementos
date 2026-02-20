@@ -37,12 +37,11 @@ const buildWhatsAppMessage = (order) => {
   if (order.customerPhone) lines.push(`Telefone: ${order.customerPhone}`);
 
   const address = buildAddressLine(order);
-  if (address) lines.push(`Endereco: ${address}`);
+  if (address) lines.push(`Endereço: ${address}`);
 
   lines.push("");
   if (order.couponCode) lines.push(`CUPOM: ${order.couponCode}`);
   lines.push("Itens:");
-  lines.push("");
   order.items.forEach((item) => {
     lines.push(`- ${item.name} x${item.quantity} (${formatCurrency(item.price)})`);
   });
