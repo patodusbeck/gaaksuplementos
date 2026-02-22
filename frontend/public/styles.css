@@ -1882,3 +1882,9 @@ body.cart-open {
   display: none !important;
 }
 
+
+/* Hide side arrows on banner carousel */
+.hero-carousel-nav {
+  display: none !important;
+}
+
