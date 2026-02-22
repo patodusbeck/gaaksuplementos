@@ -533,7 +533,7 @@ const updateCartUI = () => {
     const row = document.createElement("div");
     row.className = "cart-item";
     row.innerHTML = `
-      <div class="cart-thumb"></div>
+      <div class="cart-thumb" style="background-image:url('${resolveProductImages(entry.item)[0] || DEFAULT_PRODUCT_IMAGE}')"></div>
       <div>
         <strong>${entry.item.name}</strong>
         <div>${formatCurrency(entry.item.price)}</div>
