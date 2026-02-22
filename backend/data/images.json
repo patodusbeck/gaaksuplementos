@@ -1,102 +1,141 @@
 [
+  { "_comment": "SECAO DE CREATINAS" },
+
   {
-    "_comment": "SEÇÃO DE CREATINAS"
-  },
-  {
-    "id": "creatina-max",
+    "id": "creatina-max-300g",
     "images": [
-      "/data/products/creatine/creatine.png",
-      "/data/products/creatine/nutrition.png",
-      "/data/products/creatine/creatine2.png"
+      "/data/products/creatine/creatina-max-300g.png",
+      "/data/products/creatine/creatina-max-300g.png",
+      "/data/products/creatine/creatina-max-300g.png"
     ]
   },
   {
-    "id": "creatina-creapure-250g",
+    "id": "creatina-darklab-300g",
     "images": [
-      "/data/products/creatine/creatine.png",
-      "/data/products/creatine/nutrition.png",
-      "/data/products/creatine/creatine2.png"
+      "/data/products/creatine/creatina-darklab-300g.png",
+      "/data/products/creatine/creatina-darklab-300g-2.png",
+      "/data/products/creatine/creatina-darklab-300g.png"
     ]
   },
   {
-    "_comment": "SEÇÃO DE WHEYS"
-  },
-  {
-    "id": "whey-protein-isolado-900g",
+    "id": "creatina-ftw-300g",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/creatine/creatina-ftw-300g-1.png",
+      "/data/products/creatine/creatina-ftw-300g-2.png",
+      "/data/products/creatine/creatina-ftw-300g-3.png"
     ]
   },
   {
-    "id": "whey-3w-blend-900g",
+    "id": "creatina-integral-300g",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/creatine/creatina-integral-300g-1.png",
+      "/data/products/creatine/creatina-integral-300g-2.png",
+      "/data/products/creatine/creatina-integral-300g-3.png"
     ]
   },
   {
-    "_comment": "SEÇÃO DE PRÉ-TREINOS"
-  },
-  {
-    "id": "pre-treino-dark-force-300g",
+    "id": "creatina-growth-250g",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/creatine/creatina-growth-250g-1.png",
+      "/data/products/creatine/creatina-growth-250g-2.png",
+      "/data/products/creatine/creatina-growth-250g-3.png"
+    ]
+  },
+
+  { "_comment": "SECAO DE WHEY PROTEIN" },
+
+  {
+    "id": "whey-dark-sache-900g",
+    "images": [
+      "/data/products/whey/whey-dark-sache-900g-1.png",
+      "/data/products/whey/whey-dark-sache-900g-2.png",
+      "/data/products/whey/whey-dark-sache-900g-3.png"
     ]
   },
   {
-    "id": "pre-treino-nitro-pump-300g",
+    "id": "whey-max-pro-1kg",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/whey/whey-max-pro-1kg-1.png",
+      "/data/products/whey/whey-max-pro-1kg-2.png",
+      "/data/products/whey/whey-max-pro-1kg-3.png"
     ]
   },
   {
-    "_comment": "SEÇÃO DE RECUPERACAO  PROTEÍNAS"
+    "id": "whey-iso-blend-complex-2kg",
+    "images": [
+      "/data/products/whey/whey-iso-blend-complex-2kg-1.png",
+      "/data/products/whey/whey-iso-blend-complex-2kg-2.png",
+      "/data/products/whey/whey-iso-blend-complex-2kg-3.png"
+    ]
   },
+  {
+    "id": "fn-forbes-whey-gourmet",
+    "images": [
+      "/data/products/whey/fn-forbes-whey-gourmet-1.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-2.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-3.png"
+    ]
+  },
+  {
+    "id": "fn-forbes-whey-gourmet-combo",
+    "images": [
+      "/data/products/whey/fn-forbes-whey-gourmet-combo-1.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-combo-2.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-combo-3.png"
+    ]
+  },
+
+  { "_comment": "SECAO DE PRE-TREINO E ENERGIA" },
+
+  {
+    "id": "pre-workout-psikopata-300g",
+    "images": [
+      "/data/products/preworkout/pre-workout-psikopata-300g-1.png",
+      "/data/products/preworkout/pre-workout-psikopata-300g-2.png",
+      "/data/products/preworkout/pre-workout-psikopata-300g-3.png"
+    ]
+  },
+  {
+    "id": "diabo-verde-energetico-300g",
+    "images": [
+      "/data/products/preworkout/diabo-verde-energetico-300g-1.png",
+      "/data/products/preworkout/diabo-verde-energetico-300g-2.png",
+      "/data/products/preworkout/diabo-verde-energetico-300g-3.png"
+    ]
+  },
+
+  { "_comment": "SECAO DE SUPORTE E RECUPERACAO" },
+
   {
     "id": "bcaa-211-200-caps",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/recovery/bcaa-211-200-caps-1.png",
+      "/data/products/recovery/bcaa-211-200-caps-2.png",
+      "/data/products/recovery/bcaa-211-200-caps-3.png"
     ]
   },
   {
     "id": "termogenico-burn-60-caps",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/recovery/termogenico-burn-60-caps-1.png",
+      "/data/products/recovery/termogenico-burn-60-caps-2.png",
+      "/data/products/recovery/termogenico-burn-60-caps-3.png"
     ]
   },
-  {
-    "_comment": "SEÇÃO DE KITS | COMBOS DE PRODUTOS"
-  },
+
+  { "_comment": "SECAO DE KITS" },
+
   {
     "id": "kit-performance-whey-creatina",
     "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
+      "/data/products/kits/kit-performance-whey-creatina-1.png",
+      "/data/products/kits/kit-performance-whey-creatina-2.png",
+      "/data/products/kits/kit-performance-whey-creatina-3.png"
     ]
   },
-  {
-    "id": "kit-definicao-burn-bcaa",
-    "images": [
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png",
-      "/data/images/gaaklogo.png"
-    ]
-  },
-  {
-    "_comment": "SEÇÃO DE MODA | CAMISETAS E MAIS"
-  },
+
+  { "_comment": "SECAO DE MODA" },
+
   {
     "id": "camisa-dark-lab",
     "images": [

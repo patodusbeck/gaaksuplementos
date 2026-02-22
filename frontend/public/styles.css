@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --bg: #0d0f12;
   --surface: #151822;
   --surface-strong: #1b1f2b;
@@ -637,11 +637,13 @@ input {
 
 .product-card {
   background: var(--card);
-  padding: 1.4rem;
+  padding: 1.1rem;
   border-radius: 18px;
   border: 1px solid var(--line);
   display: grid;
-  gap: 0.8rem;
+  grid-template-rows: auto minmax(2.5rem, auto) minmax(3.2rem, auto) auto auto auto;
+  gap: 0.65rem;
+  min-height: 430px;
   position: relative;
   scroll-snap-align: start;
   transition: transform 0.2s ease, box-shadow 0.22s ease, border-color 0.22s ease, opacity 0.2s ease;
@@ -656,7 +658,9 @@ input {
 }
 
 .product-image {
-  height: 160px;
+  height: auto;
+  min-height: 170px;
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   background: linear-gradient(135deg, #2b3044, #11131b);
   display: grid;
@@ -666,7 +670,8 @@ input {
 }
 
 .product-image.has-image {
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   color: transparent;
 }
@@ -678,13 +683,14 @@ input {
 
 .product-card h3 {
   font-size: 1rem;
+  line-height: 1.25;
 }
 
 .product-desc {
   color: var(--muted);
   font-size: 0.84rem;
   line-height: 1.45;
-  min-height: 2.3rem;
+  min-height: 3.2rem;
 }
 
 .price {
@@ -705,6 +711,11 @@ input {
 .installments {
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.product-card .primary {
+  width: 100%;
+  margin-top: auto;
 }
 
 .objective {

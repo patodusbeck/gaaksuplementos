@@ -12,7 +12,7 @@ const fallbackProducts = [
     name: "Whey Protein Isolado 900g",
     price: 139.9,
     original: 179.9,
-    category: "Proteína",
+    category: "ProteÃ­na",
     badge: "Mais vendido",
   },
   {
@@ -36,8 +36,8 @@ const fallbackProducts = [
     name: "BCAA 2:1:1 200 caps",
     price: 69.9,
     original: 89.9,
-    category: "Recuperação",
-    badge: "Recuperação",
+    category: "RecuperaÃ§Ã£o",
+    badge: "RecuperaÃ§Ã£o",
   },
   {
     id: "termogenico-burn-60-caps",
@@ -64,19 +64,19 @@ const fallbackLaunches = [
     price: 99.9,
     original: 119.9,
     category: "Pre-treino",
-    badge: "Lançamento",
+    badge: "LanÃ§amento",
   },
   {
     id: "whey-3w-blend-900g",
     name: "Whey 3W Blend 900g",
     price: 129.9,
     original: 149.9,
-    category: "Proteína",
+    category: "ProteÃ­na",
     badge: "Novo",
   },
   {
     id: "kit-definicao-burn-bcaa",
-    name: "Kit Definição (Burn + BCAA)",
+    name: "Kit DefiniÃ§Ã£o (Burn + BCAA)",
     price: 109.9,
     original: 139.9,
     category: "Kits",
@@ -523,7 +523,7 @@ const updateCartUI = () => {
   cartBody.innerHTML = "";
 
   if (cart.size === 0) {
-    cartBody.innerHTML = "<p>Seu carrinho está vazio.</p>";
+    cartBody.innerHTML = "<p>Seu carrinho estÃ¡ vazio.</p>";
   }
 
   cart.forEach((entry) => {
@@ -707,7 +707,7 @@ const applyCoupon = async (code) => {
     appliedCoupon = null;
     appliedDiscount = 0;
     updateCartUI();
-    return { ok: false, message: "Informe um cupom válido." };
+    return { ok: false, message: "Informe um cupom vÃ¡lido." };
   }
 
   if (appliedCoupon && String(appliedCoupon.code || "").trim().toUpperCase() === cleanCode) {
@@ -723,7 +723,7 @@ const applyCoupon = async (code) => {
       appliedCoupon = null;
       appliedDiscount = 0;
       updateCartUI();
-      return { ok: false, message: "Cupom inválido ou inativo." };
+      return { ok: false, message: "Cupom invÃ¡lido ou inativo." };
     }
     if (coupon.expiresAt) {
       const expiry = new Date(coupon.expiresAt);
@@ -749,7 +749,7 @@ const applyCoupon = async (code) => {
     updateCartUI();
     return { ok: true, message: `Cupom aplicado: ${coupon.percent}%` };
   } catch (err) {
-    return { ok: false, message: "Não foi possível validar o cupom." };
+    return { ok: false, message: "NÃ£o foi possÃ­vel validar o cupom." };
   }
 };
 
@@ -894,13 +894,13 @@ const getCheckoutErrorMessage = async (response) => {
   const suffix = requestId ? ` (ref: ${requestId})` : "";
 
   if (response.status === 400) {
-    return backendMessage ? `${backendMessage}${suffix}` : `Dados do pedido inválidos.${suffix}`;
+    return backendMessage ? `${backendMessage}${suffix}` : `Dados do pedido invÃ¡lidos.${suffix}`;
   }
   if (response.status === 401 || response.status === 403) {
-    return `Ação não autorizada para finalizar o pedido.${suffix}`;
+    return `AÃ§Ã£o nÃ£o autorizada para finalizar o pedido.${suffix}`;
   }
   if (response.status === 404) {
-    return `Serviço de pedidos indisponível no momento.${suffix}`;
+    return `ServiÃ§o de pedidos indisponÃ­vel no momento.${suffix}`;
   }
   if (response.status === 429) {
     return `Muitas tentativas. Aguarde alguns segundos e tente novamente.${suffix}`;
@@ -909,7 +909,7 @@ const getCheckoutErrorMessage = async (response) => {
     return backendMessage ? `${backendMessage}${suffix}` : `Instabilidade no servidor ao criar o pedido.${suffix}`;
   }
 
-  return backendMessage ? `${backendMessage}${suffix}` : `Não foi possível finalizar o pedido agora.${suffix}`;
+  return backendMessage ? `${backendMessage}${suffix}` : `NÃ£o foi possÃ­vel finalizar o pedido agora.${suffix}`;
 };
 
 const postJsonWithTimeout = async (url, body, timeoutMs = 25000) => {
@@ -1245,7 +1245,7 @@ const init = async () => {
       if (!streetValue && customerStreet) customerStreet.focus();
       else if (!neighborhoodValue && customerNeighborhood) customerNeighborhood.focus();
       else if (!cityValue && customerCity) customerCity.focus();
-      showInfo("Endereço", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
+      showInfo("EndereÃ§o", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
       return;
     }
 
@@ -1288,7 +1288,7 @@ const init = async () => {
     } catch (err) {
       const timeoutMessage =
         "Tempo limite para finalizar pedido. Tente novamente em instantes.";
-      const fallback = "Não foi possível enviar o pedido agora. Verifique sua conexão e tente novamente.";
+      const fallback = "NÃ£o foi possÃ­vel enviar o pedido agora. Verifique sua conexÃ£o e tente novamente.";
       const message = err?.name === "AbortError" ? timeoutMessage : err?.message || fallback;
       setCheckoutFeedback(message);
       showInfo("Erro no pedido", message, "alert-circle-outline");
@@ -1369,12 +1369,12 @@ const init = async () => {
   }
   if (openSupport) {
     openSupport.addEventListener("click", () => {
-      showInfo("Atendimento", "Atendimento de segunda a sexta, 07h30 às 18h.", "headset-outline");
+      showInfo("Atendimento", "Atendimento de segunda a sexta, 07h30 Ã s 18h.", "headset-outline");
     });
   }
   if (openAccount) {
     openAccount.addEventListener("click", () => {
-      showInfo("Minha conta", "Área de login em breve. Entre em contato para suporte.", "person-outline");
+      showInfo("Minha conta", "Ãrea de login em breve. Entre em contato para suporte.", "person-outline");
     });
   }
 
@@ -1446,7 +1446,7 @@ const init = async () => {
     newsletterForm.addEventListener("submit", (event) => {
       event.preventDefault();
       event.target.reset();
-      showInfo("Cadastro realizado", "Em breve você recebe novidades.", "mail-outline");
+      showInfo("Cadastro realizado", "Em breve vocÃª recebe novidades.", "mail-outline");
     });
   }
 

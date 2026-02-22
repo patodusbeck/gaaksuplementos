@@ -1,11 +1,10 @@
 [
+  { "_comment": "SECAO DE CREATINAS" },
+
   {
-    "_comment": "SECAO DE CREATINAS"
-  },
-  {
-    "id": "creatina-max",
+    "id": "creatina-max-300g",
     "name": "Creatina Max 300g",
-    "description": "Creatina para suporte de força e desempenho.",
+    "description": "Creatina monohidratada para suporte de forca e desempenho.",
     "price": 94.9,
     "original": 114.9,
     "category": "Creatina",
@@ -15,26 +14,62 @@
     "active": true
   },
   {
-    "id": "creatina-creapure-250g",
-    "name": "Creatina Creapure 250g",
-    "description": "Creatina premium para performance.",
+    "id": "creatina-darklab-300g",
+    "name": "Creatina DarkLab 300g",
+    "description": "Creatina monohidratada para ganho de forca e explosao muscular.",
+    "price": 94.9,
+    "original": 114.9,
+    "category": "Creatina",
+    "badge": "Popular",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "creatina-ftw-300g",
+    "name": "Creatina FTW 300g",
+    "description": "Suporte para desempenho e recuperacao muscular.",
+    "price": 94.9,
+    "original": 114.9,
+    "category": "Creatina",
+    "badge": "Top",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "creatina-integral-300g",
+    "name": "Creatina Integral 300g",
+    "description": "Creatina para suporte de massa muscular e performance.",
+    "price": 94.9,
+    "original": 114.9,
+    "category": "Creatina",
+    "badge": "Qualidade",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "creatina-growth-250g",
+    "name": "Creatina Growth 250g",
+    "description": "Creatina monohidratada com excelente custo-beneficio.",
     "price": 79.9,
     "original": 95.9,
     "category": "Creatina",
-    "badge": "Novo",
+    "badge": "Custo-beneficio",
     "imageUrl": "",
     "collection": "launches",
     "active": true
   },
+
+  { "_comment": "SECAO DE WHEY PROTEIN" },
+
   {
-    "_comment": "SECAO DE WHEYS"
-  },
-  {
-    "id": "whey-protein-isolado-900g",
-    "name": "Whey Protein Isolado 900g",
-    "description": "Proteina de alta absorcao para pos-treino.",
+    "id": "whey-dark-sache-900g",
+    "name": "Whey Dark Sache 900g",
+    "description": "Proteina concentrada para suporte ao ganho de massa muscular.",
     "price": 139.9,
-    "original": 179.9,
+    "original": 169.9,
     "category": "Proteina",
     "badge": "Mais vendido",
     "imageUrl": "",
@@ -42,26 +77,62 @@
     "active": true
   },
   {
-    "id": "whey-3w-blend-900g",
-    "name": "Whey 3W Blend 900g",
-    "description": "Blend proteico para rotina de treino.",
-    "price": 129.9,
-    "original": 149.9,
+    "id": "whey-max-pro-1kg",
+    "name": "Whey Max Pro 1kg",
+    "description": "Whey protein para recuperacao e hipertrofia.",
+    "price": 139.9,
+    "original": 169.9,
     "category": "Proteina",
-    "badge": "Novo",
+    "badge": "Top",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
+  },
+  {
+    "id": "whey-iso-blend-complex-2kg",
+    "name": "Whey Iso Blend Complex 2kg",
+    "description": "Blend proteico com excelente rendimento e custo-beneficio.",
+    "price": 139.9,
+    "original": 199.9,
+    "category": "Proteina",
+    "badge": "Super Oferta",
     "imageUrl": "",
     "collection": "launches",
     "active": true
   },
   {
-    "_comment": "SECAO DE PRE-TREINOS"
+    "id": "fn-forbes-whey-gourmet",
+    "name": "FN Forbes Whey Gourmet",
+    "description": "Whey protein gourmet com sabores diferenciados.",
+    "price": 139.9,
+    "original": 169.9,
+    "category": "Proteina",
+    "badge": "Premium",
+    "imageUrl": "",
+    "collection": "best-sellers",
+    "active": true
   },
   {
-    "id": "pre-treino-dark-force-300g",
-    "name": "Pre-Treino Dark Force 300g",
-    "description": "Formula para foco e energia no treino.",
-    "price": 89.9,
-    "original": 109.9,
+    "id": "fn-forbes-whey-gourmet-combo",
+    "name": "FN Forbes Whey Gourmet Combo",
+    "description": "Combo especial de whey gourmet para melhor custo-beneficio.",
+    "price": 139.9,
+    "original": 189.9,
+    "category": "Proteina",
+    "badge": "Combo",
+    "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+
+  { "_comment": "SECAO DE PRE-TREINOS E ENERGIA" },
+
+  {
+    "id": "pre-workout-psikopata-300g",
+    "name": "Pre Workout Psikopata 300g",
+    "description": "Formula avancada para foco, energia e desempenho intenso.",
+    "price": 99.9,
+    "original": 119.9,
     "category": "Pre-treino",
     "badge": "Energia",
     "imageUrl": "",
@@ -69,24 +140,24 @@
     "active": true
   },
   {
-    "id": "pre-treino-nitro-pump-300g",
-    "name": "Pre-Treino Nitro Pump 300g",
-    "description": "Blend focado em pump e foco.",
+    "id": "diabo-verde-energetico-300g",
+    "name": "Diabo Verde Energetico 300g",
+    "description": "Suplemento energetico para melhorar foco e disposicao.",
     "price": 99.9,
     "original": 119.9,
-    "category": "Pre-treino",
-    "badge": "Lancamento",
+    "category": "Energetico",
+    "badge": "Potente",
     "imageUrl": "",
     "collection": "launches",
     "active": true
   },
-  {
-    "_comment": "SECAO DE SUPORTE E RECUPERACAO"
-  },
+
+  { "_comment": "SECAO DE SUPORTE E RECUPERACAO" },
+
   {
     "id": "bcaa-211-200-caps",
     "name": "BCAA 2:1:1 200 caps",
-    "description": "Aminoacidos essenciais para recuperacao.",
+    "description": "Aminoacidos essenciais para recuperacao muscular.",
     "price": 69.9,
     "original": 89.9,
     "category": "Recuperacao",
@@ -98,7 +169,7 @@
   {
     "id": "termogenico-burn-60-caps",
     "name": "Termogenico Burn 60 caps",
-    "description": "Suporte para definicao e energia.",
+    "description": "Suporte para definicao, energia e aceleracao metabolica.",
     "price": 49.9,
     "original": 69.9,
     "category": "Emagrecimento",
@@ -107,25 +178,13 @@
     "collection": "best-sellers",
     "active": true
   },
-  {
-    "_comment": "SECAO DE KITS | COMBOS DE PRODUTOS"
-  },
-  {
-    "id": "kit-definicao-burn-bcaa",
-    "name": "Kit Definicao (Burn + BCAA)",
-    "description": "Kit para rotina de definicao.",
-    "price": 109.9,
-    "original": 139.9,
-    "category": "Kits",
-    "badge": "Combo",
-    "imageUrl": "",
-    "collection": "launches",
-    "active": true
-  },
+
+  { "_comment": "SECAO DE KITS" },
+
   {
     "id": "kit-performance-whey-creatina",
     "name": "Kit Performance (Whey + Creatina)",
-    "description": "Kit para ganho de massa e performance.",
+    "description": "Kit ideal para ganho de massa e desempenho.",
     "price": 179.9,
     "original": 219.9,
     "category": "Kits",
@@ -134,13 +193,13 @@
     "collection": "best-sellers",
     "active": true
   },
-  {
-    "_comment": "SECAO DE MODA | CAMISETAS E MAIS"
-  },
+
+  { "_comment": "SECAO DE MODA" },
+
   {
     "id": "camisa-dark-lab",
     "name": "Camisa Dark Lab",
-    "description": "Camisa performance Dry Fit com modelagem esportiva para treino e uso casual.",
+    "description": "Camisa performance Dry Fit com modelagem esportiva.",
     "price": 59.9,
     "original": 79.9,
     "category": "Acessorios",
