@@ -192,7 +192,7 @@
     "badge": "Combo",
     "imageUrl": "",
     "collection": "best-sellers",
-    "active": false
+    "active": true
   },
   {
     "_comment": "SECAO DE MODA"
