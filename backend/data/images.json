@@ -72,25 +72,25 @@
   {
     "id": "fn-forbes-whey-gourmet",
     "images": [
-      "/data/products/whey/fn-forbes-whey-gourmet-1.png",
-      "/data/products/whey/fn-forbes-whey-gourmet-2.png",
-      "/data/products/whey/fn-forbes-whey-gourmet-3.png"
+      "/data/products/whey/fn-forbes-whey-gourmet-morango.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-morango.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-morango.png"
     ]
   },
   {
     "id": "fn-forbes-whey-gourmet-chocolate",
     "images": [
-      "/data/products/whey/whey-gourmet-900g.png",
-      "/data/products/whey/whey-gourmet-900g.png",
-      "/data/products/whey/whey-gourmet-900g.png"
+      "/data/products/whey/fn-forbes-whey-gourmet-chocolate.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-chocolate.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-chocolate.png"
     ]
   },
   {
     "id": "fn-forbes-whey-gourmet-pudim",
     "images": [
-      "/data/products/whey/whey-gourmet-900g.png",
-      "/data/products/whey/whey-gourmet-900g.png",
-      "/data/products/whey/whey-gourmet-900g.png"
+      "/data/products/whey/fn-forbes-whey-gourmet-pudim.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-pudim.png",
+      "/data/products/whey/fn-forbes-whey-gourmet-pudim.png"
     ]
   },
   {
@@ -142,9 +142,9 @@
   {
     "id": "omega-3-neo-quimica-60-caps",
     "images": [
-      "/data/images/image.png",
-      "/data/images/image.png",
-      "/data/images/image.png"
+      "/data/products/recovery/omega-3-neo-quimica-60-caps.png",
+      "/data/products/recovery/omega-3-neo-quimica-60-caps.png",
+      "/data/products/recovery/omega-3-neo-quimica-60-caps.png"
     ]
   },
   {

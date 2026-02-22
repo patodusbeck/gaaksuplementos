@@ -109,7 +109,7 @@
     "original": 169.9,
     "category": "Proteina",
     "badge": "Premium",
-    "imageUrl": "",
+    "imageUrl": "/data/products/whey/fn-forbes-whey-gourmet-morango.png",
     "collection": "best-sellers",
     "active": true
   },
@@ -121,7 +121,7 @@
     "original": 169.9,
     "category": "Proteina",
     "badge": "Premium",
-    "imageUrl": "/data/products/whey/whey-gourmet-900g.png",
+    "imageUrl": "/data/products/whey/fn-forbes-whey-gourmet-chocolate.png",
     "collection": "best-sellers",
     "active": true
   },
@@ -133,7 +133,7 @@
     "original": 169.9,
     "category": "Proteina",
     "badge": "Premium",
-    "imageUrl": "/data/products/whey/whey-gourmet-900g.png",
+    "imageUrl": "/data/products/whey/fn-forbes-whey-gourmet-pudim.png",
     "collection": "best-sellers",
     "active": true
   },
@@ -211,7 +211,7 @@
     "original": 69.9,
     "category": "Recuperacao",
     "badge": "Novo",
-    "imageUrl": "/data/images/image.png",
+    "imageUrl": "/data/products/recovery/omega-3-neo-quimica-60-caps.png",
     "collection": "best-sellers",
     "active": true
   },
