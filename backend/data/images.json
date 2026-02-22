@@ -78,6 +78,22 @@
     ]
   },
   {
+    "id": "fn-forbes-whey-gourmet-chocolate",
+    "images": [
+      "/data/products/whey/whey-gourmet-900g.png",
+      "/data/products/whey/whey-gourmet-900g.png",
+      "/data/products/whey/whey-gourmet-900g.png"
+    ]
+  },
+  {
+    "id": "fn-forbes-whey-gourmet-pudim",
+    "images": [
+      "/data/products/whey/whey-gourmet-900g.png",
+      "/data/products/whey/whey-gourmet-900g.png",
+      "/data/products/whey/whey-gourmet-900g.png"
+    ]
+  },
+  {
     "id": "fn-forbes-whey-gourmet-combo",
     "images": [
       "/data/products/whey/fn-forbes-whey-gourmet-combo-1.png",
@@ -121,6 +137,14 @@
       "/data/products/recovery/termogenico-burn-60-caps-1.png",
       "/data/products/recovery/termogenico-burn-60-caps-2.png",
       "/data/products/recovery/termogenico-burn-60-caps-3.png"
+    ]
+  },
+  {
+    "id": "omega-3-neo-quimica-60-caps",
+    "images": [
+      "/data/images/image.png",
+      "/data/images/image.png",
+      "/data/images/image.png"
     ]
   },
   {
