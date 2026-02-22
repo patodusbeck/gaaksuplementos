@@ -1,6 +1,7 @@
 [
-  { "_comment": "SECAO DE CREATINAS" },
-
+  {
+    "_comment": "SECAO DE CREATINAS"
+  },
   {
     "id": "creatina-max-300g",
     "images": [
@@ -41,9 +42,9 @@
       "/data/products/creatine/creatina-growth-250g-3.png"
     ]
   },
-
-  { "_comment": "SECAO DE WHEY PROTEIN" },
-
+  {
+    "_comment": "SECAO DE WHEY PROTEIN"
+  },
   {
     "id": "whey-dark-sache-900g",
     "images": [
@@ -84,9 +85,9 @@
       "/data/products/whey/fn-forbes-whey-gourmet-combo-3.png"
     ]
   },
-
-  { "_comment": "SECAO DE PRE-TREINO E ENERGIA" },
-
+  {
+    "_comment": "SECAO DE PRE-TREINO E ENERGIA"
+  },
   {
     "id": "pre-workout-psikopata-300g",
     "images": [
@@ -103,9 +104,9 @@
       "/data/products/preworkout/diabo-verde-energetico-300g-3.png"
     ]
   },
-
-  { "_comment": "SECAO DE SUPORTE E RECUPERACAO" },
-
+  {
+    "_comment": "SECAO DE SUPORTE E RECUPERACAO"
+  },
   {
     "id": "bcaa-211-200-caps",
     "images": [
@@ -122,9 +123,9 @@
       "/data/products/recovery/termogenico-burn-60-caps-3.png"
     ]
   },
-
-  { "_comment": "SECAO DE KITS" },
-
+  {
+    "_comment": "SECAO DE KITS"
+  },
   {
     "id": "kit-performance-whey-creatina",
     "images": [
@@ -133,9 +134,17 @@
       "/data/products/kits/kit-performance-whey-creatina-3.png"
     ]
   },
-
-  { "_comment": "SECAO DE MODA" },
-
+  {
+    "_comment": "SECAO DE MODA"
+  },
+  {
+    "id": "munhequeira-gaak",
+    "images": [
+      "/data/products/moda/munhequeira-gaak.png",
+      "/data/products/moda/munhequeira-gaak.png",
+      "/data/products/moda/munhequeira-gaak.png"
+    ]
+  },
   {
     "id": "camisa-dark-lab",
     "images": [

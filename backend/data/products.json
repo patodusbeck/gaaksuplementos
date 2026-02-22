@@ -1,6 +1,7 @@
 [
-  { "_comment": "SECAO DE CREATINAS" },
-
+  {
+    "_comment": "SECAO DE CREATINAS"
+  },
   {
     "id": "creatina-max-300g",
     "name": "Creatina Max 300g",
@@ -61,9 +62,9 @@
     "collection": "launches",
     "active": true
   },
-
-  { "_comment": "SECAO DE WHEY PROTEIN" },
-
+  {
+    "_comment": "SECAO DE WHEY PROTEIN"
+  },
   {
     "id": "whey-dark-sache-900g",
     "name": "Whey Dark Sache 900g",
@@ -124,9 +125,9 @@
     "collection": "launches",
     "active": true
   },
-
-  { "_comment": "SECAO DE PRE-TREINOS E ENERGIA" },
-
+  {
+    "_comment": "SECAO DE PRE-TREINOS E ENERGIA"
+  },
   {
     "id": "pre-workout-psikopata-300g",
     "name": "Pre Workout Psikopata 300g",
@@ -151,9 +152,9 @@
     "collection": "launches",
     "active": true
   },
-
-  { "_comment": "SECAO DE SUPORTE E RECUPERACAO" },
-
+  {
+    "_comment": "SECAO DE SUPORTE E RECUPERACAO"
+  },
   {
     "id": "bcaa-211-200-caps",
     "name": "BCAA 2:1:1 200 caps",
@@ -164,7 +165,7 @@
     "badge": "Recuperacao",
     "imageUrl": "",
     "collection": "best-sellers",
-    "active": true
+    "active": false
   },
   {
     "id": "termogenico-burn-60-caps",
@@ -176,11 +177,11 @@
     "badge": "Top",
     "imageUrl": "",
     "collection": "best-sellers",
-    "active": true
+    "active": false
   },
-
-  { "_comment": "SECAO DE KITS" },
-
+  {
+    "_comment": "SECAO DE KITS"
+  },
   {
     "id": "kit-performance-whey-creatina",
     "name": "Kit Performance (Whey + Creatina)",
@@ -191,11 +192,11 @@
     "badge": "Combo",
     "imageUrl": "",
     "collection": "best-sellers",
-    "active": true
+    "active": false
   },
-
-  { "_comment": "SECAO DE MODA" },
-
+  {
+    "_comment": "SECAO DE MODA"
+  },
   {
     "id": "camisa-dark-lab",
     "name": "Camisa Dark Lab",
@@ -205,6 +206,18 @@
     "category": "Acessorios",
     "badge": "Destaque",
     "imageUrl": "/data/products/moda/camdark.png",
+    "collection": "accessories",
+    "active": true
+  },
+  {
+    "id": "munhequeira-gaak",
+    "name": "Munhequeira GAAK (Par)",
+    "description": "Munhequeira para suporte e estabilidade durante o treino.",
+    "price": 39.9,
+    "original": 49.9,
+    "category": "Acessorios",
+    "badge": "Novo",
+    "imageUrl": "/data/products/moda/munhequeira-gaak.png",
     "collection": "accessories",
     "active": true
   }
