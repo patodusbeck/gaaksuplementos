@@ -1876,3 +1876,9 @@ body.cart-open {
     min-width: 94px;
   }
 }
+
+/* Banner copy hidden to keep artwork clean */
+.hero-slide-content {
+  display: none !important;
+}
+
