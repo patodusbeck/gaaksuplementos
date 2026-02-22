@@ -3,15 +3,15 @@
     "_comment": "SECAO DE CREATINAS"
   },
   {
-    "id": "creatina-monohidratada-500g",
-    "name": "Creatina Monohidratada 500g",
-    "description": "Creatina para suporte de forca e desempenho.",
-    "price": 47.9,
-    "original": 59.9,
+    "id": "creatina-max",
+    "name": "Creatina Max 300g",
+    "description": "Creatina para suporte de força e desempenho.",
+    "price": 94.9,
+    "original": 114.9,
     "category": "Creatina",
     "badge": "Destaque",
     "imageUrl": "",
-    "collection": "best-sellers",
+    "collection": "launches",
     "active": true
   },
   {

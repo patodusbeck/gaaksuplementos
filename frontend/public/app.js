@@ -189,6 +189,7 @@ let launches = [...fallbackLaunches];
 let kits = [...fallbackKits];
 let accessories = [...fallbackAccessories];
 let storefront = fallbackStorefront;
+let heroCarouselState = { slides: [], index: 0, timer: null, intervalMs: 6000 };
 const cart = new Map();
 let scrollLockTop = 0;
 let bodyLockCount = 0;
@@ -268,6 +269,107 @@ const renderProducts = (items, targetId) => {
     `;
     })
     .join("");
+};
+
+const buildHeroSlides = () => {
+  const main = storefront.mainBanner || fallbackStorefront.mainBanner;
+  const side = Array.isArray(storefront.sideBanners) ? storefront.sideBanners : fallbackStorefront.sideBanners;
+
+  const slides = [];
+
+  slides.push({
+    badge: main.badge || 'Oferta da semana',
+    title: main.title || 'Suplementos com preco especial',
+    description: main.description || 'Resultados de verdade com entrega rapida.',
+    imageUrl: String(main.imageUrl || '/data/images/image.png').trim(),
+    actionLabel: main.primaryAction?.label || 'Comprar agora',
+    actionType: main.primaryAction?.type || 'scroll',
+    actionTarget: main.primaryAction?.target || 'best-sellers-section',
+  });
+
+  side.slice(0, 2).forEach((item) => {
+    slides.push({
+      badge: item.eyebrow || 'Destaque',
+      title: item.title || 'Confira esta oferta',
+      description: 'Aproveite enquanto durar o estoque.',
+      imageUrl: String(item.imageUrl || '/data/images/banner.png').trim(),
+      actionLabel: item.actionLabel || 'Ver mais',
+      actionType: item.actionType || 'scroll',
+      actionTarget: item.actionTarget || 'launches-section',
+    });
+  });
+
+  return slides.filter((s) => s.imageUrl);
+};
+
+const stopHeroCarouselAutoplay = () => {
+  if (heroCarouselState.timer) {
+    clearInterval(heroCarouselState.timer);
+    heroCarouselState.timer = null;
+  }
+};
+
+const setHeroCarouselIndex = (index) => {
+  const track = document.getElementById('hero-carousel-track');
+  const dots = document.querySelectorAll('[data-hero-dot]');
+  if (!track || heroCarouselState.slides.length === 0) return;
+
+  const total = heroCarouselState.slides.length;
+  const next = (index + total) % total;
+  heroCarouselState.index = next;
+  track.style.transform = `translateX(-${next * 100}%)`;
+
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === next);
+  });
+};
+
+const startHeroCarouselAutoplay = () => {
+  stopHeroCarouselAutoplay();
+  if (heroCarouselState.slides.length <= 1) return;
+  heroCarouselState.timer = setInterval(() => {
+    setHeroCarouselIndex(heroCarouselState.index + 1);
+  }, heroCarouselState.intervalMs);
+};
+
+const renderHeroCarousel = () => {
+  const track = document.getElementById('hero-carousel-track');
+  const dotsWrap = document.getElementById('hero-carousel-dots');
+  const prevBtn = document.getElementById('hero-carousel-prev');
+  const nextBtn = document.getElementById('hero-carousel-next');
+
+  if (!track || !dotsWrap) return;
+
+  const slides = buildHeroSlides();
+  heroCarouselState.slides = slides;
+  heroCarouselState.index = 0;
+
+  track.innerHTML = slides
+    .map(
+      (slide) => `
+      <article class="hero-slide" style="background-image: linear-gradient(120deg, rgba(8,10,16,0.32), rgba(8,10,16,0.52)), url('${slide.imageUrl}')">
+        <div class="hero-slide-content">
+          <span class="hero-slide-badge">${slide.badge}</span>
+          <h2>${slide.title}</h2>
+          <p>${slide.description}</p>
+          <button class="primary" data-storefront-action="${slide.actionType}" data-storefront-target="${slide.actionTarget}">
+            ${slide.actionLabel}
+          </button>
+        </div>
+      </article>
+    `
+    )
+    .join('');
+
+  dotsWrap.innerHTML = slides
+    .map((_, i) => `<button class="hero-carousel-dot ${i === 0 ? 'active' : ''}" type="button" data-hero-dot="${i}" aria-label="Ir para banner ${i + 1}"></button>`)
+    .join('');
+
+  if (prevBtn) prevBtn.disabled = slides.length <= 1;
+  if (nextBtn) nextBtn.disabled = slides.length <= 1;
+
+  setHeroCarouselIndex(0);
+  startHeroCarouselAutoplay();
 };
 
 const renderInstagram = () => {
@@ -1007,7 +1109,7 @@ document.addEventListener("click", (event) => {
 const init = async () => {
   await loadStorefront();
   await loadProducts();
-  renderStorefront();
+  renderHeroCarousel();
   renderProducts(products, "best-sellers");
   renderProducts(launches, "launches");
   renderProducts(kits, "kits");
@@ -1341,6 +1443,7 @@ const init = async () => {
 };
 
 init();
+
 
 
 

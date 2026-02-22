@@ -37,14 +37,6 @@
 </head>
 <body>
   <div class="page">
-    <div class="topbar">
-      <div class="container">
-        <span>Frete grátis e entrega rápida para toda a cidade</span>
-        <div class="topbar-actions">
-        </div>
-      </div>
-    </div>
-
     <header class="header">
       <div class="container header-row">
         <div class="logo">
@@ -79,34 +71,24 @@
       </div>
     </header>
 
-    <section class="store-alert">
-      <div class="container store-alert-row">
-        <span id="store-alert-primary">15% OFF no PIX no kit da semana</span>
-        <strong id="store-alert-secondary">Frete grátis acima de R$ 199,00</strong>
-      </div>
-    </section>
+    <section class="hero-carousel" id="hero-carousel" aria-label="Banners promocionais">
+      <div class="container">
+        <div class="hero-carousel-wrap">
+          <button class="hero-carousel-nav prev" id="hero-carousel-prev" type="button" aria-label="Banner anterior">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
 
-    <section class="section storefront-section" id="storefront-section">
-      <div class="container storefront-grid" id="storefront-grid"></div>
+          <div class="hero-carousel-track" id="hero-carousel-track"></div>
 
-      <div class="container store-benefits" id="store-benefits" aria-label="Vantagens da loja"></div>
-    </section>
-
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <p class="tag">Alta performance - Resultados de Verdade</p>
-          <h1>OS MELHORES PRODUTOS COM OS MENORES PREÇOS</h1>
-          <p class="lead">Linha completa de creatinas, wheys, pré-treinos e kits. Compra rápida e segura com parcelamento em até 3x.</p>
-          <div class="hero-actions">
-            <button class="primary" data-scroll="best-sellers-section">Ver ofertas</button>
-          </div>
-          <div class="hero-metrics">
-            
-          </div>
+          <button class="hero-carousel-nav next" id="hero-carousel-next" type="button" aria-label="Proximo banner">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
         </div>
+
+        <div class="hero-carousel-dots" id="hero-carousel-dots" aria-label="Navegacao de banners"></div>
       </div>
     </section>
+
 
     <section class="section" id="launches-section">
       <div class="container">
@@ -354,6 +336,8 @@
   <script src="app.js"></script>
 </body>
 </html>
+
+
 
 
 
