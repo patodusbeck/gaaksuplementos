@@ -1,4 +1,4 @@
-Ôªøconst fallbackProducts = [
+const fallbackProducts = [
   {
     id: "creatina-monohidratada-500g",
     name: "Creatina Monohidratada 500g",
@@ -12,7 +12,7 @@
     name: "Whey Protein Isolado 900g",
     price: 139.9,
     original: 179.9,
-    category: "Prote√≠na",
+    category: "ProteÌna",
     badge: "Mais vendido",
   },
   {
@@ -36,8 +36,8 @@
     name: "BCAA 2:1:1 200 caps",
     price: 69.9,
     original: 89.9,
-    category: "Recupera√ß√£o",
-    badge: "Recupera√ß√£o",
+    category: "RecuperaÁ„o",
+    badge: "RecuperaÁ„o",
   },
   {
     id: "termogenico-burn-60-caps",
@@ -64,19 +64,19 @@ const fallbackLaunches = [
     price: 99.9,
     original: 119.9,
     category: "Pre-treino",
-    badge: "Lan√ßamento",
+    badge: "LanÁamento",
   },
   {
     id: "whey-3w-blend-900g",
     name: "Whey 3W Blend 900g",
     price: 129.9,
     original: 149.9,
-    category: "Prote√≠na",
+    category: "ProteÌna",
     badge: "Novo",
   },
   {
     id: "kit-definicao-burn-bcaa",
-    name: "Kit Defini√ß√£o (Burn + BCAA)",
+    name: "Kit DefiniÁ„o (Burn + BCAA)",
     price: 109.9,
     original: 139.9,
     category: "Kits",
@@ -523,7 +523,7 @@ const updateCartUI = () => {
   cartBody.innerHTML = "";
 
   if (cart.size === 0) {
-    cartBody.innerHTML = "<p>Seu carrinho est√° vazio.</p>";
+    cartBody.innerHTML = "<p>Seu carrinho est· vazio.</p>";
   }
 
   cart.forEach((entry) => {
@@ -676,13 +676,38 @@ const toggleSearch = (open) => {
   }
 };
 
+const toggleMobileMenu = (open) => {
+  const menu = document.getElementById("mobile-menu");
+  const overlay = document.getElementById("mobile-menu-overlay");
+  const toggle = document.getElementById("mobile-menu-toggle");
+  if (!menu || !overlay) return;
+
+  const isOpen = menu.classList.contains("active");
+  if (isOpen === open) return;
+
+  menu.classList.toggle("active", open);
+  menu.setAttribute("aria-hidden", String(!open));
+  overlay.classList.toggle("active", open);
+  overlay.setAttribute("aria-hidden", String(!open));
+
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+
+  if (open) {
+    lockBodyScroll();
+  } else {
+    unlockBodyScroll();
+  }
+};
+
 const applyCoupon = async (code) => {
   const cleanCode = String(code || "").trim().toUpperCase();
   if (!cleanCode) {
     appliedCoupon = null;
     appliedDiscount = 0;
     updateCartUI();
-    return { ok: false, message: "Informe um cupom v√°lido." };
+    return { ok: false, message: "Informe um cupom v·lido." };
   }
 
   if (appliedCoupon && String(appliedCoupon.code || "").trim().toUpperCase() === cleanCode) {
@@ -698,7 +723,7 @@ const applyCoupon = async (code) => {
       appliedCoupon = null;
       appliedDiscount = 0;
       updateCartUI();
-      return { ok: false, message: "Cupom inv√°lido ou inativo." };
+      return { ok: false, message: "Cupom inv·lido ou inativo." };
     }
     if (coupon.expiresAt) {
       const expiry = new Date(coupon.expiresAt);
@@ -724,7 +749,7 @@ const applyCoupon = async (code) => {
     updateCartUI();
     return { ok: true, message: `Cupom aplicado: ${coupon.percent}%` };
   } catch (err) {
-    return { ok: false, message: "N√£o foi poss√≠vel validar o cupom." };
+    return { ok: false, message: "N„o foi possÌvel validar o cupom." };
   }
 };
 
@@ -869,13 +894,13 @@ const getCheckoutErrorMessage = async (response) => {
   const suffix = requestId ? ` (ref: ${requestId})` : "";
 
   if (response.status === 400) {
-    return backendMessage ? `${backendMessage}${suffix}` : `Dados do pedido inv√°lidos.${suffix}`;
+    return backendMessage ? `${backendMessage}${suffix}` : `Dados do pedido inv·lidos.${suffix}`;
   }
   if (response.status === 401 || response.status === 403) {
-    return `A√ß√£o n√£o autorizada para finalizar o pedido.${suffix}`;
+    return `AÁ„o n„o autorizada para finalizar o pedido.${suffix}`;
   }
   if (response.status === 404) {
-    return `Servi√ßo de pedidos indispon√≠vel no momento.${suffix}`;
+    return `ServiÁo de pedidos indisponÌvel no momento.${suffix}`;
   }
   if (response.status === 429) {
     return `Muitas tentativas. Aguarde alguns segundos e tente novamente.${suffix}`;
@@ -884,7 +909,7 @@ const getCheckoutErrorMessage = async (response) => {
     return backendMessage ? `${backendMessage}${suffix}` : `Instabilidade no servidor ao criar o pedido.${suffix}`;
   }
 
-  return backendMessage ? `${backendMessage}${suffix}` : `N√£o foi poss√≠vel finalizar o pedido agora.${suffix}`;
+  return backendMessage ? `${backendMessage}${suffix}` : `N„o foi possÌvel finalizar o pedido agora.${suffix}`;
 };
 
 const postJsonWithTimeout = async (url, body, timeoutMs = 25000) => {
@@ -1087,6 +1112,7 @@ document.addEventListener("click", (event) => {
   const scrollBtn = event.target.closest("[data-scroll]");
   if (scrollBtn) {
     scrollToId(scrollBtn.dataset.scroll);
+    if (scrollBtn.closest(".mobile-nav")) toggleMobileMenu(false);
   }
 
   const menuBtn = event.target.closest("[data-menu]");
@@ -1095,6 +1121,7 @@ document.addEventListener("click", (event) => {
     if (targetId) {
       scrollToId(targetId);
     }
+    if (menuBtn.closest(".mobile-nav")) toggleMobileMenu(false);
     return;
   }
 
@@ -1122,6 +1149,9 @@ const init = async () => {
   const continueShopping = document.getElementById("continue-shopping");
   const cartBackdrop = document.getElementById("cart-backdrop");
   const openSearch = document.getElementById("open-search");
+  const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+  const mobileMenuClose = document.getElementById("mobile-menu-close");
+  const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
   const closeSearch = document.getElementById("close-search");
   const searchInput = document.getElementById("search-input");
   const searchOverlay = document.getElementById("search-overlay");
@@ -1215,7 +1245,7 @@ const init = async () => {
       if (!streetValue && customerStreet) customerStreet.focus();
       else if (!neighborhoodValue && customerNeighborhood) customerNeighborhood.focus();
       else if (!cityValue && customerCity) customerCity.focus();
-      showInfo("Endere√ßo", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
+      showInfo("EndereÁo", "Preencha Rua, Bairro e Cidade para finalizar.", "location-outline");
       return;
     }
 
@@ -1258,7 +1288,7 @@ const init = async () => {
     } catch (err) {
       const timeoutMessage =
         "Tempo limite para finalizar pedido. Tente novamente em instantes.";
-      const fallback = "N√£o foi poss√≠vel enviar o pedido agora. Verifique sua conex√£o e tente novamente.";
+      const fallback = "N„o foi possÌvel enviar o pedido agora. Verifique sua conex„o e tente novamente.";
       const message = err?.name === "AbortError" ? timeoutMessage : err?.message || fallback;
       setCheckoutFeedback(message);
       showInfo("Erro no pedido", message, "alert-circle-outline");
@@ -1279,10 +1309,17 @@ const init = async () => {
     });
   }
 
-  if (openCart) openCart.addEventListener("click", () => toggleDrawer(true));
+  if (openCart) openCart.addEventListener("click", () => {
+    toggleMobileMenu(false);
+    toggleDrawer(true);
+  });
   if (closeCart) closeCart.addEventListener("click", () => toggleDrawer(false));
   if (continueShopping) continueShopping.addEventListener("click", () => toggleDrawer(false));
   if (cartBackdrop) cartBackdrop.addEventListener("click", () => toggleDrawer(false));
+
+  if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", () => toggleMobileMenu(true));
+  if (mobileMenuClose) mobileMenuClose.addEventListener("click", () => toggleMobileMenu(false));
+  if (mobileMenuOverlay) mobileMenuOverlay.addEventListener("click", () => toggleMobileMenu(false));
 
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
@@ -1303,7 +1340,10 @@ const init = async () => {
     });
   }
 
-  if (openSearch) openSearch.addEventListener("click", () => toggleSearch(true));
+  if (openSearch) openSearch.addEventListener("click", () => {
+    toggleMobileMenu(false);
+    toggleSearch(true);
+  });
   if (closeSearch) closeSearch.addEventListener("click", () => toggleSearch(false));
   if (searchInput) {
     searchInput.addEventListener("input", (event) => {
@@ -1329,12 +1369,12 @@ const init = async () => {
   }
   if (openSupport) {
     openSupport.addEventListener("click", () => {
-      showInfo("Atendimento", "Atendimento de segunda a sexta, 07h30 √†s 18h.", "headset-outline");
+      showInfo("Atendimento", "Atendimento de segunda a sexta, 07h30 ‡s 18h.", "headset-outline");
     });
   }
   if (openAccount) {
     openAccount.addEventListener("click", () => {
-      showInfo("Minha conta", "√Årea de login em breve. Entre em contato para suporte.", "person-outline");
+      showInfo("Minha conta", "¡rea de login em breve. Entre em contato para suporte.", "person-outline");
     });
   }
 
@@ -1406,7 +1446,7 @@ const init = async () => {
     newsletterForm.addEventListener("submit", (event) => {
       event.preventDefault();
       event.target.reset();
-      showInfo("Cadastro realizado", "Em breve voc√™ recebe novidades.", "mail-outline");
+      showInfo("Cadastro realizado", "Em breve vocÍ recebe novidades.", "mail-outline");
     });
   }
 
@@ -1427,6 +1467,7 @@ const init = async () => {
 
       toggleDrawer(false);
       toggleSearch(false);
+      toggleMobileMenu(false);
       closeModal();
     }
   });
