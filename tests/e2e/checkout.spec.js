@@ -102,7 +102,7 @@ test("checkout aplica cupom, cria pedido e redireciona para WhatsApp", async ({ 
       body: JSON.stringify({
         orderId: "order-e2e-1",
         customerId: "customer-e2e-1",
-        whatsappUrl: "https://wa.me/5599984065730?text=pedido-e2e",
+        whatsappUrl: "https://wa.me/5599988421898?text=pedido-e2e",
       }),
     });
   });
@@ -134,7 +134,7 @@ test("checkout aplica cupom, cria pedido e redireciona para WhatsApp", async ({ 
   expect(orderPayload.couponCode).toBe("GAAK");
   expect(orderPayload.items).toEqual([{ productId: "creatina-monohidratada-500g", quantity: 1 }]);
 
-  await page.waitForURL(/wa\.me\/5599984065730/);
+  await page.waitForURL(/wa\.me\/5599988421898/);
 });
 
 test("checkout mostra mensagem detalhada para erro 4xx", async ({ page }) => {

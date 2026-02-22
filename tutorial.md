@@ -1,109 +1,109 @@
-﻿# Treinamento Rápido: Adicionar, Editar e Remover Produtos
+# Treinamento Rapido do Cliente (Produtos, Imagens e Banner)
 
-Este tutorial foi feito para uso manual do cliente, de forma simples.
+Guia simples para atualizar a loja sem complicacao.
 
-Arquivos que usaremos:
+## Arquivos que voce vai editar
 
-- `backend/data/products.json` (dados do produto)
-- `backend/data/images.json` (fotos do produto)
+- `backend/data/products.json`: dados dos produtos
+- `backend/data/images.json`: galeria de imagens por produto
+- `backend/data/banners.json`: textos e imagens do topo/home
 
-## 1) Adicionar Produto
+Observacao: o arquivo correto e `banners.json` (plural).
 
-### Passo 1: Adicionar no `products.json`
+## 1) Como atualizar produtos
 
-1. Abra `backend/data/products.json`.
-2. Copie um bloco completo de produto existente (um objeto com `id`, `name`, `price`, etc.).
-3. Cole no final da seção desejada.
-4. Preencha os campos:
+Abra `backend/data/products.json` e edite o bloco do produto.
 
-- `id`: identificador único (ex: `whey-concentrado-1kg`)
-- `name`: nome do produto
-- `description`: descrição curta
-- `price`: preço atual (ex: `129.9`)
-- `original`: preço antigo (ex: `149.9`)
-- `category`: categoria (ex: `Proteina`, `Creatina`, `Pre-treino`, `Kits`)
-- `badge`: selo visual (ex: `Novo`, `Destaque`)
-- `collection`: onde aparece no site (`best-sellers`, `launches`, `accessories`)
-- `active`: `true` para mostrar no site
+Campos principais:
 
-### Passo 2: Adicionar no `images.json`
-
-1. Abra `backend/data/images.json`.
-2. Crie um novo bloco com o mesmo `id` do produto criado.
-3. Adicione até 3 imagens no array `images`.
+- `id`: codigo unico do produto
+- `name`: nome exibido
+- `description`: descricao curta
+- `price`: preco atual (numero, ex: `94.9`)
+- `original`: preco antigo (numero, ex: `114.9`)
+- `category`: categoria (ex: `Creatina`, `Proteina`, `Pre-treino`, `Acessorios`)
+- `badge`: selo (ex: `Destaque`, `Top`)
+- `collection`: `best-sellers`, `launches` ou `accessories`
+- `active`: `true` (aparece no site) ou `false` (oculta)
 
 Exemplo:
 
 ```json
 {
-  "id": "whey-concentrado-1kg",
+  "id": "creatina-max-300g",
+  "name": "Creatina Max 300g",
+  "description": "Creatina monohidratada para suporte de forca e desempenho.",
+  "price": 94.9,
+  "original": 114.9,
+  "category": "Creatina",
+  "badge": "Destaque",
+  "imageUrl": "",
+  "collection": "launches",
+  "active": true
+}
+```
+
+## 2) Como atualizar imagens dos produtos
+
+Abra `backend/data/images.json` e localize o mesmo `id` do produto.
+
+Exemplo:
+
+```json
+{
+  "id": "creatina-max-300g",
   "images": [
-    "/data/products/whey/whey1.png",
-    "/data/products/whey/whey2.png",
-    "/data/products/whey/whey3.png"
+    "/data/products/creatine/creatina-max-300g.png",
+    "/data/products/creatine/creatina-max-300g.png",
+    "/data/products/creatine/creatina-max-300g.png"
   ]
 }
 ```
 
-### Passo 3: Confirmar arquivos físicos
+Regras:
 
-- As imagens precisam existir dentro de `backend/data/...`.
-- Exemplo: se no JSON está `/data/products/whey/whey1.png`, o arquivo deve existir em `backend/data/products/whey/whey1.png`.
+- O `id` deve ser igual ao `id` do `products.json`
+- Caminhos devem comecar com `/data/...`
+- O arquivo fisico deve existir em `backend/data/...`
 
----
+## 3) Como atualizar banners e destaques
 
-## 2) Editar Produto
+Abra `backend/data/banners.json`.
 
-### Passo 1: Editar dados do produto
+Partes mais importantes:
 
-1. Abra `backend/data/products.json`.
-2. Localize o produto pelo `id`.
-3. Altere os campos desejados (`name`, `description`, `price`, `badge`, etc.).
+- `alert.primary` e `alert.secondary`: faixa de aviso no topo
+- `mainBanner`: banner principal (`title`, `description`, `priceFrom`, `priceTo`, `imageUrl`)
+- `sideBanners`: banner lateral
+- `featuredProduct`: destaque da home
+- `benefits`: itens de beneficios exibidos na home
 
-### Passo 2: Editar fotos do produto
+No `featuredProduct`, use um `productId` que exista em `products.json` e esteja com `active: true`.
 
-1. Abra `backend/data/images.json`.
-2. Localize o bloco com o mesmo `id`.
-3. Altere os caminhos no array `images`.
-
-### Passo 3: Verificar consistência
-
-- O `id` no `products.json` e `images.json` deve ser exatamente igual.
-- Se mudar o `id` em um arquivo, mude no outro também.
-
----
-
-## 3) Remover Produto
-
-### Opção A (recomendada): ocultar sem apagar
-
-1. Em `backend/data/products.json`, localize o produto.
-2. Troque:
+Exemplo:
 
 ```json
-"active": true
+"featuredProduct": {
+  "badge": "Destaque",
+  "title": "Camisa Dark Lab",
+  "priceText": "R$ 59,90",
+  "imageUrl": "/data/products/moda/camdark.png",
+  "productId": "camisa-dark-lab"
+}
 ```
 
-para:
+## 4) Fluxo rapido (dia a dia)
 
-```json
-"active": false
-```
+1. Edite produto em `products.json`.
+2. Ajuste imagens no `images.json`.
+3. Atualize campanha/oferta no `banners.json`.
+4. Revise se o JSON esta valido.
+5. Salve e publique no repositorio para atualizar o site.
 
-3. O produto sai do site, mas continua salvo.
+## Checklist final
 
-### Opção B: remover de vez
-
-1. Remova o bloco do produto em `backend/data/products.json`.
-2. Remova também o bloco do mesmo `id` em `backend/data/images.json`.
-3. Remova as imagens físicas da pasta `backend/data/...` se não forem mais usadas.
-
----
-
-## Checklist antes de salvar
-
-1. JSON válido (sem vírgula sobrando no último item).
-2. `id` igual nos dois arquivos.
-3. Caminhos de imagem iniciando com `/data/...`.
-4. Arquivos de imagem realmente existentes em `backend/data/...`.
-5. Para esconder produto sem perder dados, usar `"active": false`.
+1. Nenhum `id` duplicado em `products.json`.
+2. Todo produto novo tem entrada em `images.json`.
+3. `productId` do destaque existe e esta ativo.
+4. Precos em numero no `products.json` (sem `R$`).
+5. Todos os caminhos de imagem existem em `backend/data/...`.

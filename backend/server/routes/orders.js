@@ -196,7 +196,7 @@ router.post(
     couponCode: couponPercent ? normalizedCode : "",
   });
 
-  const whatsappNumber = String(process.env.WHATSAPP_NUMBER || "5599984065730").replace(/\D/g, "");
+  const whatsappNumber = String(process.env.WHATSAPP_NUMBER || "5599988421898").replace(/\D/g, "");
   const message = buildWhatsAppMessage(order);
   const encoded = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encoded}`;
