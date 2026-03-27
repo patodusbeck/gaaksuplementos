@@ -102,6 +102,30 @@
     "active": true
   },
   {
+    "id": "whey-concentrado-chocolate",
+    "name": "Whey Concentrado com Chocolate",
+    "description": "Whey protein concentrado sabor chocolate para suporte ao ganho de massa.",
+    "price": 115.9,
+    "original": 115.9,
+    "category": "Proteina",
+    "badge": "Novo",
+    "imageUrl": "/data/products/whey/whey-concentrado-chocolate-1.png",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "whey-concentrado-morango",
+    "name": "Whey Concentrado com Morango",
+    "description": "Whey protein concentrado sabor morango para suporte ao ganho de massa.",
+    "price": 129.9,
+    "original": 129.9,
+    "category": "Proteina",
+    "badge": "Novo",
+    "imageUrl": "/data/products/whey/whey-concentrado-morango-1.png",
+    "collection": "launches",
+    "active": true
+  },
+  {
     "id": "fn-forbes-whey-gourmet",
     "name": "Whey Gourmet Morango",
     "description": "Whey protein gourmet sabor morango para suporte ao ganho de massa muscular.",
@@ -150,6 +174,45 @@
     "active": false
   },
   {
+    "_comment": "SECAO DE HIPERCALORICOS"
+  },
+  {
+    "id": "anabolic-mass-morango",
+    "name": "Anabolic Mass Morango",
+    "description": "Hipercalorico para suporte ao ganho de peso e massa muscular.",
+    "price": 159.9,
+    "original": 159.9,
+    "category": "Hipercalorico",
+    "badge": "Novo",
+    "imageUrl": "/data/products/hipercalorico/anabolic-mass-morango-1.png",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "anabolic-mass-chocolate",
+    "name": "Anabolic Mass Chocolate",
+    "description": "Hipercalorico para suporte ao ganho de peso e massa muscular.",
+    "price": 159.9,
+    "original": 159.9,
+    "category": "Hipercalorico",
+    "badge": "Novo",
+    "imageUrl": "/data/products/hipercalorico/anabolic-mass-chocolate-1.png",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "dark-mass",
+    "name": "Dark Mass",
+    "description": "Hipercalorico com alto aporte calorico para ganho de massa.",
+    "price": 154.9,
+    "original": 154.9,
+    "category": "Hipercalorico",
+    "badge": "Novo",
+    "imageUrl": "/data/products/hipercalorico/dark-mass-1.png",
+    "collection": "launches",
+    "active": true
+  },
+  {
     "_comment": "SECAO DE PRE-TREINOS E ENERGIA"
   },
   {
@@ -173,6 +236,18 @@
     "category": "Energetico",
     "badge": "Potente",
     "imageUrl": "",
+    "collection": "launches",
+    "active": true
+  },
+  {
+    "id": "ghost-pre-workout",
+    "name": "Ghost Pre-Workout",
+    "description": "Pre-treino para foco, energia e intensidade no treino.",
+    "price": 94.9,
+    "original": 94.9,
+    "category": "Pre-treino",
+    "badge": "Novo",
+    "imageUrl": "/data/products/preworkout/ghost-pre-workout-1.png",
     "collection": "launches",
     "active": true
   },

@@ -70,6 +70,18 @@
     ]
   },
   {
+    "id": "whey-concentrado-chocolate",
+    "images": [
+      "/data/products/whey/whey-concentrado-chocolate-1.png"
+    ]
+  },
+  {
+    "id": "whey-concentrado-morango",
+    "images": [
+      "/data/products/whey/whey-concentrado-morango-1.png"
+    ]
+  },
+  {
     "id": "fn-forbes-whey-gourmet",
     "images": [
       "/data/products/whey/fn-forbes-whey-gourmet-morango.png",
@@ -102,6 +114,27 @@
     ]
   },
   {
+    "_comment": "SECAO DE HIPERCALORICOS"
+  },
+  {
+    "id": "anabolic-mass-morango",
+    "images": [
+      "/data/products/hipercalorico/anabolic-mass-morango-1.png"
+    ]
+  },
+  {
+    "id": "anabolic-mass-chocolate",
+    "images": [
+      "/data/products/hipercalorico/anabolic-mass-chocolate-1.png"
+    ]
+  },
+  {
+    "id": "dark-mass",
+    "images": [
+      "/data/products/hipercalorico/dark-mass-1.png"
+    ]
+  },
+  {
     "_comment": "SECAO DE PRE-TREINO E ENERGIA"
   },
   {
@@ -118,6 +151,12 @@
       "/data/products/preworkout/diabo-verde-energetico-300g-1.png",
       "/data/products/preworkout/diabo-verde-energetico-300g-2.png",
       "/data/products/preworkout/diabo-verde-energetico-300g-3.png"
+    ]
+  },
+  {
+    "id": "ghost-pre-workout",
+    "images": [
+      "/data/products/preworkout/ghost-pre-workout-1.png"
     ]
   },
   {

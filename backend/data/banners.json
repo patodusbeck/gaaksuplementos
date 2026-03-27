@@ -9,7 +9,7 @@
     "description": "Creatina + Whey + Pre-treino com preco especial e entrega rapida.",
     "priceFrom": "de R$ 289,90 por",
     "priceTo": "R$ 219,90",
-    "imageUrl": "/data/images/image.png",
+    "imageUrl": "/data/banners/venha-fazer-historia.png",
     "primaryAction": {
       "label": "Comprar agora",
       "type": "scroll",
